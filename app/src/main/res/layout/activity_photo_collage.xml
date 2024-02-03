@@ -1,0 +1,895 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@color/BackgroundCardColor">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/constraint_save_control"
+        android:layout_width="match_parent"
+        android:layout_height="45dp"
+        android:background="@color/BackgroundCardColor"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <ImageView
+            android:id="@+id/image_view_exit"
+            android:layout_width="45dp"
+            android:layout_height="45dp"
+            android:padding="11dp"
+            android:src="@drawable/ic_undo"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toTopOf="parent"/>
+
+        <TextView
+            android:id="@+id/text_view_save"
+            android:layout_width="70dp"
+            android:layout_height="45dp"
+            android:layout_gravity="center|right"
+            android:layout_marginEnd="5dp"
+            android:layout_marginStart="5dp"
+            android:textColor="@color/mainColor"
+            android:gravity="center"
+            android:text="Save"
+            android:fontFamily="@font/font"
+            android:textSize="17sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent"/>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/constraint_layout_confirm_save_text"
+        android:layout_width="match_parent"
+        android:layout_height="45dp"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent">
+
+        <ImageView
+            android:id="@+id/imageViewCloseText"
+            android:layout_width="45dp"
+            android:layout_height="45dp"
+            android:padding="11dp"
+            android:onClick="onClick"
+            android:src="@drawable/ic_round_close"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+
+        <ImageView
+            android:id="@+id/imageViewSaveText"
+            android:layout_width="45dp"
+            android:layout_height="45dp"
+            android:padding="11dp"
+            android:onClick="onClick"
+            android:src="@drawable/ic_round_check"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/constraint_layout_confirm_save_sticker"
+        android:layout_width="match_parent"
+        android:layout_height="45dp"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent">
+
+        <ImageView
+            android:id="@+id/image_view_close_sticker"
+            android:layout_width="45dp"
+            android:layout_height="45dp"
+            android:padding="11dp"
+            android:onClick="onClick"
+            android:src="@drawable/ic_close"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+
+        <ImageView
+            android:id="@+id/image_view_save_sticker"
+            android:layout_width="45dp"
+            android:layout_height="45dp"
+            android:padding="11dp"
+            android:onClick="onClick"
+            android:src="@drawable/ic_done"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <LinearLayout
+        android:id="@+id/bannerContainer"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:orientation="vertical">
+
+    </LinearLayout>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/constraint_layout_collage_layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/guidelineTools"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layout_constraintGuide_end="70dp"/>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/constraint_layout_wrapper_collage_view"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:background="@color/BackgroundCardColor"
+            app:layout_constraintBottom_toTopOf="@id/recycler_view_tools"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.0">
+
+            <com.rohitneel.photopixelpro.photocollage.photo.PhotoGridView
+                android:id="@+id/collage_view"
+                android:background="@color/BackgroundCardColor"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:showBorder="true"
+                app:showIcons="true"/>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <RelativeLayout
+            android:id="@+id/relative_layout_loading"
+            android:background="@android:color/transparent"
+            android:layout_width="120dp"
+            android:layout_height="120dp"
+            android:elevation="200dp"
+            app:layout_constraintBottom_toTopOf="@id/guideline"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <com.rohitneel.photopixelpro.photocollage.loading.LoadingView
+                android:layout_width="120dp"
+                android:layout_height="120dp"
+                android:background="@drawable/background_loading"
+                app:loading_renderer="DanceLoading"/>
+
+        </RelativeLayout>
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/guideline"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layout_constraintGuide_end="170dp"/>
+
+        <!--Collage-->
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/constrant_layout_change_Layout"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:background="@color/BackgroundColor"
+            android:visibility="gone"
+            android:orientation="vertical"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/constraintLayoutSaveCollage"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_marginBottom="5dp"
+                app:layout_constraintBottom_toTopOf="@+id/constrantLayoutContent">
+
+                <ImageView
+                    android:id="@+id/imageViewCloseLayer"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:onClick="onClick"
+                    android:padding="8dp"
+                    android:src="@drawable/ic_round_close"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent"/>
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:orientation="horizontal"
+                    android:gravity="center"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toStartOf="@+id/imageViewSaveLayer"
+                    app:layout_constraintStart_toEndOf="@+id/imageViewCloseLayer">
+
+                    <LinearLayout
+                        android:id="@+id/linearLayoutCollage"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:orientation="vertical"
+                        android:gravity="center"
+                        android:clickable="true"
+                        android:focusable="true">
+
+                        <TextView
+                            android:id="@+id/text_view_collage"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="LAYOUT"
+                            android:textSize="13sp"
+                            android:fontFamily="@font/font"
+                            android:textColor="@color/white"
+                            android:gravity="center"/>
+
+                        <View
+                            android:id="@+id/view_collage"
+                            android:layout_width="20dp"
+                            android:layout_height="4dp"
+                            android:layout_marginTop="5dp"
+                            android:background="@drawable/background_view" />
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/linearLayoutBorder"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:orientation="vertical"
+                        android:gravity="center"
+                        android:clickable="true"
+                        android:focusable="true">
+
+                        <TextView
+                            android:id="@+id/text_view_border"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="BORDER"
+                            android:textSize="13sp"
+                            android:fontFamily="@font/font"
+                            android:textColor="@color/grayText"
+                            android:gravity="center"/>
+
+                        <View
+                            android:id="@+id/view_border"
+                            android:layout_width="20dp"
+                            android:layout_height="4dp"
+                            android:layout_marginTop="5dp"
+                            android:background="@drawable/background_view" />
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/linearLayoutRatio"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:orientation="vertical"
+                        android:gravity="center"
+                        android:clickable="true"
+                        android:focusable="true">
+
+                        <TextView
+                            android:id="@+id/text_view_ratio"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="RATIO"
+                            android:textSize="13sp"
+                            android:fontFamily="@font/font"
+                            android:textColor="@color/grayText"
+                            android:gravity="center"/>
+
+                        <View
+                            android:id="@+id/view_ratio"
+                            android:layout_width="20dp"
+                            android:layout_height="4dp"
+                            android:layout_marginTop="5dp"
+                            android:background="@drawable/background_view" />
+
+                    </LinearLayout>
+
+                </LinearLayout>
+
+                <ImageView
+                    android:id="@+id/imageViewSaveLayer"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:onClick="onClick"
+                    android:padding="8dp"
+                    android:src="@drawable/ic_round_check"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent"/>
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/constrantLayoutContent"
+                android:layout_width="match_parent"
+                android:layout_height="90dp"
+                android:background="@color/BackgroundColor"
+                app:layout_constraintBottom_toBottomOf="parent">
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/recycler_view_collage"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:visibility="gone"
+                    android:orientation="horizontal"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/recycler_view_ratio"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:visibility="gone"
+                    android:orientation="horizontal"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
+
+                <LinearLayout
+                    android:id="@+id/linearLayoutPadding"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:visibility="gone"
+                    android:orientation="vertical">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="0dp"
+                        android:layout_weight="1"
+                        android:orientation="horizontal"
+                        android:gravity="center_vertical">
+
+                        <ImageView
+                            android:layout_width="40dp"
+                            android:layout_height="40dp"
+                            android:padding="9dp"
+                            android:layout_marginStart="10dp"
+                            android:src="@drawable/ic_padding"
+                            app:tint="@color/white"/>
+
+                        <SeekBar
+                            android:id="@+id/seekbar_border"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:background="@null"
+                            android:layout_marginStart="10dp"
+                            android:layout_marginEnd="10dp"
+                            android:max="50"
+                            android:progressDrawable="@drawable/progress_drawable"
+                            android:thumb="@drawable/progress_thumb"
+                            android:splitTrack="false"/>
+
+                        <TextView
+                            android:id="@+id/seekbarPadding"
+                            android:layout_width="30dp"
+                            android:layout_height="wrap_content"
+                            android:textSize="14sp"
+                            android:layout_marginEnd="10dp"
+                            android:gravity="center"
+                            android:textColor="@color/grayText"
+                            android:text="0"
+                            android:fontFamily="@font/font"/>
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="0dp"
+                        android:layout_weight="1"
+                        android:orientation="horizontal"
+                        android:gravity="center_vertical">
+
+                        <ImageView
+                            android:layout_width="40dp"
+                            android:layout_height="40dp"
+                            android:padding="9dp"
+                            android:layout_marginStart="10dp"
+                            android:src="@drawable/ic_radius"
+                            app:tint="@color/white"/>
+
+                        <SeekBar
+                            android:id="@+id/seekbar_radius"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:background="@null"
+                            android:layout_marginStart="10dp"
+                            android:layout_marginEnd="10dp"
+                            android:max="200"
+                            android:progressDrawable="@drawable/progress_drawable"
+                            android:thumb="@drawable/progress_thumb"
+                            android:splitTrack="false"/>
+
+                        <TextView
+                            android:id="@+id/seekbarRadius"
+                            android:layout_width="30dp"
+                            android:layout_height="wrap_content"
+                            android:textSize="14sp"
+                            android:gravity="center"
+                            android:textColor="@color/grayText"
+                            android:layout_marginEnd="10dp"
+                            android:text="0"
+                            android:fontFamily="@font/font"/>
+
+                    </LinearLayout>
+
+                </LinearLayout>
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <!--Background-->
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/constrant_layout_change_background"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:background="@color/BackgroundColor"
+            android:visibility="gone"
+            android:orientation="vertical"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/constraintLayoutSaveBackground"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_marginBottom="5dp"
+                app:layout_constraintBottom_toTopOf="@+id/constrantLayoutContentBackground">
+
+                <ImageView
+                    android:id="@+id/imageViewClosebackground"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:onClick="onClick"
+                    android:padding="8dp"
+                    android:src="@drawable/ic_round_close"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent"/>
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:orientation="horizontal"
+                    android:gravity="center"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toStartOf="@+id/imageViewSavebackground"
+                    app:layout_constraintStart_toEndOf="@+id/imageViewClosebackground">
+
+                    <LinearLayout
+                        android:id="@+id/linearLayoutColor"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:orientation="vertical"
+                        android:gravity="center"
+                        android:clickable="true"
+                        android:focusable="true">
+
+                        <TextView
+                            android:id="@+id/text_view_color"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="COLOR"
+                            android:textSize="13sp"
+                            android:fontFamily="@font/font"
+                            android:textColor="@color/white"
+                            android:gravity="center"/>
+
+                        <View
+                            android:id="@+id/view_color"
+                            android:layout_width="20dp"
+                            android:layout_height="4dp"
+                            android:layout_marginTop="5dp"
+                            android:background="@drawable/background_view" />
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/linearLayoutGradient"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:orientation="vertical"
+                        android:gravity="center"
+                        android:clickable="true"
+                        android:focusable="true">
+
+                        <TextView
+                            android:id="@+id/text_view_gradient"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="GRADIENT"
+                            android:textSize="13sp"
+                            android:fontFamily="@font/font"
+                            android:textColor="@color/grayText"
+                            android:gravity="center"/>
+
+                        <View
+                            android:id="@+id/view_gradient"
+                            android:layout_width="20dp"
+                            android:layout_height="4dp"
+                            android:layout_marginTop="5dp"
+                            android:background="@drawable/background_view" />
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/linearLayoutBlur"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:orientation="vertical"
+                        android:gravity="center"
+                        android:clickable="true"
+                        android:focusable="true">
+
+                        <TextView
+                            android:id="@+id/text_view_blur"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="BLUR"
+                            android:textSize="13sp"
+                            android:fontFamily="@font/font"
+                            android:textColor="@color/grayText"
+                            android:gravity="center"/>
+
+                        <View
+                            android:id="@+id/view_blur"
+                            android:layout_width="20dp"
+                            android:layout_height="4dp"
+                            android:layout_marginTop="5dp"
+                            android:background="@drawable/background_view" />
+
+                    </LinearLayout>
+
+                </LinearLayout>
+
+                <ImageView
+                    android:id="@+id/imageViewSavebackground"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:onClick="onClick"
+                    android:padding="8dp"
+                    android:src="@drawable/ic_round_check"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent"/>
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/constrantLayoutContentBackground"
+                android:layout_width="match_parent"
+                android:layout_height="90dp"
+                android:background="@color/BackgroundColor"
+                app:layout_constraintBottom_toBottomOf="parent">
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/recycler_view_color"
+                    android:layout_width="match_parent"
+                    android:layout_height="90dp"
+                    android:visibility="gone"
+                    android:orientation="horizontal"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/recycler_view_gradient"
+                    android:layout_width="match_parent"
+                    android:layout_height="90dp"
+                    android:visibility="gone"
+                    android:orientation="horizontal"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/recycler_view_blur"
+                    android:layout_width="match_parent"
+                    android:layout_height="90dp"
+                    android:visibility="gone"
+                    android:orientation="horizontal"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
+
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <!--Sticker-->
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/constraint_layout_sticker"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:visibility="gone"
+            android:elevation="400dp"
+            android:background="@color/BackgroundColor"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/constraintLayoutAddSticker"
+                android:layout_width="match_parent"
+                android:layout_height="70dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent">
+
+                <ImageView
+                    android:id="@+id/imageViewAddSticker"
+                    android:layout_width="45dp"
+                    android:layout_height="45dp"
+                    android:onClick="onClick"
+                    android:padding="8dp"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginEnd="10dp"
+                    android:background="@drawable/background_flip"
+                    android:src="@drawable/ic_add"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"/>
+
+                <SeekBar
+                    android:id="@+id/seekbarStickerAlpha"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="15dp"
+                    android:layout_marginEnd="15dp"
+                    android:background="@null"
+                    android:max="255"
+                    android:progress="255"
+                    android:progressDrawable="@drawable/progress_drawable_filter"
+                    android:thumb="@drawable/progress_thumb_filter"
+                    android:splitTrack="false"
+                    app:layout_constraintEnd_toStartOf="@id/imageViewAddSticker"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"/>
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <LinearLayout
+                android:id="@+id/linear_layout_wrapper_sticker_list"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:orientation="vertical"
+                android:background="@color/BackgroundColor"
+                app:layout_constraintBottom_toBottomOf="parent">
+
+                <FrameLayout
+                    android:id="@+id/frame_layout_wrapper_horizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@color/BackgroundColor"
+                    app:layout_scrollFlags="enterAlways|scroll">
+
+                    <com.rohitneel.photopixelpro.photocollage.adapters.RecyclerTabLayout
+                        android:id="@+id/recycler_tab_layout"
+                        android:layout_width="match_parent"
+                        android:layout_height="50dp"/>
+
+                </FrameLayout>
+
+                <androidx.viewpager.widget.ViewPager
+                    android:id="@+id/stickerViewpaper"
+                    android:layout_width="match_parent"
+                    android:layout_height="180dp"
+                    android:paddingTop="10dp"
+                    android:background="@color/dark_grey"
+                    app:layout_behavior="@string/appbar_scrolling_view_behavior"/>
+
+            </LinearLayout>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <!--Filter-->
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/constraint_layout_filter_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:visibility="gone"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/constraint_layout_confirm_compare"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/BackgroundColor"
+                app:layout_constraintBottom_toBottomOf="parent">
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/constraint_layout_confirm_filter"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:layout_marginBottom="5dp"
+                    app:layout_constraintBottom_toTopOf="@+id/constraint_layout_filters">
+
+                    <ImageView
+                        android:id="@+id/imageViewCloseFilter"
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:onClick="onClick"
+                        android:padding="8dp"
+                        android:src="@drawable/ic_round_close"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <RelativeLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:paddingTop="8dp"
+                        app:layout_constraintLeft_toLeftOf="parent"
+                        app:layout_constraintRight_toRightOf="parent"
+                        app:layout_constraintTop_toTopOf="parent">
+
+                        <TextView
+                            android:id="@+id/textViewFilter"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="FILTER"
+                            android:textSize="13sp"
+                            android:fontFamily="@font/font"
+                            android:textColor="@color/white"
+                            android:gravity="center"
+                            android:layout_centerHorizontal="true"/>
+
+                        <View
+                            android:layout_width="20dp"
+                            android:layout_height="4dp"
+                            android:layout_marginTop="8dp"
+                            android:background="@drawable/background_view"
+                            android:layout_below="@id/textViewFilter"
+                            android:layout_centerHorizontal="true"/>
+
+                    </RelativeLayout>
+
+                    <ImageView
+                        android:id="@+id/imageViewSaveFilter"
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:onClick="onClick"
+                        android:padding="8dp"
+                        android:src="@drawable/ic_round_check"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/constraint_layout_filters"
+                    android:layout_width="match_parent"
+                    android:layout_height="100dp"
+                    android:background="@color/BackgroundColor"
+                    app:layout_constraintBottom_toBottomOf="parent">
+
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/recycler_view_filter"
+                        android:layout_width="match_parent"
+                        android:layout_height="100dp"
+                        android:orientation="horizontal"
+                        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                        app:layout_constraintBottom_toBottomOf="parent"/>
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <!--Text-->
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/constraint_layout_confirm_text"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:visibility="gone"
+            android:background="@color/BackgroundColor"
+            app:layout_constraintBottom_toBottomOf="parent">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="70dp"
+                android:background="@color/BackgroundColor"
+                app:layout_constraintBottom_toBottomOf="parent">
+
+                <RelativeLayout
+                    android:id="@+id/relative_layout_add_text"
+                    android:layout_width="100dp"
+                    android:layout_height="40dp"
+                    android:background="@drawable/background_card"
+                    android:backgroundTint="@color/mainColor"
+                    android:paddingStart="10dp"
+                    android:paddingEnd="10dp"
+                    android:clickable="true"
+                    android:focusable="true"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent">
+
+                    <TextView
+                        android:textColor="@color/white"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="5dp"
+                        android:text="Add Text"
+                        android:fontFamily="@font/font"
+                        android:layout_centerInParent="true"/>
+
+                </RelativeLayout>
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recycler_view_tools_collage"
+            android:layout_width="0dp"
+            android:layout_height="55dp"
+            android:background="@drawable/background_submit"
+            android:layout_marginStart="15dp"
+            android:layout_marginEnd="15dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"/>
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recycler_view_tools"
+            android:layout_width="0dp"
+            android:layout_height="70dp"
+            android:background="@color/BackgroundColor"
+            android:orientation="horizontal"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            />
+        <TextView
+            android:id="@+id/tv_viewTools"
+            android:layout_width="match_parent"
+            android:background="@color/BackgroundColor"
+            android:text="Please connect to the internet"
+            android:textSize="18dp"
+            android:gravity="center"
+            android:visibility="gone"
+            android:textColor="@color/white"
+            android:layout_height="70dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            android:drawableTop="@drawable/ic_baseline_refresh_24"
+            />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</LinearLayout>

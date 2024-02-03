@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <declare-styleable name="VerticalSlidingPanel">
+        <attr name="panelHeight" format="dimension" />
+        <attr name="shadowHeight" format="dimension" />
+        <attr name="parallaxOffset" format="dimension" />
+        <attr name="fadeColor" format="color" />
+        <attr name="flingVelocity" format="integer" />
+        <attr name="dragView" format="reference" />
+        <attr name="overlay" format="boolean" />
+    </declare-styleable>
+    <declare-styleable name="SquareCardLayout">
+        <attr name="aspectRatioWidth" format="integer" />
+        <attr name="aspectRatioHeight" format="integer" />
+    </declare-styleable>
+    <declare-styleable name="PreviewImageView">
+        <attr name="mWidth" format="dimension"/>
+        <attr name="mHeight" format="dimension"/>
+    </declare-styleable>
+    <declare-styleable name="IconView">
+        <attr name="eiv_roundedCorners" format="boolean" />
+        <attr name="eiv_switchColor" format="boolean" />
+        <attr name="eiv_color" format="color" />
+        <attr name="eiv_colorMore" format="color" />
+        <attr name="eiv_colorLess" format="color" />
+        <attr name="eiv_colorIntermediate" format="color" />
+        <attr name="eiv_animationDuration" format="integer" />
+        <attr name="eiv_padding" format="dimension" />
+    </declare-styleable>
+
+    <declare-styleable name="ProportionalRelativeLayout">
+        <attr name="scaleProportionalWidth" format="float" />
+        <attr name="scaleProportionalHeight" format="float" />
+    </declare-styleable>
+
+
+    <declare-styleable name="LoadingView">
+        <attr name="loading_renderer">
+            <enum name="DanceLoading" value="1"/>
+        </attr>
+    </declare-styleable>
+
+    <declare-styleable name="StickerView">
+        <attr name="showIcons" format="boolean" />
+        <attr name="showBorder" format="boolean" />
+        <attr name="bringToFrontCurrentSticker" format="boolean" />
+        <attr name="borderColor" format="color" />
+        <attr name="borderAlpha" format="integer" />
+    </declare-styleable>
+
+    <attr name="line_color" format="color"/>
+    <attr name="line_size" format="integer"/>
+    <attr name="animation_duration" format="integer"/>
+    <attr name="handle_bar_color" format="color"/>
+    <attr name="need_draw_line" format="boolean"/>
+    <attr name="need_draw_outer_line" format="boolean"/>
+    <attr name="piece_padding" format="dimension"/>
+    <attr name="radian" format="float"/>
+    <attr name="selected_line_color" format="color"/>
+    <attr name="item_width" format="integer"/>
+    <attr name="cs_colors" format="reference"/>
+    <attr name="cs_from_color" format="color"/>
+    <attr name="cs_hex_colors" format="reference"/>
+    <attr name="cs_steps" format="integer"/>
+    <attr name="cs_to_color" format="color"/>
+    <attr name="borderWidth" format="dimension"/>
+    <attr name="borderlessButtonStyle" format="reference"/>
+    <attr name="mask" format="reference"/>
+    <attr name="image" format="reference"/>
+    <attr name="frame" format="reference"/>
+    <attr name="mScrollEnabled" format="boolean"/>
+
+    <attr name="mTabBackground" format="reference"/>
+    <attr name="mTabIndicatorColor" format="color"/>
+    <attr name="mTabIndicatorHeight" format="dimension"/>
+    <attr name="mTabMaxWidth" format="dimension"/>
+    <attr name="mTabMinWidth" format="dimension"/>
+    <attr name="mTabOnScreenLimit" format="integer"/>
+    <attr name="mTabPadding" format="dimension"/>
+    <attr name="mTabPaddingBottom" format="dimension"/>
+    <attr name="mTabPaddingEnd" format="dimension"/>
+    <attr name="mTabPaddingStart" format="dimension"/>
+    <attr name="mTabPaddingTop" format="dimension"/>
+    <attr name="mTabSelectedTextColor" format="color"/>
+    <attr name="mTabTextAppearance" format="reference"/>
+
+    <declare-styleable name="CustomTextView">
+        <attr name="fontName" format="string" />
+    </declare-styleable>
+
+    <declare-styleable name="TintableImageView">
+        <attr name="tint1" format="reference|color" />
+    </declare-styleable>
+
+    <declare-styleable name="TextViewOutline">
+        <attr name="outlineSize" format="dimension"/>
+        <attr name="outlineColor" format="color|reference"/>
+        <attr name="android:shadowRadius"/>
+        <attr name="android:shadowDx"/>
+        <attr name="android:shadowDy"/>
+        <attr name="android:shadowColor"/>
+    </declare-styleable>
+
+</resources>

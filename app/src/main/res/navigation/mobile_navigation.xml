@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/mobile_navigation"
+    app:startDestination="@+id/nav_home">
+    <fragment
+        android:id="@+id/nav_home"
+        android:name="com.rohitneel.photopixelpro.fragments.HomeFragment"
+        android:label="@string/menu_home"
+        tools:layout="@layout/fragment_home">
+    </fragment>
+
+    <fragment
+        android:id="@+id/bottom_home"
+        android:name="com.rohitneel.photopixelpro.fragments.HomeFragment"
+        android:label="@string/title_home"
+        tools:layout="@layout/fragment_home" />
+
+    <fragment
+        android:id="@+id/bottom_dashboard"
+        android:name="com.rohitneel.photopixelpro.fragments.PhotoFrameFragment"
+        android:label="@string/title_photo_frame"
+        tools:layout="@layout/fragment_photo_frame" />
+
+    <fragment
+        android:id="@+id/bottom_notifications"
+        android:name="com.rohitneel.photopixelpro.fragments.BackgroundRemoverFragment"
+        android:label="@string/title_background_fragment"
+        tools:layout="@layout/fragment_background_remover" />
+
+</navigation>

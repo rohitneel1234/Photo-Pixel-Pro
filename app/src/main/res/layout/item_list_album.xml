@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.rohitneel.photopixelpro.photocollage.widget.SquareLayout
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_margin="2dp"
+    android:background="@color/BackgroundColor"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <RelativeLayout
+        android:id="@+id/layoutRoot"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <ImageView
+            android:id="@+id/imageItem"
+            android:background="@drawable/list_selector_item"
+            android:padding="1dp"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scaleType="centerCrop"
+            android:layout_centerInParent="true" />
+
+        <ImageView
+            android:id="@+id/click"
+            android:background="@drawable/list_selector_item"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_centerInParent="true" />
+
+    </RelativeLayout>
+
+</com.rohitneel.photopixelpro.photocollage.widget.SquareLayout>

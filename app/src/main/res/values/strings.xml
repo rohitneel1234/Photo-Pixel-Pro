@@ -1,0 +1,210 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">Photo Pixel Pro</string>
+    <string name="app_description">Made Easy using photo pixel pro app</string>
+    <string name="upload_image">Upload Image</string>
+    <string name="upload_video">Upload Video</string>
+    <string name="download_image">Download Image</string>
+    <string name="action_settings">Settings</string>
+    <string name="action_progress">Loading</string>
+    <string name="title_activity_show_video">ShowVideo</string>
+    <string name="hello_world">Hello world!</string>
+    <string name="empty_message">No data found!</string>
+    <string name="title_activity_media">Photo Editor</string>
+    <string name="title_activity_download_media">Photo Editor Gallery</string>
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+    <string name="nav_header_title">Android Studio</string>
+    <string name="nav_header_subtitle">Photo Pixel Pro</string>
+    <string name="nav_header_desc">Navigation header</string>
+    <string name="select_photo_using">Select photo using</string>
+    <string name="hint_email">Email</string>
+    <string name="hint_password">Password</string>
+    <string name="hint_name">Fullname</string>
+    <string name="btn_login">LOGIN</string>
+    <string name="btn_back"><![CDATA[<< Back]]></string>
+    <string name="btn_forgot_password">Forgot Password?</string>
+    <string name="btn_reset_password">Reset Password</string>
+    <string name="btn_register">REGISTER</string>
+    <string name="btn_link_to_register">Don\'t have an account ?</string>
+    <string name="btn_link_to_login">Already registered! Login Me.</string>
+    <string name="welcome">Welcome</string>
+    <string name="btn_logout">LOGOUT</string>
+    <string name="name">Fullname</string>
+    <string name="lbl_forgot_password">Forgot password?</string>
+    <string name="forgot_password_msg">Please enter your registered email below to receive password reset instruction.</string>
+    <string name="edit"><u>Edit</u></string>
+    <string name="messageHint"><font size="15"><b> Type query or feedback here..</b></font></string>
+    <string name="passwordHint"><font size="15"><b>Enter password</b></font></string>
+
+    <string name="menu_home">Home</string>
+    <string name="personalData">Photo Editor</string>
+    <string name="tutorial">Tutorial</string>
+    <string name="collageMaker">Collage Maker</string>
+    <string name="collageGallery">Collage Gallery</string>
+    <string name="menu_gallery">Gallery</string>
+
+    <string name="home_second">Home Second</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="title_activity_bottom_navigation">BottomNavigation</string>
+    <string name="title_home">Home</string>
+    <string name="title_photo_frame">Photo Frame</string>
+    <string name="title_background_remover">BG Eraser</string>
+    <string name="title_background_fragment">Background Remover</string>
+    <string name="photo_result_prefix">PhotoEditor_</string>
+    <string name="photo_saved_toast_string">Photo Saved!</string>
+    <string name="directory_name">/Photo Pixel Pro</string>
+    <string name="permissions_message">All permissions are not given!\nApp may not work properly, Do you want to try again?</string>
+    <string name="toast_message">Sorry, Permissions not given!</string>
+    <string name="menu_tutorial_text">Tutorial</string>
+    <string name="slide_0_title">DASHBOARD</string>
+    <string name="slide_0_desc">Manage and use different features of the app like photo editor, collage maker, collage gallery, photo frame, background eraser, and view tutorial for how to use different features of app!</string>
+    <string name="slide_1_title">SIDE MENU</string>
+    <string name="slide_1_desc">View photo editor gallery, settings, about us and much more!</string>
+    <string name="slide_4_title">PHOTO EDITOR</string>
+    <string name="slide_4_desc">Edit photo with different features like cropping, filters, effects, neon, stickers, text, mirror, frame, paint, and much more!</string>
+    <string name="slide_3_title">SELECT PHOTO FOR EDITING</string>
+    <string name="slide_3_desc">Capture image from camera or select image from the gallery to use different features of photo editor!</string>
+    <string name="slide_5_title">DRIP EFFECT</string>
+    <string name="slide_5_desc">Use drip effect to get an amazing experience of a photo using different styles and background!</string>
+    <string name="slide_6_title">NEON EFFECT</string>
+    <string name="slide_6_desc">Apply different neon effects like spiral, shape, and frame to make the picture beautiful!</string>
+    <string name="slide_7_title">EXPLORE GALLERY</string>
+    <string name="slide_7_desc">View images that are used by photo editor tools and click on the image to get the actual size!</string>
+    <string name="slide_8_title">COLLAGE MAKER</string>
+    <string name="slide_8_desc">Select multiple(2–9) photos to create a pic collage. Edit collage with layout, filters, border, background, stickers, text, and much more!</string>
+    <string name="slide_9_title">PHOTO FRAME CATEGORY</string>
+    <string name="slide_9_desc">Use different categories of photo frames like birthday, flowers, love-anniversary, and family frames!</string>
+    <string name="slide_10_title">PHOTO FRAME</string>
+    <string name="slide_10_desc">Pick an image from the gallery and select different categories of frames, apply filters, add text, border, stickers, save a photo, and share with your friends over the social media app!</string>
+    <string name="slide_11_title">BACKGROUND ERASER</string>
+    <string name="slide_11_desc">Remove the background from the photo with an eraser, change the background of photo, undo/redo actions, save a photo, and share with your friends over the social media app!</string>
+    <string name="slide_12_title">SETTINGS</string>
+    <string name="slide_12_desc">Customize app theme with dark mode, use full-screen mode, save image path, enable app parent permission and contact us for any help or feedback!</string>
+    <string name="next">Next</string>
+    <string name="skip">Skip</string>
+    <string name="start">Done</string>
+
+    <string name="affix_zero">Collage (0)</string>
+    <string name="affix_x">Collage (%1$d)</string>
+    <string name="clear">Clear</string>
+
+    <string name="error">Error</string>
+    <string name="no_photos_found">No local photos were found!</string>
+    <string name="need_two_or_more">You need two or more images!</string>
+
+
+    <!-- OneSignal ID -->
+    <string name="oneSignal_id" translatable="false">caf94bcc-0fd4-4ed1-8782-135bced8b773</string>
+
+    <!-- Admob Ads -->
+    <string name="id_app_ads">ca-app-pub-3940256099942544~3347511713</string>
+    <string name="interstitial">ca-app-pub-3940256099942544/1033173712</string>
+    <string name="banner_id">ca-app-pub-3940256099942544/6300978111</string>
+    <string name="native_ads">ca-app-pub-3940256099942544/2247696110</string>
+
+    <!--Email, Privacy, Developer Acount-->
+    <string name="email_feedback">email@gmail.com</string>
+    <string name="policy_url">https://www.google.com/</string>
+    <string name="developer_account_link">https://www.google.com/</string>
+
+    <!--File Provider-->
+    <!-- change file provider package name without remove ".provider" -->
+    <string name="file_provider">com.rohitneel.photopixelpro.provider</string>
+
+    <string name="text_title_dialog_sort_by_photo">Sort photo by</string>
+    <string name="text_title_dialog_sort_by_album">Sort album by</string>
+    <string name="action_sort">sort</string>
+    <string name="ad_attribution">Ad</string>
+    <string name="rating_promote">If you enjoy using this app, would you mind taking a moment to rate us on play store? Thank you for your support!</string>
+    <string name="rating_title_1">Oh, no!</string>
+    <string name="rating_title_2">Loved it!</string>
+    <string name="rating_text_1">Please leave us some feedback.</string>
+    <string name="rating_text_4">Thanks for your feedback.</string>
+    <string name="rating_text_5">The best we can get :)</string>
+    <string name="feedback">Feed back</string>
+    <string name="tap_to_select">All Albums</string>
+    <string name="select_photo">Select Photos</string>
+    <string name="rating_dialog_feedback_title">Feedback</string>
+    <string name="text_images">(%1$d)</string>
+    <string name="select_images">Select 2-9 photos</string>
+    <string name="text_title_activity_album">Albums</string>
+    <string name="privacy_policy">Privacy Policy</string>
+    <string name="rate_us">Rate us</string>
+    <string name="settings">More app</string>
+    <string name="press_back">Please press back again to exit</string>
+    <string name="share_friend">Share app</string>
+    <string name="error_invalid_email">This email address is invalid</string>
+    <string name="sharpen">Sharpen</string>
+    <string name="hue">Hue</string>
+    <string name="exposure">Exposure</string>
+    <string name="saturation">Saturation</string>
+    <string name="choose_email">Choose an app</string>
+    <string name="brightness">Brightness</string>
+    <string name="contrast">Contrast</string>
+    <string name="rating_dialog_maybe_later">Maybe later</string>
+    <string name="rating_dialog_submit">Rate App</string>
+    <string name="rating_dialog_cancel">No, Thanks</string>
+    <string name="dialog_discard_title">Changes will not be saved. Do you want to proceed?</string>
+    <string name="discard">Discard</string>
+    <string name="save">SAVE</string>
+    <string name="collage">Collage</string>
+    <string name="camera">Camera</string>
+    <string name="gallery">Gallery</string>
+    <string name="please_try_again">Oops, Please try again...</string>
+    <string name="directory">/.PhotoEditorTemp/</string>
+    <string name="importing_image">Importing image…</string>
+    <string name="import_img_warning">Please import image!!!</string>
+    <string name="import_error">Error while getting image.</string>
+    <string name="drag_color">Drag POINTER to earse.</string>
+    <string name="redoing">Redoing</string>
+    <string name="drag_bw">Drag POINTER to restore image.</string>
+    <string name="undoing">Undoing</string>
+    <string name="msg_draw_lasso">Draw a closed path.</string>
+    <string name="msg_up_arrow">Click UP arrow to get options</string>
+    <string name="msg_auto_btn">Click AUTO button to perform auto erase</string>
+    <string name="msg_lasso_btn">Click EXTRACT button</string>
+    <string name="msg_manual_btn">Click MANUAL button to manually erase</string>
+    <string name="msg_bw_btn">Click RESTORE button to restore image</string>
+    <string name="msg_zoom_btn">Click ZOOM button to drag and zoom image.</string>
+    <string name="txt_not_detect_human">Human detection is failed. Please try again.</string>
+    <string name="cut_photo">Select Photo</string>
+    <string name="cut_outside">Cut Outside</string>
+    <string name="cut_inside">Cut Inside</string>
+    <string name="radius">Size</string>
+    <string name="threshold">Threshold</string>
+    <string name="offset">Offset</string>
+    <string name="auto">Auto</string>
+    <string name="lasso">Extract</string>
+    <string name="erase">Manual</string>
+    <string name="restore">Restore</string>
+    <string name="zoom">Zoom</string>
+    <string name="whitebalance">whitebalance</string>
+    <string name="vignette">vignette</string>
+    <string name="on_internet">No internet connection</string>
+    <string name="connect_internet">Please connect to the internet . Until you save!</string>
+    <string name="ok">Ok</string>
+    <string name="how_to_use">Reference Manual</string>
+    <string name="tutorial_step_1">Choose your image</string>
+    <string name="tutorial_step_2">Remove Background</string>
+    <string name="tutorial_step_3">Restore Background</string>
+    <string name="tutorial_step_4">Mirror Image</string>
+
+    <string-array name="array_sort_value">
+        <item>Name</item>
+        <item>Size</item>
+        <item>Date</item>
+    </string-array>
+
+    <string name="no_ads_evermore">No ads evermore</string>
+    <string name="continue_btn">Continue</string>
+    <string name="use_without_internet">Use without internet.</string>
+    <string name="access_to_all_features">Access to All features.</string>
+    <string name="join_full_experience">Join Full Experience.</string>
+    <string name="email_app_not_installed">email app not installed</string>
+    <string name="app_not_installed">App not installed</string>
+    <string name="message">I\'m using amazing Photo Pixel Pro! Get the free app at</string>
+</resources>

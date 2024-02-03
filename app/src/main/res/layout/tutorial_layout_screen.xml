@@ -1,0 +1,53 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white">
+
+    <!--
+        android:background="#0028af"
+    -->
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="320dp"
+        android:layout_alignParentBottom="true"
+        android:layout_centerInParent="true"
+        android:background="#0000A0"
+        android:gravity="center_horizontal"
+        android:orientation="vertical">
+
+    </RelativeLayout>
+
+    <ImageView
+        android:id="@+id/tutorial_img"
+        android:layout_width="@dimen/img_width_height"
+        android:layout_height="@dimen/img_width_height"
+        android:layout_alignParentTop="true"
+        android:layout_marginTop="40dp"
+        android:layout_centerHorizontal="true"
+        />
+
+    <TextView
+        android:id="@+id/screenTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/tutorial_img"
+        android:layout_marginTop="10dp"
+        android:layout_centerHorizontal="true"
+        android:textColor="@android:color/white"
+        android:textSize="@dimen/slide_title"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/screenDescription"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:layout_below="@id/screenTitle"
+        android:paddingLeft="@dimen/desc_padding"
+        android:paddingRight="@dimen/desc_padding"
+        android:justificationMode="inter_word"
+        android:textAlignment="center"
+        android:textColor="#e2e2e2"
+        android:textSize="@dimen/slide_desc" />
+
+</RelativeLayout>

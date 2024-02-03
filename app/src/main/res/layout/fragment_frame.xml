@@ -1,0 +1,230 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/BackgroundCardColor">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/constraintLayoutFrame"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toTopOf="@id/constraintLayoutFrameCont"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <FrameLayout
+            android:id="@+id/frameLayoutWrapper"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <ImageView
+                android:id="@+id/imageViewFrame"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:adjustViewBounds="true"/>
+
+            <RelativeLayout
+                android:id="@+id/relative_layout_loading"
+                android:background="@android:color/transparent"
+                android:layout_width="120dp"
+                android:layout_height="120dp"
+                android:elevation="200dp"
+                android:layout_gravity="center" >
+
+                <com.rohitneel.photopixelpro.photocollage.loading.LoadingView
+                    android:layout_width="120dp"
+                    android:layout_height="120dp"
+                    android:background="@drawable/background_loading"
+                    app:loading_renderer="DanceLoading"/>
+
+            </RelativeLayout>
+
+        </FrameLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/constraintLayoutFrameCont"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/BackgroundColor"
+        app:layout_constraintBottom_toBottomOf="parent">
+
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/constraint_layout_confirm_adjust"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_marginBottom="5dp"
+            app:layout_constraintBottom_toTopOf="@+id/seekbarOverlay">
+
+            <com.balysv.materialripple.MaterialRippleLayout
+                android:id="@+id/rippleClose"
+                style="@style/RippleStyleWhite"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent">
+
+            <ImageView
+                android:id="@+id/imageViewCloseFrame"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:onClick="onClick"
+                android:padding="11dp"
+                android:src="@drawable/ic_round_close" />
+
+            </com.balysv.materialripple.MaterialRippleLayout>
+
+            <com.balysv.materialripple.MaterialRippleLayout
+                android:id="@+id/rippleColor"
+                style="@style/RippleStyleWhite"
+                android:layout_width="90dp"
+                android:layout_height="match_parent"
+                app:layout_constraintStart_toEndOf="@id/rippleClose"
+                app:layout_constraintEnd_toStartOf="@+id/rippleGradient"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent">
+
+            <RelativeLayout
+                android:id="@+id/relativeLayoutColor"
+                android:layout_width="90dp"
+                android:layout_height="match_parent"
+                android:gravity="center">
+
+                <TextView
+                    android:id="@+id/textViewColor"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="COLOR"
+                    android:textSize="13sp"
+                    android:fontFamily="@font/font"
+                    android:textColor="@color/white"
+                    android:gravity="center"
+                    android:layout_centerHorizontal="true"/>
+
+                <View
+                    android:id="@+id/ViewColor"
+                    android:layout_width="20dp"
+                    android:layout_height="4dp"
+                    android:layout_marginTop="8dp"
+                    android:background="@drawable/background_view"
+                    android:layout_below="@id/textViewColor"
+                    android:layout_centerHorizontal="true"/>
+
+            </RelativeLayout>
+
+            </com.balysv.materialripple.MaterialRippleLayout>
+
+            <com.balysv.materialripple.MaterialRippleLayout
+                android:id="@+id/rippleGradient"
+                style="@style/RippleStyleWhite"
+                android:layout_width="90dp"
+                android:layout_height="match_parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toEndOf="@id/rippleColor"
+                app:layout_constraintEnd_toStartOf="@+id/rippleSave">
+
+            <RelativeLayout
+                android:id="@+id/relativeLayoutGradient"
+                android:layout_width="90dp"
+                android:layout_height="match_parent"
+                android:gravity="center">
+
+                <TextView
+                    android:id="@+id/textViewGradient"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="GRADIENT"
+                    android:textSize="13sp"
+                    android:fontFamily="@font/font"
+                    android:textColor="@color/grayText"
+                    android:gravity="center"
+                    android:layout_centerHorizontal="true"/>
+
+                <View
+                    android:id="@+id/ViewGradient"
+                    android:layout_width="20dp"
+                    android:layout_height="4dp"
+                    android:layout_marginTop="8dp"
+                    android:visibility="invisible"
+                    android:background="@drawable/background_view"
+                    android:layout_below="@id/textViewGradient"
+                    android:layout_centerHorizontal="true"/>
+
+            </RelativeLayout>
+
+            </com.balysv.materialripple.MaterialRippleLayout>
+
+            <com.balysv.materialripple.MaterialRippleLayout
+                android:id="@+id/rippleSave"
+                style="@style/RippleStyleWhite"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent">
+
+            <ImageView
+                android:id="@+id/imageViewSaveFrame"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:onClick="onClick"
+                android:padding="11dp"
+                android:src="@drawable/ic_round_check" />
+
+            </com.balysv.materialripple.MaterialRippleLayout>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <com.rohitneel.photopixelpro.photocollage.utils.DegreeSeekBar
+            android:id="@+id/seekbarOverlay"
+            android:layout_width="0dp"
+            android:layout_height="35dp"
+            app:layout_constraintBottom_toTopOf="@id/constraintLayout"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"/>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/constraintLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent">
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recyclerViewGradient"
+                android:layout_width="match_parent"
+                android:layout_height="80dp"
+                android:visibility="gone"
+                android:orientation="horizontal"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recyclerViewColor"
+                android:layout_width="match_parent"
+                android:layout_height="80dp"
+                android:orientation="horizontal"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

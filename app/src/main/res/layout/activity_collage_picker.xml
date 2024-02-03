@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout  xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/BackgroundCardColor">
+
+    <com.google.android.material.appbar.AppBarLayout
+        android:id="@+id/appBarLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:elevation="3dp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/toolbar"
+            android:background="@color/BackgroundCardColor"
+            android:layout_width="match_parent"
+            android:layout_height="?actionBarSize"
+            android:minHeight="?actionBarSize"
+            android:theme="@style/ThemeOverlay.AppCompat.Dark"
+            android:elevation="3dp"
+            app:titleTextColor="@color/white"/>
+
+    </com.google.android.material.appbar.AppBarLayout>
+
+    <GridView
+        android:id="@+id/gridViewAlbum"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:gravity="center"
+        android:background="@color/BackgroundColor"
+        android:stretchMode="columnWidth"
+        android:numColumns="3"
+        app:layout_constraintBottom_toTopOf="@id/relativeLayoutTotal"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/appBarLayout"/>
+
+    <GridView
+        android:id="@+id/gridViewPhotos"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:gravity="center"
+        android:background="@color/BackgroundColor"
+        android:visibility="gone"
+        android:stretchMode="columnWidth"
+        android:numColumns="4"
+        app:layout_constraintBottom_toTopOf="@id/relativeLayoutTotal"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/appBarLayout"/>
+
+    <RelativeLayout
+        android:id="@+id/relativeLayoutTotal"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:background="@color/BackgroundCardColor"
+        app:layout_constraintBottom_toTopOf="@+id/scrollViewSelected">
+
+        <TextView
+            android:id="@+id/textViewSelect"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:textAppearanceSmall"
+            android:textColor="@color/white"
+            android:layout_centerVertical="true"
+            android:gravity="center_vertical"
+            android:textSize="17sp"
+            android:padding="4dp"
+            android:layout_marginLeft="10dip"
+            android:text="@string/select_images"
+            android:fontFamily="@font/font"/>
+
+        <TextView
+            android:id="@+id/txtTotalImage"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toEndOf="@id/textViewSelect"
+            android:layout_centerVertical="true"
+            android:textColor="@color/white"
+            android:gravity="center_vertical"
+            android:padding="4dp"
+            android:textSize="17sp"
+            android:layout_marginLeft="5dip"
+            android:text="@string/text_images"
+            android:fontFamily="@font/font"/>
+
+        <TextView
+            android:id="@+id/textViewDone"
+            android:layout_width="70dp"
+            android:layout_height="30dp"
+            android:layout_centerVertical="true"
+            android:layout_alignParentEnd="true"
+            android:gravity="center"
+            android:text="Next"
+            android:fontFamily="@font/font"
+            android:textColor="@color/mainColor"
+            android:textSize="16sp" />
+
+    </RelativeLayout>
+
+    <HorizontalScrollView
+        android:id="@+id/scrollViewSelected"
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
+        android:background="@color/BackgroundCardColor"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/bannerContainer">
+
+        <LinearLayout
+            android:id="@+id/linearLayoutSelected"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal"
+            android:layout_gravity="start|center_vertical"/>
+
+    </HorizontalScrollView>
+
+    <LinearLayout
+        android:id="@+id/bannerContainer"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:orientation="vertical"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_gravity="bottom">
+
+    </LinearLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

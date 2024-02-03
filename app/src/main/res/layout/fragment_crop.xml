@@ -1,0 +1,334 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:custom="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <com.isseiaoki.simplecropview.CropImageView
+        android:id="@+id/crop_image_view"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:padding="10dp"
+        custom:scv_background_color="@color/BackgroundCardColor"
+        custom:scv_crop_mode="fit_image"
+        custom:scv_frame_color="@color/white"
+        custom:scv_frame_stroke_weight="0.5dp"
+        custom:scv_guide_color="@color/white"
+        custom:scv_guide_show_mode="show_always"
+        custom:scv_guide_stroke_weight="0.5dp"
+        custom:scv_handle_color="@color/mainColor"
+        custom:scv_handle_show_mode="show_always"
+        custom:scv_handle_size="10dp"
+        custom:scv_min_frame_size="100dp"
+        custom:scv_overlay_color="#B2000000"
+        custom:scv_touch_padding="5dp"
+        custom:layout_constraintBottom_toTopOf="@id/constraint_layout_confirm_adjust"
+        custom:layout_constraintLeft_toLeftOf="parent"
+        custom:layout_constraintRight_toRightOf="parent"
+        custom:layout_constraintTop_toTopOf="parent"/>
+
+    <RelativeLayout
+        android:id="@+id/relative_layout_loading"
+        android:background="@android:color/transparent"
+        android:layout_width="120dp"
+        android:layout_height="120dp"
+        android:elevation="200dp"
+        custom:layout_constraintBottom_toTopOf="@id/constraint_layout_confirm_adjust"
+        custom:layout_constraintLeft_toLeftOf="parent"
+        custom:layout_constraintRight_toRightOf="parent"
+        custom:layout_constraintTop_toTopOf="parent" >
+
+        <com.rohitneel.photopixelpro.photocollage.loading.LoadingView
+            android:layout_width="120dp"
+            android:layout_height="120dp"
+            android:background="@drawable/background_loading"
+            app:loading_renderer="DanceLoading"/>
+
+    </RelativeLayout>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/constraint_layout_confirm_adjust"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/BackgroundColor"
+        app:layout_constraintBottom_toBottomOf="parent">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:background="@color/BackgroundColor"
+            app:layout_constraintBottom_toTopOf="@+id/recycler_view_ratio">
+
+            <com.balysv.materialripple.MaterialRippleLayout
+                style="@style/RippleStyleWhite"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent">
+
+                <ImageView
+                    android:id="@+id/imageViewCloseCrop"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:onClick="onClick"
+                    android:padding="12dp"
+                    android:src="@drawable/ic_round_close" />
+
+            </com.balysv.materialripple.MaterialRippleLayout>
+
+            <RelativeLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingTop="8dp"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent">
+
+                <TextView
+                    android:id="@+id/textViewTitle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="CROP"
+                    android:textSize="13sp"
+                    android:fontFamily="@font/font"
+                    android:textColor="@color/white"
+                    android:gravity="center"
+                    android:layout_centerHorizontal="true"/>
+
+                <View
+                    android:layout_width="20dp"
+                    android:layout_height="4dp"
+                    android:layout_marginTop="8dp"
+                    android:background="@drawable/background_view"
+                    android:layout_below="@id/textViewTitle"
+                    android:layout_centerHorizontal="true"/>
+
+            </RelativeLayout>
+
+            <com.balysv.materialripple.MaterialRippleLayout
+                style="@style/RippleStyleWhite"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent">
+
+                <ImageView
+                    android:id="@+id/imageViewSaveCrop"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:onClick="onClick"
+                    android:padding="12dp"
+                    android:src="@drawable/ic_round_check" />
+
+            </com.balysv.materialripple.MaterialRippleLayout>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recycler_view_ratio"
+            android:background="@color/BackgroundColor"
+            android:layout_width="match_parent"
+            android:layout_height="90dp"
+            android:layout_marginBottom="5dp"
+            android:orientation="horizontal"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            app:layout_constraintBottom_toTopOf="@+id/linearLayoutRotate"/>
+
+        <LinearLayout
+            android:id="@+id/linearLayoutRotate"
+            android:layout_width="match_parent"
+            android:orientation="horizontal"
+            android:background="@color/BackgroundColor"
+            android:layout_height="65dp"
+            android:gravity="center"
+            app:layout_constraintBottom_toBottomOf="parent">
+
+            <com.balysv.materialripple.MaterialRippleLayout
+                style="@style/RippleStyleWhite"
+                android:layout_width="70dp"
+                android:layout_height="65dp"
+                android:layout_marginStart="5dp"
+                android:layout_marginEnd="5dp">
+
+            <RelativeLayout
+                android:id="@+id/relativeLayoutRotate"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:clickable="true"
+                android:focusable="true">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:orientation="vertical">
+
+                    <ImageView
+                        android:id="@+id/image_view_tool_icon"
+                        android:layout_width="21dp"
+                        android:layout_height="21dp"
+                        android:layout_gravity="center_horizontal"
+                        android:src="@drawable/ic_rotate_left"
+                        app:tint="@color/white" />
+
+                    <TextView
+                        android:id="@+id/text_view_tool_name"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_horizontal"
+                        android:layout_marginTop="8dp"
+                        android:textSize="11sp"
+                        android:text="Rotate"
+                        android:textStyle="bold"
+                        android:textColor="@color/tintCol"/>
+
+                </LinearLayout>
+
+            </RelativeLayout>
+
+            </com.balysv.materialripple.MaterialRippleLayout>
+
+            <com.balysv.materialripple.MaterialRippleLayout
+                style="@style/RippleStyleWhite"
+                android:layout_width="70dp"
+                android:layout_height="65dp"
+                android:layout_marginStart="5dp"
+                android:layout_marginEnd="5dp">
+
+            <RelativeLayout
+                android:id="@+id/relativeLayoutHFlip"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:clickable="true"
+                android:focusable="true">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:orientation="vertical">
+
+                    <ImageView
+                        android:id="@+id/image_view_tool_h"
+                        android:layout_width="21dp"
+                        android:layout_height="21dp"
+                        android:src="@drawable/ic_flip_horizontal"
+                        android:layout_gravity="center_horizontal"/>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        android:textSize="11sp"
+                        android:text="Horizontal"
+                        android:textStyle="bold"
+                        android:textColor="@color/tintCol"
+                        android:layout_gravity="center_horizontal"/>
+
+                </LinearLayout>
+
+            </RelativeLayout>
+
+            </com.balysv.materialripple.MaterialRippleLayout>
+
+            <com.balysv.materialripple.MaterialRippleLayout
+                style="@style/RippleStyleWhite"
+                android:layout_width="70dp"
+                android:layout_height="65dp"
+                android:layout_marginStart="5dp"
+                android:layout_marginEnd="5dp">
+
+            <RelativeLayout
+                android:id="@+id/relativeLayoutVFlip"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:clickable="true"
+                android:focusable="true">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:orientation="vertical">
+                    <ImageView
+                        android:id="@+id/image_view_tool_v"
+                        android:layout_width="21dp"
+                        android:layout_height="21dp"
+                        android:src="@drawable/ic_flip_vertical"
+                        android:layout_gravity="center_horizontal"/>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_horizontal"
+                        android:layout_marginTop="8dp"
+                        android:textSize="11sp"
+                        android:text="Vertical"
+                        android:textStyle="bold"
+                        android:textColor="@color/tintCol"/>
+
+                </LinearLayout>
+
+            </RelativeLayout>
+
+            </com.balysv.materialripple.MaterialRippleLayout>
+
+            <com.balysv.materialripple.MaterialRippleLayout
+                style="@style/RippleStyleWhite"
+                android:layout_width="70dp"
+                android:layout_height="65dp"
+                android:layout_marginStart="5dp"
+                android:layout_marginEnd="5dp">
+
+            <RelativeLayout
+                android:id="@+id/relativeLayouRotate90"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:clickable="true"
+                android:focusable="true">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:orientation="vertical">
+
+                    <ImageView
+                        android:id="@+id/image_view_tool_icon90"
+                        android:layout_width="wrap_content"
+                        android:layout_height="21dp"
+                        android:layout_gravity="center_horizontal"
+                        android:src="@drawable/ic_rotate_right"
+                        app:tint="@color/white" />
+
+                    <TextView
+                        android:id="@+id/text_view_tool_name90"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_horizontal"
+                        android:layout_marginTop="8dp"
+                        android:textSize="11sp"
+                        android:text="Rotate"
+                        android:textStyle="bold"
+                        android:textColor="@color/tintCol"/>
+
+                </LinearLayout>
+
+            </RelativeLayout>
+
+            </com.balysv.materialripple.MaterialRippleLayout>
+
+        </LinearLayout>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

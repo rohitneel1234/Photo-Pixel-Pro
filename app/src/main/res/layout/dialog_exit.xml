@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/layout_close_dialog"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#A6000000">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_gravity="bottom"
+        android:background="@drawable/background_exit">
+
+        <TextView
+            android:id="@+id/textViewDiscard"
+            android:layout_width="match_parent"
+            android:layout_height="70dp"
+            android:fontFamily="@font/font"
+            android:gravity="center"
+            android:text="Discard Changes"
+            android:textSize="18sp"
+            android:textColor="#FF0000"
+            android:clickable="true"
+            android:focusable="true" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="#232323"/>
+
+        <TextView
+            android:id="@+id/textViewCancel"
+            android:layout_width="match_parent"
+            android:layout_height="70dp"
+            android:fontFamily="@font/font"
+            android:gravity="center"
+            android:text="Cancel"
+            android:textSize="18sp"
+            android:textColor="@color/white"
+            android:clickable="true"
+            android:focusable="true" />
+
+    </LinearLayout>
+
+</FrameLayout>

@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:aapt="http://schemas.android.com/aapt"
+    android:gravity="center"
+    android:layout_width="65dp"
+    android:layout_height="110dp"
+    android:layout_marginStart="3dp"
+    android:layout_marginEnd="3dp">
+
+    <RelativeLayout
+        android:gravity="center"
+        android:layout_width="65dp"
+        android:layout_height="90dp"
+        android:layout_centerInParent="true">
+
+        <com.github.siyamed.shapeimageview.RoundedImageView
+            android:id="@+id/round_image_view_filter_item"
+            android:layout_width="65dp"
+            android:layout_height="74dp"
+            android:src="@drawable/icon_splash_1"
+            android:scaleType="fitXY"
+            android:layout_centerHorizontal="true"
+            app:siBorderType="fill"/>
+
+        <TextView
+            android:textSize="9sp"
+            android:textColor="@color/white"
+            android:gravity="center"
+            android:id="@+id/text_view_filter_name"
+            android:background="@color/black"
+            android:layout_width="65dp"
+            android:layout_height="16dp"
+            android:text="SD-1"
+            android:layout_below="@+id/round_image_view_filter_item" android:fontFamily="@font/font"/>
+
+        <View
+            android:id="@+id/view_selected"
+            android:background="@drawable/ic_selected"
+            android:visibility="gone"
+            android:layout_width="65dp"
+            android:layout_height="74dp"/>
+
+    </RelativeLayout>
+</RelativeLayout>

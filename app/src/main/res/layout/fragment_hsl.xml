@@ -1,0 +1,337 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@color/BackgroundCardColor"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <RelativeLayout
+        android:id="@+id/constraintLayoutRatio"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toTopOf="@+id/constraintLayoutRatioCont"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <com.rohitneel.photopixelpro.photocollage.widget.DragLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_centerInParent="true">
+        <ImageView
+            android:id="@+id/imageViewRatio"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:adjustViewBounds="true"
+            android:layout_centerInParent="true"/>
+        </com.rohitneel.photopixelpro.photocollage.widget.DragLayout>
+
+        <FrameLayout
+            android:id="@+id/frameLayoutWrapper"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:visibility="gone"
+            android:layout_centerInParent="true"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+
+        </FrameLayout>
+
+    </RelativeLayout>
+
+    <androidx.constraintlayout.widget.Guideline
+        android:orientation="horizontal"
+        android:id="@id/guideline"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintGuide_end="118dp"
+        app:layout_constraintBottom_toBottomOf="parent"/>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/constraintLayoutRatioCont"
+        android:background="@color/BackgroundColor"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="parent">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/constraint_layout_confirm_adjust"
+            android:background="@color/BackgroundColor"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            app:layout_constraintBottom_toTopOf="@+id/ConstraintLayout">
+
+            <com.balysv.materialripple.MaterialRippleLayout
+                style="@style/RippleStyleWhite"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent">
+
+            <ImageView
+                android:id="@+id/imageViewCloseRatio"
+                android:padding="11dp"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:src="@drawable/ic_round_close"
+                android:onClick="onClick"/>
+
+            </com.balysv.materialripple.MaterialRippleLayout>
+
+            <RelativeLayout
+                android:paddingTop="8dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
+
+                <TextView
+                    android:textSize="13sp"
+                    android:textColor="@color/white"
+                    android:gravity="center"
+                    android:id="@+id/textViewTitle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="HSL"
+                    android:layout_centerHorizontal="true"
+                    android:fontFamily="@font/font"/>
+
+                <View
+                    android:background="@drawable/background_view"
+                    android:layout_width="20dp"
+                    android:layout_height="4dp"
+                    android:layout_marginTop="8dp"
+                    android:layout_below="@+id/textViewTitle"
+                    android:layout_centerHorizontal="true"/>
+
+            </RelativeLayout>
+
+            <com.balysv.materialripple.MaterialRippleLayout
+                style="@style/RippleStyleWhite"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent">
+
+            <ImageView
+                android:id="@+id/imageViewSaveRatio"
+                android:padding="11dp"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:src="@drawable/ic_round_check"
+                android:onClick="onClick"/>
+
+            </com.balysv.materialripple.MaterialRippleLayout>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/ConstraintLayout"
+            android:layout_width="match_parent"
+            android:layout_height="150dp"
+            app:layout_constraintBottom_toBottomOf="parent">
+
+            <LinearLayout
+                android:orientation="vertical"
+                android:id="@+id/hsl"
+                android:visibility="visible"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="15dp"
+                    android:layout_marginEnd="15dp">
+
+                    <TextView
+                        android:layout_width="25dp"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:textSize="16sp"
+                        android:textColor="@color/white"
+                        android:fontFamily="@font/font"
+                        android:text="H"/>
+
+                    <com.warkiz.widget.IndicatorSeekBar
+                        android:id="@+id/hue"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        app:isb_max="100"
+                        app:isb_min="-100"
+                        app:isb_progress="0"
+                        app:isb_progress_value_float="true"
+                        app:isb_show_indicator="rounded_rectangle"
+                        app:isb_thumb_color="@color/white"
+                        app:isb_thumb_text_color="@color/white"
+                        app:isb_seek_smoothly="true"
+                        app:isb_show_tick_marks_type="oval"
+                        app:isb_tick_marks_size="13dp"
+                        app:isb_show_tick_texts="true"
+                        app:isb_tick_texts_size="15sp"
+                        app:isb_tick_texts_color="@color/white"
+                        app:isb_thumb_size="20dp"
+                        app:isb_indicator_color="@color/white"
+                        app:isb_indicator_text_color="@color/black"
+                        app:isb_track_background_color="#5A5A5A"
+                        app:isb_track_background_size="2dp"
+                        app:isb_track_progress_color="@color/white"
+                        app:isb_track_progress_size="3dp"/>
+
+                </LinearLayout>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="15dp"
+                    android:layout_marginStart="15dp"
+                    android:layout_marginEnd="15dp">
+
+                    <TextView
+                        android:layout_width="25dp"
+                        android:layout_height="wrap_content"
+                        android:textSize="16sp"
+                        android:textColor="@color/white"
+                        android:gravity="center"
+                        android:fontFamily="@font/font"
+                        android:text="S"/>
+
+                    <com.warkiz.widget.IndicatorSeekBar
+                        android:id="@+id/sat"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        app:isb_max="100"
+                        app:isb_min="-100"
+                        app:isb_progress="0"
+                        app:isb_progress_value_float="true"
+                        app:isb_show_indicator="rounded_rectangle"
+                        app:isb_thumb_color="@color/white"
+                        app:isb_thumb_text_color="@color/white"
+                        app:isb_seek_smoothly="true"
+                        app:isb_show_tick_marks_type="oval"
+                        app:isb_tick_marks_size="13dp"
+                        app:isb_show_tick_texts="true"
+                        app:isb_tick_texts_size="15sp"
+                        app:isb_tick_texts_color="@color/white"
+                        app:isb_thumb_size="20dp"
+                        app:isb_indicator_color="@color/white"
+                        app:isb_indicator_text_color="@color/black"
+                        app:isb_track_background_color="#5A5A5A"
+                        app:isb_track_background_size="2dp"
+                        app:isb_track_progress_color="@color/white"
+                        app:isb_track_progress_size="3dp"/>
+
+                </LinearLayout>
+                <LinearLayout
+                    android:orientation="horizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="15dp"
+                    android:layout_marginStart="15dp"
+                    android:layout_marginEnd="15dp">
+
+                    <TextView
+                        android:layout_width="25dp"
+                        android:layout_height="wrap_content"
+                        android:textSize="16sp"
+                        android:textColor="@color/white"
+                        android:gravity="center"
+                        android:fontFamily="@font/font"
+                        android:text="L"/>
+
+                    <com.warkiz.widget.IndicatorSeekBar
+                        android:id="@+id/light"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        app:isb_max="100"
+                        app:isb_min="-100"
+                        app:isb_progress="0"
+                        app:isb_progress_value_float="true"
+                        app:isb_show_indicator="rounded_rectangle"
+                        app:isb_thumb_color="@color/white"
+                        app:isb_thumb_text_color="@color/white"
+                        app:isb_seek_smoothly="true"
+                        app:isb_show_tick_marks_type="oval"
+                        app:isb_tick_marks_size="13dp"
+                        app:isb_show_tick_texts="true"
+                        app:isb_tick_texts_size="15sp"
+                        app:isb_tick_texts_color="@color/white"
+                        app:isb_thumb_size="20dp"
+                        app:isb_indicator_color="@color/white"
+                        app:isb_indicator_text_color="@color/black"
+                        app:isb_track_background_color="#5A5A5A"
+                        app:isb_track_background_size="2dp"
+                        app:isb_track_progress_color="@color/white"
+                        app:isb_track_progress_size="3dp"/>
+
+                </LinearLayout>
+
+                <RadioGroup
+                    android:gravity="center"
+                    android:orientation="horizontal"
+                    android:id="@+id/colorselection"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginBottom="10dp"
+                    android:checkedButton="@+id/red"
+                    android:layout_marginStart="15dp"
+                    android:layout_marginEnd="15dp">
+
+                    <RadioButton
+                        android:id="@+id/red"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:buttonTint="@android:color/holo_red_dark"/>
+
+                    <RadioButton
+                        android:id="@+id/green"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:buttonTint="#00ff00"/>
+
+                    <RadioButton
+                        android:id="@+id/blue"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:buttonTint="#0000ff"/>
+
+                    <RadioButton
+                        android:id="@+id/mergenta"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:buttonTint="#ff0080"/>
+
+                    <RadioButton
+                        android:id="@+id/yellow"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:buttonTint="#fcc010"/>
+
+                    <RadioButton
+                        android:id="@+id/cyan"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:buttonTint="#4afcfe"/>
+
+                    <RadioButton
+                        android:id="@+id/white"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:buttonTint="#ffffff"/>
+
+                </RadioGroup>
+            </LinearLayout>
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

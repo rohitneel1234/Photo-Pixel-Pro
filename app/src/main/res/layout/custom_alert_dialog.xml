@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <LinearLayout
+        android:layout_width="350dp"
+        android:layout_height="225dp"
+        android:orientation="vertical"
+        android:background="@drawable/round_shape_background"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
+
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:text="Confirm"
+            android:textStyle="bold"
+            android:textSize="20sp"
+            android:background="@drawable/button_round_corners"
+            android:fontFamily="@font/font"
+            android:textColor="@color/white"
+            android:gravity="center"
+            android:textAlignment="center"
+            android:textAppearance="@style/TextAppearance.AppCompat.Headline" />
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="35dp"
+            android:text="Are you sure you want to log out?"
+            android:textAlignment="center"
+            android:textStyle="bold"
+            android:textColor="@color/black"
+            android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="40dp">
+
+            <Button
+                android:id="@+id/buttonOk"
+                android:layout_width="145dp"
+                android:layout_height="wrap_content"
+                android:background="@drawable/dialog_transparent_view"
+                android:text="Cancel"
+                android:layout_marginStart="15dp"
+                android:textAllCaps="false"
+                android:textColor="@color/colorDarkGrey"
+                android:textSize="17sp"
+                android:textStyle="bold" />
+
+            <Button
+                android:id="@+id/btnLogout"
+                android:layout_width="145dp"
+                android:layout_height="wrap_content"
+                android:textSize="17sp"
+                android:layout_marginStart="30dp"
+                android:background="@drawable/dialog_button_background"
+                android:text="Logout"
+                android:textAllCaps="false"
+                android:textStyle="bold"
+                android:textColor="@color/white" />
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

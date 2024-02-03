@@ -1,0 +1,299 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/mainLayOut"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/BackgroundCardColor"
+    android:gravity="top"
+    android:orientation="vertical">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/constraint_layout_confirm_blur"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <ImageView
+            android:id="@+id/imageViewCloseBlur"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:onClick="onClick"
+            android:padding="8dp"
+            android:src="@drawable/ic_round_close"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"/>
+
+
+        <ImageView
+            android:id="@+id/imageViewSaveBlur"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:onClick="onClick"
+            android:padding="8dp"
+            android:src="@drawable/ic_round_check"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"/>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <RelativeLayout
+        android:id="@+id/relativeLayoutContainer"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toTopOf="@+id/constraint_layout_confirm"
+        app:layout_constraintTop_toBottomOf="@+id/constraint_layout_confirm_blur">
+
+        <com.rohitneel.photopixelpro.photocollage.photo.PhotoBlurView
+            android:id="@+id/drawingImageView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scaleType="matrix"/>
+
+        <com.rohitneel.photopixelpro.photocollage.draw.BlurBrushView
+            android:id="@+id/brushView"
+            android:layout_width="150dp"
+            android:layout_height="150dp"
+            android:layout_centerInParent="true"
+            android:visibility="gone"/>
+
+    </RelativeLayout>
+
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/constraint_layout_confirm"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/BackgroundColor"
+        app:layout_constraintBottom_toBottomOf="parent">
+
+        <LinearLayout
+            android:id="@+id/linearLayoutOption"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="10dp"
+            android:orientation="horizontal"
+            app:layout_constraintBottom_toTopOf="@+id/relativeLayoutEffect">
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_weight="1"
+                android:gravity="start">
+
+                <ImageView
+                    android:id="@+id/imageViewUndo"
+                    android:layout_width="45dp"
+                    android:layout_height="45dp"
+                    android:padding="9dp"
+                    android:visibility="gone"
+                    app:tint="@color/white"
+                    android:src="@drawable/ic_round_undo"/>
+
+                <ImageView
+                    android:id="@+id/imageViewRedo"
+                    android:layout_width="45dp"
+                    android:layout_height="45dp"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginEnd="10dp"
+                    android:visibility="gone"
+                    android:padding="9dp"
+                    app:tint="@color/white"
+                    android:src="@drawable/ic_round_redo" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_weight="1"
+                android:gravity="center">
+
+                <ImageView
+                    android:id="@+id/imageViewReset"
+                    android:layout_width="45dp"
+                    android:layout_height="45dp"
+                    android:padding="11dp"
+                    app:tint="@color/white"
+                    android:src="@drawable/ic_rotate_left" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_weight="1"
+                android:gravity="end">
+
+                <ImageView
+                    android:id="@+id/imageViewFit"
+                    android:layout_width="45dp"
+                    android:layout_height="45dp"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginEnd="10dp"
+                    android:padding="6dp"
+                    app:tint="@color/white"
+                    android:src="@drawable/ic_round_fullscreen_exit" />
+
+                <ImageView
+                    android:id="@+id/imageViewZoom"
+                    android:layout_width="45dp"
+                    android:layout_height="45dp"
+                    android:padding="11dp"
+                    app:tint="@color/white"
+                    android:src="@drawable/ic_round_zoom_in" />
+
+            </LinearLayout>
+
+
+        </LinearLayout>
+
+        <RelativeLayout
+            android:id="@+id/relativeLayoutEffect"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="10dp"
+            app:layout_constraintBottom_toTopOf="@+id/linearLayoutDrip">
+
+            <LinearLayout
+                android:id="@+id/linearLayoutSeekBar"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
+                android:paddingStart="10dp"
+                android:paddingEnd="10dp"
+                android:orientation="horizontal">
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="35dp"
+                    android:layout_weight="1"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal">
+
+                    <ImageView
+                        android:layout_width="20dp"
+                        android:layout_height="20dp"
+                        android:layout_marginStart="5dp"
+                        android:layout_marginEnd="5dp"
+                        android:src="@drawable/ic_size"/>
+
+                    <SeekBar
+                        android:id="@+id/seekBarSize"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:background="@null"
+                        android:progressDrawable="@drawable/progress_drawable"
+                        android:thumb="@drawable/progress_thumb"
+                        android:splitTrack="false"/>
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="35dp"
+                    android:layout_weight="1"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal">
+
+                    <ImageView
+                        android:layout_width="20dp"
+                        android:layout_height="20dp"
+                        android:layout_marginStart="5dp"
+                        android:layout_marginEnd="5dp"
+                        android:src="@drawable/ic_blur"/>
+
+                    <SeekBar
+                        android:id="@+id/seekBarBlur"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:background="@null"
+                        android:progressDrawable="@drawable/progress_drawable"
+                        android:thumb="@drawable/progress_thumb"
+                        android:splitTrack="false"/>
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+        </RelativeLayout>
+
+        <LinearLayout
+            android:id="@+id/linearLayoutDrip"
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:orientation="horizontal"
+            app:layout_constraintBottom_toBottomOf="parent">
+
+            <RelativeLayout
+                android:id="@+id/relativeLayoutEraser"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:clickable="true"
+                android:focusable="true">
+
+                <ImageView
+                    android:id="@+id/imageViewColor"
+                    android:layout_width="21dp"
+                    android:layout_height="21dp"
+                    android:src="@drawable/ic_eraser"
+                    android:layout_centerHorizontal="true"
+                    app:tint="@color/mainColor" />
+
+                <TextView
+                    android:id="@+id/textViewColor"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/imageViewColor"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginTop="8dp"
+                    android:textSize="11sp"
+                    android:text="Eraser"
+                    android:textStyle="bold"
+                    android:textColor="@color/mainColor"/>
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/relativeLayoutBlur"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:clickable="true"
+                android:focusable="true">
+
+                <ImageView
+                    android:id="@+id/imageViewGray"
+                    android:layout_width="21dp"
+                    android:layout_height="21dp"
+                    android:src="@drawable/ic_background"
+                    app:tint="@color/white"
+                    android:layout_centerHorizontal="true"/>
+
+                <TextView
+                    android:id="@+id/textViewGray"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/imageViewGray"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginTop="8dp"
+                    android:textSize="11sp"
+                    android:text="Blur"
+                    android:textStyle="bold"
+                    android:textColor="@color/tintCol"/>
+
+            </RelativeLayout>
+
+        </LinearLayout>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

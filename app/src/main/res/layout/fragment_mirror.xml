@@ -1,0 +1,606 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@color/BackgroundCardColor"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:animateLayoutChanges="true">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/constraintLayoutMirror"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toTopOf="@+id/constraintLayoutMirrorCont"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.0">
+
+        <FrameLayout
+            android:id="@+id/frameLayoutWrapper"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/black"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <com.rohitneel.photopixelpro.photocollage.widget.SquareLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <!--2D Layer-->
+
+                <com.rohitneel.photopixelpro.photocollage.widget.SquareLayout
+                    android:id="@+id/squareLayout2d_1"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:visibility="gone">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_gravity="center"
+                        android:orientation="horizontal">
+
+                        <com.rohitneel.photopixelpro.photocollage.mirror.Mirror3D_2Layer
+                            android:id="@+id/drag2D_1"
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1">
+
+                            <ImageView
+                                android:id="@+id/imageView2D_1"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                />
+
+                        </com.rohitneel.photopixelpro.photocollage.mirror.Mirror3D_2Layer>
+
+                        <com.rohitneel.photopixelpro.photocollage.mirror.Mirror3D_2Layer
+                            android:id="@+id/drag2D_2"
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1">
+
+                            <ImageView
+                                android:id="@+id/imageView2D_2"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:layout_gravity="center"
+                                android:src="@drawable/mos_mosaic" />
+
+                        </com.rohitneel.photopixelpro.photocollage.mirror.Mirror3D_2Layer>
+                    </LinearLayout>
+
+                </com.rohitneel.photopixelpro.photocollage.widget.SquareLayout>
+
+                <com.rohitneel.photopixelpro.photocollage.widget.SquareLayout
+                    android:id="@+id/squareLayout2d_3"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:visibility="gone">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_gravity="center"
+                        android:orientation="horizontal">
+
+                        <com.rohitneel.photopixelpro.photocollage.mirror.Mirror2D_2Layer
+                            android:id="@+id/drag2D_3"
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1">
+
+                            <ImageView
+                                android:id="@+id/imageView2D_3"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:src="@drawable/mos_mosaic" />
+
+                        </com.rohitneel.photopixelpro.photocollage.mirror.Mirror2D_2Layer>
+
+                        <com.rohitneel.photopixelpro.photocollage.mirror.Mirror2D_2Layer
+                            android:id="@+id/drag2D_4"
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1">
+
+                            <ImageView
+                                android:id="@+id/imageView2D_4"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:layout_gravity="center"
+                                android:src="@drawable/mos_mosaic" />
+
+                        </com.rohitneel.photopixelpro.photocollage.mirror.Mirror2D_2Layer>
+                    </LinearLayout>
+
+                </com.rohitneel.photopixelpro.photocollage.widget.SquareLayout>
+
+                <com.rohitneel.photopixelpro.photocollage.widget.SquareLayout
+                    android:id="@+id/squareLayout2d_5"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:visibility="gone">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_gravity="center"
+                        android:orientation="horizontal">
+
+                        <com.rohitneel.photopixelpro.photocollage.mirror.Mirror3D_2Layer
+                            android:id="@+id/drag2D_5"
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1">
+
+                            <ImageView
+                                android:id="@+id/imageView2D_5"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:src="@drawable/mos_mosaic" />
+
+                        </com.rohitneel.photopixelpro.photocollage.mirror.Mirror3D_2Layer>
+
+                        <com.rohitneel.photopixelpro.photocollage.mirror.Mirror3D_2Layer
+                            android:id="@+id/drag2D_6"
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1">
+
+                            <ImageView
+                                android:id="@+id/imageView2D_6"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:layout_gravity="center"
+                                android:src="@drawable/mos_mosaic" />
+
+                        </com.rohitneel.photopixelpro.photocollage.mirror.Mirror3D_2Layer>
+
+                    </LinearLayout>
+
+                </com.rohitneel.photopixelpro.photocollage.widget.SquareLayout>
+
+                <com.rohitneel.photopixelpro.photocollage.widget.SquareLayout
+                    android:id="@+id/squareLayout2d_7"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:visibility="gone">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_gravity="center"
+                        android:orientation="vertical">
+
+                        <com.rohitneel.photopixelpro.photocollage.mirror.Mirror2D_3Layer
+                            android:id="@+id/drag2D_7"
+                            android:layout_width="match_parent"
+                            android:layout_height="0dp"
+                            android:layout_weight="1">
+
+                            <ImageView
+                                android:id="@+id/imageView2D_7"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:src="@drawable/mos_mosaic"
+                                android:rotation="180"/>
+
+                        </com.rohitneel.photopixelpro.photocollage.mirror.Mirror2D_3Layer>
+
+                        <com.rohitneel.photopixelpro.photocollage.mirror.Mirror2D_3Layer
+                            android:id="@+id/drag2D_8"
+                            android:layout_width="match_parent"
+                            android:layout_height="0dp"
+                            android:layout_weight="1">
+
+                            <ImageView
+                                android:id="@+id/imageView2D_8"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:layout_gravity="center"
+                                android:src="@drawable/mos_mosaic" />
+
+                        </com.rohitneel.photopixelpro.photocollage.mirror.Mirror2D_3Layer>
+                    </LinearLayout>
+
+                </com.rohitneel.photopixelpro.photocollage.widget.SquareLayout>
+
+                <com.rohitneel.photopixelpro.photocollage.widget.SquareLayout
+                    android:id="@+id/squareLayout2d_9"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:visibility="gone">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_gravity="center"
+                        android:orientation="vertical">
+
+                        <com.rohitneel.photopixelpro.photocollage.mirror.Mirror2D_3Layer
+                            android:id="@+id/drag2D_9"
+                            android:layout_width="match_parent"
+                            android:layout_height="0dp"
+                            android:layout_weight="1">
+
+                            <ImageView
+                                android:id="@+id/imageView2D_9"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:src="@drawable/mos_mosaic" />
+
+                        </com.rohitneel.photopixelpro.photocollage.mirror.Mirror2D_3Layer>
+
+                        <com.rohitneel.photopixelpro.photocollage.mirror.Mirror2D_3Layer
+                            android:id="@+id/drag2D_10"
+                            android:layout_width="match_parent"
+                            android:layout_height="0dp"
+                            android:layout_weight="1">
+
+                            <ImageView
+                                android:id="@+id/imageView2D_10"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:layout_gravity="center"
+                                android:rotation="180"
+                                android:src="@drawable/mos_mosaic" />
+
+                        </com.rohitneel.photopixelpro.photocollage.mirror.Mirror2D_3Layer>
+                    </LinearLayout>
+
+                </com.rohitneel.photopixelpro.photocollage.widget.SquareLayout>
+
+                <com.rohitneel.photopixelpro.photocollage.widget.SquareLayout
+                    android:id="@+id/squareLayout2d_11"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:visibility="gone">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_gravity="center"
+                        android:orientation="horizontal">
+
+                        <com.rohitneel.photopixelpro.photocollage.mirror.Mirror2D_3L
+                            android:id="@+id/drag2D_11"
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1">
+
+                            <ImageView
+                                android:id="@+id/imageView2D_11"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:src="@drawable/mos_mosaic"/>
+
+                        </com.rohitneel.photopixelpro.photocollage.mirror.Mirror2D_3L>
+
+                        <com.rohitneel.photopixelpro.photocollage.mirror.Mirror2D_3L
+                            android:id="@+id/drag2D_12"
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1">
+
+                            <ImageView
+                                android:id="@+id/imageView2D_12"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:layout_gravity="center"
+                                android:src="@drawable/mos_mosaic"/>
+
+                        </com.rohitneel.photopixelpro.photocollage.mirror.Mirror2D_3L>
+
+                        <com.rohitneel.photopixelpro.photocollage.mirror.Mirror2D_3L
+                            android:id="@+id/drag2D_13"
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1">
+
+                            <ImageView
+                                android:id="@+id/imageView2D_13"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:layout_gravity="center"
+                                android:src="@drawable/mos_mosaic"/>
+
+                        </com.rohitneel.photopixelpro.photocollage.mirror.Mirror2D_3L>
+
+                    </LinearLayout>
+
+                </com.rohitneel.photopixelpro.photocollage.widget.SquareLayout>
+
+                <!--3D Layer-->
+
+                <com.rohitneel.photopixelpro.photocollage.widget.SquareLayout
+                    android:id="@+id/squareLayout3d_1"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:visibility="gone">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_gravity="center"
+                        android:orientation="horizontal">
+
+                        <com.rohitneel.photopixelpro.photocollage.mirror.Mirror3D_2Layer
+                            android:id="@+id/drag3D_1"
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1">
+
+                            <ImageView
+                                android:id="@+id/imageView3D_1"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:src="@drawable/mos_mosaic" />
+
+                        </com.rohitneel.photopixelpro.photocollage.mirror.Mirror3D_2Layer>
+
+                        <com.rohitneel.photopixelpro.photocollage.mirror.Mirror3D_2Layer
+                            android:id="@+id/drag3D_2"
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1">
+
+                            <ImageView
+                                android:id="@+id/imageView3D_2"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:layout_gravity="center"
+                                android:src="@drawable/mos_mosaic" />
+
+                        </com.rohitneel.photopixelpro.photocollage.mirror.Mirror3D_2Layer>
+                    </LinearLayout>
+
+                </com.rohitneel.photopixelpro.photocollage.widget.SquareLayout>
+
+                <com.rohitneel.photopixelpro.photocollage.widget.SquareLayout
+                    android:id="@+id/squareLayout3d_3"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:visibility="gone">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_gravity="center"
+                        android:orientation="horizontal">
+
+                        <com.rohitneel.photopixelpro.photocollage.mirror.Mirror3D_4Layer
+                            android:id="@+id/drag3D_3"
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1">
+
+                            <ImageView
+                                android:id="@+id/imageView3D_3"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:src="@drawable/mos_mosaic" />
+
+                        </com.rohitneel.photopixelpro.photocollage.mirror.Mirror3D_4Layer>
+
+                        <com.rohitneel.photopixelpro.photocollage.mirror.Mirror3D_4Layer
+                            android:id="@+id/drag3D_4"
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1">
+
+                            <ImageView
+                                android:id="@+id/imageView3D_4"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:layout_gravity="center"
+                                android:src="@drawable/mos_mosaic" />
+
+                        </com.rohitneel.photopixelpro.photocollage.mirror.Mirror3D_4Layer>
+
+                        <com.rohitneel.photopixelpro.photocollage.mirror.Mirror3D_4Layer
+                            android:id="@+id/drag3D_5"
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1">
+
+                            <ImageView
+                                android:id="@+id/imageView3D_5"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:layout_gravity="center"
+                                android:src="@drawable/mos_mosaic" />
+
+                        </com.rohitneel.photopixelpro.photocollage.mirror.Mirror3D_4Layer>
+
+                        <com.rohitneel.photopixelpro.photocollage.mirror.Mirror3D_4Layer
+                            android:id="@+id/drag3D_6"
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1">
+
+                            <ImageView
+                                android:id="@+id/imageView3D_6"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:layout_gravity="center"
+                                android:src="@drawable/mos_mosaic" />
+
+                        </com.rohitneel.photopixelpro.photocollage.mirror.Mirror3D_4Layer>
+                    </LinearLayout>
+
+                </com.rohitneel.photopixelpro.photocollage.widget.SquareLayout>
+
+                <FrameLayout
+                    android:id="@+id/frameLayout3D_1"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@drawable/mirror_3d_1"
+                    android:visibility="gone"/>
+
+            </com.rohitneel.photopixelpro.photocollage.widget.SquareLayout>
+
+
+            <RelativeLayout
+                android:id="@+id/relative_layout_loading"
+                android:layout_width="120dp"
+                android:layout_height="120dp"
+                android:layout_gravity="center"
+                android:background="@android:color/transparent"
+                android:elevation="200dp"
+                android:visibility="gone">
+
+                <com.rohitneel.photopixelpro.photocollage.loading.LoadingView
+                    android:layout_width="120dp"
+                    android:layout_height="120dp"
+                    android:background="@drawable/background_loading"
+                    app:loading_renderer="DanceLoading" />
+
+            </RelativeLayout>
+        </FrameLayout>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/constraintLayoutMirrorCont"
+        android:background="@color/BackgroundColor"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="parent">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/constraint_layout_confirm_adjust"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_marginBottom="5dp"
+            app:layout_constraintBottom_toTopOf="@+id/recyclerViewMirror">
+
+            <ImageView
+                android:id="@+id/imageViewCloseMirror"
+                android:padding="8dp"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:src="@drawable/ic_round_close"
+                android:onClick="onClick"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"/>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:visibility="gone"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
+                <RelativeLayout
+                    android:id="@+id/_2d_layout"
+                    android:padding="10dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="20dp">
+                    <TextView
+                        android:textSize="13sp"
+                        android:textColor="@color/white"
+                        android:gravity="center"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="2D"
+                        android:layout_centerHorizontal="true"
+                        android:fontFamily="@font/font"/>
+                    <View
+                        android:id="@+id/view_2D"
+                        android:background="@drawable/background_view"
+                        android:layout_width="20dp"
+                        android:layout_height="4dp"
+                        android:layout_marginTop="8dp"
+                        android:layout_centerHorizontal="true"/>
+                </RelativeLayout>
+                <RelativeLayout
+                    android:id="@+id/_3d_layout"
+                    android:padding="10dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="20dp">
+                    <TextView
+                        android:textSize="13sp"
+                        android:textColor="@color/white"
+                        android:gravity="center"
+                        android:id="@+id/textViewTitle2"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="3D"
+                        android:layout_centerHorizontal="true"
+                        android:fontFamily="@font/font"/>
+                    <View
+                        android:id="@+id/view_3D"
+                        android:background="@drawable/background_view"
+                        android:visibility="invisible"
+                        android:layout_width="20dp"
+                        android:layout_height="4dp"
+                        android:layout_marginTop="8dp"
+                        android:layout_below="@+id/textViewTitle2"
+                        android:layout_centerHorizontal="true"/>
+                </RelativeLayout>
+            </LinearLayout>
+
+            <RelativeLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent">
+
+                <TextView
+                    android:id="@+id/textViewTitle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="MIRROR"
+                    android:textSize="13sp"
+                    android:fontFamily="@font/font"
+                    android:textColor="@color/white"
+                    android:gravity="center"
+                    android:layout_centerHorizontal="true"/>
+
+                <View
+                    android:layout_width="20dp"
+                    android:layout_height="4dp"
+                    android:layout_marginTop="8dp"
+                    android:background="@drawable/background_view"
+                    android:layout_below="@id/textViewTitle"
+                    android:layout_centerHorizontal="true"/>
+
+            </RelativeLayout>
+
+            <ImageView
+                android:id="@+id/imageViewSaveMirror"
+                android:padding="8dp"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:src="@drawable/ic_round_check"
+                android:onClick="onClick"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent"/>
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:orientation="horizontal"
+            android:id="@+id/recyclerViewMirror"
+            android:layout_width="match_parent"
+            android:layout_height="80dp"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"/>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

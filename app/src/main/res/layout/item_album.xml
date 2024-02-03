@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.rohitneel.photopixelpro.photocollage.widget.SquareLayout
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_margin="2dp"
+    android:background="@color/BackgroundColor"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <RelativeLayout
+        android:id="@+id/relative_layout_root"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <ImageView
+            android:id="@+id/image_view_album"
+            android:background="@drawable/list_selector_item"
+            android:padding="1dp"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scaleType="centerCrop"
+            android:layout_centerInParent="true" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="30dp"
+            android:background="@drawable/background_shadow"
+            android:gravity="center"
+            android:orientation="vertical"
+            android:layout_alignParentBottom="true">
+
+            <TextView
+                android:id="@+id/text_view_name_album"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/font"
+                android:textSize="15sp"
+                android:textColor="@color/white"
+                android:text="Name album"
+                android:maxLines="1"
+                android:singleLine="true"/>
+
+        </LinearLayout>
+
+    </RelativeLayout>
+
+</com.rohitneel.photopixelpro.photocollage.widget.SquareLayout>

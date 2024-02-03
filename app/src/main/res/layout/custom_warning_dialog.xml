@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <LinearLayout
+        android:id="@+id/linearWarningDialog"
+        android:orientation="vertical"
+        android:layout_width="350dp"
+        android:layout_height="235dp"
+        android:background="@drawable/round_shape_background"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="45dp"
+            android:background="@drawable/button_round_corners">
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="105dp"
+            android:layout_centerVertical="true"
+            android:src="@drawable/ic_baseline_warning_24"
+            app:tint="@color/colorRed" />
+
+        <TextView
+            android:id="@+id/txtWarningTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="19sp"
+            android:textStyle="bold"
+            android:layout_centerInParent="true"
+            android:textColor="@color/white"
+            android:text="Warning"
+             />
+
+        </RelativeLayout>
+
+        <TextView
+            android:id="@+id/txtWarningMessage"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:layout_marginStart="20dp"
+            android:textSize="16sp"
+            android:fontFamily="@font/font"
+            android:layout_marginEnd="20dp"
+            android:textColor="@color/black"
+           />
+
+        <Button
+            android:id="@+id/btnOK"
+            android:layout_width="140dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="25dp"
+            android:textSize="16sp"
+            android:background="@drawable/dialog_button_background"
+            android:text="Ok"
+            android:textStyle="bold"
+            android:textColor="@color/white"
+            android:layout_gravity="center"
+            />
+
+    </LinearLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

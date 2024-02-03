@@ -1,0 +1,298 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/BackgroundCardColor"
+    android:orientation="vertical">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/constraint_layout_confirm_neon"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_marginBottom="5dp"
+        android:background="@color/BackgroundCardColor"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <ImageView
+            android:id="@+id/imageViewCloseNeon"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:onClick="onClick"
+            android:padding="8dp"
+            android:src="@drawable/ic_round_close"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"/>
+
+
+        <ImageView
+            android:id="@+id/imageViewSaveNeon"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:onClick="onClick"
+            android:padding="8dp"
+            android:src="@drawable/ic_round_check"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"/>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:orientation="vertical"
+        app:layout_constraintBottom_toTopOf="@+id/constraint_layout_confirm"
+        app:layout_constraintTop_toBottomOf="@+id/constraint_layout_confirm_neon">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <RelativeLayout
+                    android:id="@+id/mContentRootView"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:gravity="center">
+
+                        <ImageView
+                            android:id="@+id/imageViewBackground"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"/>
+
+                        <ImageView
+                            android:id="@+id/imageViewBack"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"/>
+
+                        <ImageView
+                            android:id="@+id/imageViewCover"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"/>
+
+                        <ImageView
+                            android:id="@+id/imageViewFont"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"/>
+
+                </RelativeLayout>
+
+        </LinearLayout>
+
+        </LinearLayout>
+
+    </RelativeLayout>
+
+    <ProgressBar
+        android:id="@+id/crop_progress_bar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:progress="0"
+        android:visibility="gone"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/constraint_layout_confirm"
+        app:layout_constraintTop_toBottomOf="@+id/constraint_layout_confirm_neon"/>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/constraint_layout_confirm_compare"
+        android:layout_width="match_parent"
+        android:layout_height="35dp"
+        android:layout_marginBottom="5dp"
+        app:layout_constraintBottom_toTopOf="@id/constraint_layout_confirm">
+
+        <ImageView
+            android:id="@+id/image_view_eraser"
+            android:layout_width="35dp"
+            android:layout_height="35dp"
+            android:onClick="onClick"
+            android:layout_marginStart="10dp"
+            android:layout_marginEnd="10dp"
+            android:padding="6dp"
+            android:background="@drawable/background_flip"
+            android:src="@drawable/ic_eraser"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"/>
+
+        <SeekBar
+            android:id="@+id/seekbarOpacity"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="15dp"
+            android:layout_marginEnd="15dp"
+            android:background="@null"
+            android:max="100"
+            android:progress="100"
+            android:progressDrawable="@drawable/progress_drawable_filter"
+            android:thumb="@drawable/progress_thumb_filter"
+            android:splitTrack="false"
+            app:layout_constraintEnd_toStartOf="@id/image_view_eraser"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"/>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/constraint_layout_confirm"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/BackgroundColor"
+        app:layout_constraintBottom_toBottomOf="parent">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/constraint_layout_confirm_filter"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_marginBottom="5dp"
+            app:layout_constraintBottom_toTopOf="@+id/relativeLayoutEffect">
+
+            <HorizontalScrollView
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:scrollbars="none"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent">
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:orientation="horizontal"
+                    android:gravity="center">
+
+                    <LinearLayout
+                        android:id="@+id/linearLayoutSpiral"
+                        android:layout_width="75dp"
+                        android:layout_height="match_parent"
+                        android:orientation="vertical"
+                        android:gravity="center"
+                        android:clickable="true"
+                        android:focusable="true">
+
+                        <TextView
+                            android:id="@+id/text_view_spiral"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="Spiral"
+                            android:textSize="13sp"
+                            android:fontFamily="@font/font"
+                            android:textColor="@color/white"
+                            android:gravity="center"/>
+
+                        <View
+                            android:id="@+id/view_spiral"
+                            android:layout_width="4dp"
+                            android:layout_height="4dp"
+                            android:layout_marginTop="3dp"
+                            android:background="@drawable/background_view" />
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/linearLayoutShape"
+                        android:layout_width="75dp"
+                        android:layout_height="match_parent"
+                        android:orientation="vertical"
+                        android:gravity="center"
+                        android:clickable="true"
+                        android:focusable="true">
+
+                        <TextView
+                            android:id="@+id/text_view_shape"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="Shape"
+                            android:textSize="13sp"
+                            android:fontFamily="@font/font"
+                            android:textColor="@color/grayText"
+                            android:gravity="center"/>
+
+                        <View
+                            android:id="@+id/view_shape"
+                            android:layout_width="4dp"
+                            android:layout_height="4dp"
+                            android:layout_marginTop="3dp"
+                            android:visibility="invisible"
+                            android:background="@drawable/background_view" />
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/linearLayoutFrame"
+                        android:layout_width="75dp"
+                        android:layout_height="match_parent"
+                        android:orientation="vertical"
+                        android:gravity="center"
+                        android:clickable="true"
+                        android:focusable="true">
+
+                        <TextView
+                            android:id="@+id/text_view_frame"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="Frame"
+                            android:textSize="13sp"
+                            android:fontFamily="@font/font"
+                            android:textColor="@color/grayText"
+                            android:gravity="center"/>
+
+                        <View
+                            android:id="@+id/view_frame"
+                            android:layout_width="4dp"
+                            android:layout_height="4dp"
+                            android:layout_marginTop="3dp"
+                            android:visibility="invisible"
+                            android:background="@drawable/background_view" />
+
+                    </LinearLayout>
+
+                </LinearLayout>
+
+            </HorizontalScrollView>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <RelativeLayout
+            android:id="@+id/relativeLayoutEffect"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="10dp"
+            app:layout_constraintBottom_toBottomOf="parent">
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recyclerViewLine"
+                android:layout_width="match_parent"
+                android:layout_height="70dp"
+                android:layout_gravity="center_horizontal"/>
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recyclerViewShape"
+                android:layout_width="match_parent"
+                android:layout_height="70dp"
+                android:visibility="gone"
+                android:layout_gravity="center_horizontal"/>
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recyclerViewFrame"
+                android:layout_width="match_parent"
+                android:layout_height="70dp"
+                android:visibility="gone"
+                android:layout_gravity="center_horizontal"/>
+
+        </RelativeLayout>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

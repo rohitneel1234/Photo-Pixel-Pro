@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<selector xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto" xmlns:aapt="http://schemas.android.com/aapt">
+    <item>
+        <shape>
+            <stroke android:width="1dp" android:color="#4cffffff"/>
+            <solid android:color="@android:color/transparent"/>
+            <corners android:topLeftRadius="2dp" android:topRightRadius="2dp" android:bottomLeftRadius="2dp" android:bottomRightRadius="2dp"/>
+            <gradient android:startColor="@android:color/transparent" android:endColor="#44000000" android:angle="90"/>
+        </shape>
+    </item>
+</selector>

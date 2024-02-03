@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.balysv.materialripple.MaterialRippleLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    style="@style/RippleStyleWhite"
+    android:layout_width="75dp"
+    android:layout_height="90dp">
+
+    <RelativeLayout
+        android:id="@+id/linear_layout_wrapper_adjust"
+        android:layout_width="75dp"
+        android:layout_height="90dp"
+        android:gravity="center"
+        android:clickable="true"
+        android:focusable="true">
+
+        <ImageView
+            android:id="@+id/image_view_adjust_icon"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:padding="14dp"
+            android:background="@drawable/background_circle_adjust"
+            android:src="@drawable/ic_brightness"
+            android:layout_centerHorizontal="true"
+            app:tint="@color/tintCol" />
+
+        <TextView
+            android:id="@+id/text_view_adjust_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/image_view_adjust_icon"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="5dp"
+            android:fontFamily="@font/font"
+            android:textSize="9sp"
+            android:text="editing"
+            android:textColor="@color/tintCol"/>
+
+    </RelativeLayout>
+
+</com.balysv.materialripple.MaterialRippleLayout>

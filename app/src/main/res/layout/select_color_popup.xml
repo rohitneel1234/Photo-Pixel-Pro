@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app1="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/cp_accent_card"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        app1:cardCornerRadius="5dp"
+        app1:cardElevation="5dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/border_popup_bg"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/cp_accent_title"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="1dp"
+                android:layout_marginTop="1dp"
+                android:background="@color/test"
+                android:gravity="center"
+                android:padding="8dp"
+                android:text="Opacity"
+                android:textColor="@color/black"
+                android:textSize="18sp"
+                android:textStyle="bold" />
+
+<!--
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rvList"
+                android:layout_width="match_parent"
+                android:layout_height="100dp"
+                android:layout_marginLeft="5dp"
+                android:layout_marginRight="5dp" />-->
+
+            <com.rohitneel.photopixelpro.photoframe.utils.PaletteBar
+                android:id="@+id/paletteBar"
+                android:layout_width="match_parent"
+                android:layout_height="100dp"
+                android:layout_margin="05dp"
+                />
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
+                android:gravity="center"
+                android:orientation="horizontal">
+
+                <Button
+                    android:id="@+id/btnOk"
+                    android:layout_width="100dp"
+                    android:layout_height="30dp"
+                    android:background="@color/sky"
+                    android:text="Ok"
+                    android:textColor="@color/test"
+                    android:textStyle="bold" />
+
+                <Button
+                    android:id="@+id/btnCancel"
+                    android:layout_width="100dp"
+                    android:layout_height="40dp"
+                    android:layout_marginLeft="15dp"
+                    android:text="Cancel"
+                    android:visibility="gone" />
+            </LinearLayout>
+        </LinearLayout>
+
+    </androidx.cardview.widget.CardView>
+</LinearLayout>

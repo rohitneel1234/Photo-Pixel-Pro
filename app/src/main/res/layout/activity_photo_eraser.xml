@@ -1,0 +1,630 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/activity_main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/BackgroundCardColor">
+
+    <RelativeLayout
+        android:id="@+id/header"
+        android:layout_width="match_parent"
+        android:layout_height="45dp"
+        android:layout_alignParentTop="true">
+
+        <ImageView
+            android:id="@+id/btn_back"
+            android:layout_width="45dp"
+            android:layout_height="45dp"
+            android:padding="11dp"
+            android:src="@drawable/ic_round_arrow_back"
+            android:layout_alignParentLeft="true"
+            android:layout_centerInParent="true" />
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:orientation="horizontal"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            android:layout_centerInParent="true">
+
+            <com.balysv.materialripple.MaterialRippleLayout
+                style="@style/RippleStyleWhite"
+                android:layout_width="45dp"
+                android:layout_height="45dp"
+                android:layout_marginEnd="10dp"
+                android:layout_marginStart="10dp">
+
+                <ImageView
+                    android:id="@+id/imageViewUndo"
+                    android:layout_width="45dp"
+                    android:layout_height="45dp"
+                    android:padding="11dp"
+                    app:tint="#A5A5A5"
+                    android:src="@drawable/ic_undo" />
+
+            </com.balysv.materialripple.MaterialRippleLayout>
+
+            <com.balysv.materialripple.MaterialRippleLayout
+                style="@style/RippleStyleWhite"
+                android:layout_width="45dp"
+                android:layout_height="45dp"
+                android:layout_marginEnd="10dp"
+                android:layout_marginStart="10dp">
+
+                <ImageView
+                    android:id="@+id/imageViewRedo"
+                    android:layout_width="45dp"
+                    android:layout_height="45dp"
+                    android:padding="11dp"
+                    app:tint="#A5A5A5"
+                    android:src="@drawable/ic_redo"/>
+
+            </com.balysv.materialripple.MaterialRippleLayout>
+
+        </LinearLayout>
+
+        <ImageView
+            android:id="@+id/save_image_btn"
+            android:layout_width="45dp"
+            android:layout_height="45dp"
+            android:layout_alignParentRight="true"
+            android:padding="10dp"
+            android:src="@drawable/ic_done"
+            app:tint="@color/white"/>
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/main_rel_parent"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@+id/linearLayoutTools"
+        android:layout_below="@+id/header"
+        android:gravity="center">
+
+        <ImageView
+            android:id="@+id/imageViewBackgroundCover"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scaleType="fitXY" />
+
+        <RelativeLayout
+            android:id="@+id/main_rel"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center"/>
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/relativeLayoutSeekBar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/linearLayoutTools">
+
+        <LinearLayout
+            android:id="@+id/linearLayoutEraser"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/BackgroundColor"
+            android:paddingTop="10dp"
+            android:paddingStart="10dp"
+            android:paddingEnd="10dp"
+            android:paddingBottom="10dp"
+            android:orientation="vertical"
+            android:visibility="gone">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:layout_marginTop="10dp"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="70dp"
+                    android:layout_height="wrap_content"
+                    android:textSize="14sp"
+                    android:textColor="@color/grayText"
+                    android:text="Size"
+                    android:fontFamily="@font/font"/>
+
+                <SeekBar
+                    android:id="@+id/seekBarSize"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:background="@null"
+                    android:layout_marginStart="5dp"
+                    android:max="65"
+                    android:progressDrawable="@drawable/progress_drawable"
+                    android:thumb="@drawable/progress_thumb"
+                    android:splitTrack="false"/>
+
+                <TextView
+                    android:id="@+id/textViewBrushSize"
+                    android:layout_width="30dp"
+                    android:layout_height="wrap_content"
+                    android:textSize="14sp"
+                    android:gravity="center"
+                    android:textColor="@color/grayText"
+                    android:text="0"
+                    android:fontFamily="@font/font"/>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:layout_marginTop="15dp"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="70dp"
+                    android:layout_height="wrap_content"
+                    android:textSize="14sp"
+                    android:textColor="@color/grayText"
+                    android:text="Offset"
+                    android:fontFamily="@font/font"/>
+
+                <SeekBar
+                    android:id="@+id/seekBarBrushOffset"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:background="@null"
+                    android:layout_marginStart="5dp"
+                    android:max="300"
+                    android:progressDrawable="@drawable/progress_drawable"
+                    android:thumb="@drawable/progress_thumb"
+                    android:splitTrack="false"/>
+
+                <TextView
+                    android:id="@+id/textViewBrushOffset"
+                    android:layout_width="30dp"
+                    android:layout_height="wrap_content"
+                    android:textSize="14sp"
+                    android:gravity="center"
+                    android:textColor="@color/grayText"
+                    android:text="0"
+                    android:fontFamily="@font/font"/>
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/linearLayoutAuto"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/BackgroundColor"
+            android:paddingTop="10dp"
+            android:paddingStart="10dp"
+            android:paddingEnd="10dp"
+            android:paddingBottom="10dp"
+            android:orientation="vertical"
+            android:visibility="gone">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:layout_marginTop="10dp"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="70dp"
+                    android:layout_height="wrap_content"
+                    android:textSize="14sp"
+                    android:textColor="@color/grayText"
+                    android:text="Threshold"
+                    android:fontFamily="@font/font"/>
+
+                <SeekBar
+                    android:id="@+id/seekBarThreshold"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:background="@null"
+                    android:layout_marginStart="5dp"
+                    android:max="80"
+                    android:progressDrawable="@drawable/progress_drawable"
+                    android:thumb="@drawable/progress_thumb"
+                    android:splitTrack="false"/>
+
+                <TextView
+                    android:id="@+id/textViewThreshold"
+                    android:layout_width="30dp"
+                    android:layout_height="wrap_content"
+                    android:textSize="14sp"
+                    android:gravity="center"
+                    android:textColor="@color/grayText"
+                    android:text=""
+                    android:fontFamily="@font/font"/>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:layout_marginTop="15dp"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="70dp"
+                    android:layout_height="wrap_content"
+                    android:textSize="14sp"
+                    android:textColor="@color/grayText"
+                    android:text="Offset"
+                    android:fontFamily="@font/font"/>
+
+                <SeekBar
+                    android:id="@+id/seekBarOffset"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:background="@null"
+                    android:layout_marginStart="5dp"
+                    android:max="300"
+                    android:progressDrawable="@drawable/progress_drawable"
+                    android:thumb="@drawable/progress_thumb"
+                    android:splitTrack="false"/>
+
+                <TextView
+                    android:id="@+id/textViewOffset"
+                    android:layout_width="30dp"
+                    android:layout_height="wrap_content"
+                    android:textSize="14sp"
+                    android:gravity="center"
+                    android:textColor="@color/grayText"
+                    android:text="0"
+                    android:fontFamily="@font/font"/>
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/lay_lasso_cut"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingTop="10dp"
+            android:paddingStart="10dp"
+            android:paddingEnd="10dp"
+            android:paddingBottom="10dp"
+            android:background="@color/BackgroundColor"
+            android:orientation="vertical"
+            android:visibility="invisible">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:layout_marginTop="10dp"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="70dp"
+                    android:layout_height="wrap_content"
+                    android:textSize="14sp"
+                    android:textColor="@color/grayText"
+                    android:text="Offset"
+                    android:fontFamily="@font/font"/>
+
+                <SeekBar
+                    android:id="@+id/seekBarExtractOffset"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:background="@null"
+                    android:layout_marginStart="5dp"
+                    android:max="300"
+                    android:progressDrawable="@drawable/progress_drawable"
+                    android:thumb="@drawable/progress_thumb"
+                    android:splitTrack="false"/>
+
+                <TextView
+                    android:id="@+id/textViewExtractOffset"
+                    android:layout_width="30dp"
+                    android:layout_height="wrap_content"
+                    android:textSize="14sp"
+                    android:gravity="center"
+                    android:textColor="@color/grayText"
+                    android:text="0"
+                    android:fontFamily="@font/font"/>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:orientation="horizontal"
+                android:padding="5dp"
+                android:weightSum="2">
+
+                <RelativeLayout
+                    android:id="@+id/outside_cut_lay"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center_vertical"
+                    android:layout_margin="5dp"
+                    android:layout_weight="1">
+
+                    <TextView
+                        android:id="@+id/txt_inside"
+                        android:layout_width="match_parent"
+                        android:layout_height="40dp"
+                        android:layout_centerVertical="true"
+                        android:background="@drawable/button_white"
+                        android:gravity="center"
+                        android:padding="2dp"
+                        android:text="@string/cut_outside"
+                        android:textColor="@color/white"
+                        android:textSize="16sp"
+                        android:textStyle="bold"/>
+
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:id="@+id/inside_cut_lay"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center_vertical"
+                    android:layout_margin="5dp"
+                    android:layout_weight="1">
+
+                    <TextView
+                        android:id="@+id/txt_outside"
+                        android:layout_width="match_parent"
+                        android:layout_height="40dp"
+                        android:layout_centerVertical="true"
+                        android:background="@drawable/button_white"
+                        android:gravity="center"
+                        android:padding="2dp"
+                        android:text="@string/cut_inside"
+                        android:textColor="@color/white"
+                        android:textSize="16sp"
+                        android:textStyle="bold"/>
+                </RelativeLayout>
+            </LinearLayout>
+
+        </LinearLayout>
+
+    </RelativeLayout>
+
+    <LinearLayout
+        android:id="@+id/linearLayoutTools"
+        android:layout_width="match_parent"
+        android:layout_height="75dp"
+        android:orientation="horizontal"
+        android:background="@color/BackgroundColor"
+        android:layout_alignParentBottom="true">
+
+        <com.balysv.materialripple.MaterialRippleLayout
+            style="@style/RippleStyleWhite"
+            android:layout_width="0dp"
+            android:layout_height="70dp"
+            android:layout_weight="1">
+
+            <RelativeLayout
+                android:id="@+id/relativeLayoutAuto"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:clickable="true"
+                android:focusable="true">
+
+                <ImageView
+                    android:id="@+id/imageViewAuto"
+                    android:layout_width="21dp"
+                    android:layout_height="21dp"
+                    android:src="@drawable/ic_auto"
+                    android:layout_centerHorizontal="true"
+                    app:tint="@color/white" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/imageViewAuto"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginTop="8dp"
+                    android:textSize="11sp"
+                    android:text="Auto"
+                    android:textColor="@color/white"/>
+
+            </RelativeLayout>
+
+        </com.balysv.materialripple.MaterialRippleLayout>
+
+        <com.balysv.materialripple.MaterialRippleLayout
+            style="@style/RippleStyleWhite"
+            android:layout_width="0dp"
+            android:layout_height="70dp"
+            android:layout_weight="1">
+
+            <RelativeLayout
+                android:id="@+id/relativeLayoutExtract"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:clickable="true"
+                android:focusable="true">
+
+                <ImageView
+                    android:id="@+id/imageViewExtract"
+                    android:layout_width="21dp"
+                    android:layout_height="21dp"
+                    android:src="@drawable/ic_extract"
+                    android:layout_centerHorizontal="true"
+                    app:tint="@color/white" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/imageViewExtract"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginTop="8dp"
+                    android:textSize="11sp"
+                    android:text="Extract"
+                    android:textColor="@color/white"/>
+
+            </RelativeLayout>
+
+        </com.balysv.materialripple.MaterialRippleLayout>
+
+        <com.balysv.materialripple.MaterialRippleLayout
+            style="@style/RippleStyleWhite"
+            android:layout_width="0dp"
+            android:layout_height="70dp"
+            android:layout_weight="1">
+
+            <RelativeLayout
+                android:id="@+id/relativeLayoutEraser"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:clickable="true"
+                android:focusable="true">
+
+                <ImageView
+                    android:id="@+id/imageViewEraser"
+                    android:layout_width="21dp"
+                    android:layout_height="21dp"
+                    android:src="@drawable/ic_eraser"
+                    android:layout_centerHorizontal="true"
+                    app:tint="@color/white" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/imageViewEraser"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginTop="8dp"
+                    android:textSize="11sp"
+                    android:text="Eraser"
+                    android:textColor="@color/white"/>
+
+            </RelativeLayout>
+
+        </com.balysv.materialripple.MaterialRippleLayout>
+
+        <com.balysv.materialripple.MaterialRippleLayout
+            style="@style/RippleStyleWhite"
+            android:layout_width="0dp"
+            android:layout_height="70dp"
+            android:layout_weight="1">
+
+            <RelativeLayout
+                android:id="@+id/relativeLayoutBackground"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:clickable="true"
+                android:focusable="true">
+
+                <ImageView
+                    android:id="@+id/imageViewBackground"
+                    android:layout_width="21dp"
+                    android:layout_height="21dp"
+                    android:padding="1.5dp"
+                    android:src="@drawable/ic_background_eraser"
+                    android:layout_centerHorizontal="true"
+                    app:tint="@color/white" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/imageViewBackground"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginTop="8dp"
+                    android:textSize="11sp"
+                    android:text="Background"
+                    android:textColor="@color/white"/>
+
+            </RelativeLayout>
+
+        </com.balysv.materialripple.MaterialRippleLayout>
+
+        <com.balysv.materialripple.MaterialRippleLayout
+            style="@style/RippleStyleWhite"
+            android:layout_width="0dp"
+            android:layout_height="70dp"
+            android:layout_weight="1">
+
+            <RelativeLayout
+                android:id="@+id/relativeLayoutRestore"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:clickable="true"
+                android:focusable="true">
+
+                <ImageView
+                    android:id="@+id/imageViewRestore"
+                    android:layout_width="21dp"
+                    android:layout_height="21dp"
+                    android:src="@drawable/ic_rotate"
+                    android:layout_centerHorizontal="true"
+                    app:tint="@color/white" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/imageViewRestore"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginTop="8dp"
+                    android:textSize="11sp"
+                    android:text="Restore"
+                    android:textColor="@color/white"/>
+
+            </RelativeLayout>
+
+        </com.balysv.materialripple.MaterialRippleLayout>
+
+        <com.balysv.materialripple.MaterialRippleLayout
+            style="@style/RippleStyleWhite"
+            android:layout_width="0dp"
+            android:layout_height="70dp"
+            android:layout_weight="1">
+
+            <RelativeLayout
+                android:id="@+id/relativeLayoutZoom"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:clickable="true"
+                android:focusable="true">
+
+                <ImageView
+                    android:id="@+id/imageViewZoom"
+                    android:layout_width="25dp"
+                    android:layout_height="25dp"
+                    android:padding="1.5dp"
+                    android:src="@drawable/ic_round_zoom_in"
+                    android:layout_centerHorizontal="true"
+                    app:tint="@color/white" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/imageViewZoom"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginTop="8dp"
+                    android:textSize="11sp"
+                    android:text="Zoom"
+                    android:textColor="@color/white"/>
+
+            </RelativeLayout>
+
+        </com.balysv.materialripple.MaterialRippleLayout>
+
+    </LinearLayout>
+
+</RelativeLayout>
