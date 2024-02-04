@@ -1,5 +1,5 @@
 # Photo-Pixel-Pro
-It is a photo editor mobile application and It's easy to use and free with features like editor, filters, neon, stickers, collage, frames, background eraser, etc. A group of effects, filters, grids, and stickers help you to create an amazing photo.
+It is a photo editor mobile application and It's easy to use and free with features like editor, filters, neon, stickers, collage, frames, background eraser, etc. A group of effects, filters, grids, and stickers help you to create an amazing photo. With Photo Pixel Pro, you can directly share your edited photo to WhatsApp, Instagram, Facebook, etc. Unleash your creativity, It’s completely free!
 ## Features:
 <ul dir="auto">
 <li>Phot Editor</li>
