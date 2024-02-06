@@ -13,6 +13,8 @@ It is a photo editor mobile application and It's easy to use and free with featu
 <h2 tabindex="-1" dir="auto"><a class="anchor" aria-hidden="true" tabindex="-1" href="#technologies"></a>Technologies:</h2>
 <ul dir="auto">
 <li>Java</li>
+<li>Kotlin</li>
+<li>XML</li>
 <li>MVVM architecture</li>
 </ul>
 
