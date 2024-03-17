@@ -26,8 +26,10 @@ It is a photo editor mobile application and It's easy to use and free with featu
 ![phone_screenshot_drip_5](https://github.com/rohitneel1234/Photo-Pixel-Pro/assets/25216392/cb8e7b29-0139-4022-8ed9-9c86924b3ad0)
 ![photo_frame_screenshot](https://github.com/rohitneel1234/Photo-Pixel-Pro/assets/25216392/a1fa9dcc-dd88-4c13-b003-3e175f6f332d)
 ![phone_screenshot_background_remover_6](https://github.com/rohitneel1234/Photo-Pixel-Pro/assets/25216392/b88b12bc-569c-43bf-95a4-2c0ea057e60d)
-![phone_screenshot_neon_shape_7](https://github.com/rohitneel1234/Photo-Pixel-Pro/assets/25216392/934aab0f-40ed-48ee-aa88-1858b4abea6e)
+![phone_screenshot_neon_shape_7](https://github.com/rohitneel1234/Photo-Pixel-Pro/assets/25216392/934aab0f-40ed-48ee-aa88-1858b4abea6e) <br><br>
 
+## Playstore 
+https://play.google.com/store/apps/details?id=com.rohitneel.photopixelpro
 
 ## License
 MIT License
