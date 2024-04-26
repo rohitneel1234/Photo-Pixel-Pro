@@ -18,6 +18,9 @@ It is a photo editor mobile application and It's easy to use and free with featu
 <li>MVVM architecture</li>
 </ul>
 
+## Playstore 
+https://play.google.com/store/apps/details?id=com.rohitneel.photopixelpro
+
 ## Screenshots
 ![phone_screenshot_filters_1](https://github.com/rohitneel1234/Photo-Pixel-Pro/assets/25216392/7b22383b-a652-4162-8ce4-c394953dd0e7)
 ![phone_screenshot_motion_effects_4](https://github.com/rohitneel1234/Photo-Pixel-Pro/assets/25216392/bf1725e0-de25-41ad-8b41-a8b87c9287d1)
@@ -27,9 +30,6 @@ It is a photo editor mobile application and It's easy to use and free with featu
 ![photo_frame_screenshot](https://github.com/rohitneel1234/Photo-Pixel-Pro/assets/25216392/a1fa9dcc-dd88-4c13-b003-3e175f6f332d)
 ![phone_screenshot_background_remover_6](https://github.com/rohitneel1234/Photo-Pixel-Pro/assets/25216392/b88b12bc-569c-43bf-95a4-2c0ea057e60d)
 ![phone_screenshot_neon_shape_7](https://github.com/rohitneel1234/Photo-Pixel-Pro/assets/25216392/934aab0f-40ed-48ee-aa88-1858b4abea6e) <br><br>
-
-## Playstore 
-https://play.google.com/store/apps/details?id=com.rohitneel.photopixelpro
 
 ## License
 MIT License
