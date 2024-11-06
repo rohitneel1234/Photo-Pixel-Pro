@@ -115,8 +115,6 @@ import com.rohitneel.photopixelpro.photocollage.utils.SaveFileUtils;
 import com.rohitneel.photopixelpro.photocollage.utils.SystemUtil;
 
 import org.jetbrains.annotations.NotNull;
-import org.wysaid.myUtils.MsgUtil;
-import org.wysaid.nativePort.CGENativeLibrary;
 
 import java.io.File;
 import java.io.IOException;
@@ -329,7 +327,6 @@ public class PhotoEditorActivity extends PhotoBaseActivity implements OnPhotoEdi
             getWindow().setFlags(1024, 1024);
         }
         setContentView(R.layout.activity_photo_editor);
-        CGENativeLibrary.setLoadImageCallback(this.loadImageCallback, null);
         slideDownAnimation = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.slide_down);
         slideUpAnimation = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.slide_up);
         if (Build.VERSION.SDK_INT < 26) {
@@ -487,12 +484,9 @@ public class PhotoEditorActivity extends PhotoBaseActivity implements OnPhotoEdi
         this.constraintLayoutDraw = findViewById(R.id.constraint_layout_draw);
         this.constraintLayoutSplash = findViewById(R.id.constraint_layout_blur_sqaure);
         this.imageViewCompareAdjust = findViewById(R.id.imageViewCompareAdjust);
-        this.imageViewCompareAdjust.setOnTouchListener(this.onTouchListener);
         this.imageViewCompareFilter = findViewById(R.id.image_view_compare_filter);
-        this.imageViewCompareFilter.setOnTouchListener(this.onTouchListener);
         this.imageViewCompareFilter.setVisibility(View.GONE);
         this.imageViewCompareOverlay = findViewById(R.id.image_view_compare_overlay);
-        this.imageViewCompareOverlay.setOnTouchListener(this.onTouchListener);
         this.imageViewCompareOverlay.setVisibility(View.GONE);
         this.relativeLayoutAddText = findViewById(R.id.relative_layout_add_text);
     }
@@ -635,7 +629,6 @@ public class PhotoEditorActivity extends PhotoBaseActivity implements OnPhotoEdi
         Display display = getWindowManager().getDefaultDisplay();
         Point point = new Point();
         display.getSize(point);
-        CGENativeLibrary.setLoadImageCallback(this.loadImageCallback, null);
         if (Build.VERSION.SDK_INT < 26) {
             getWindow().setSoftInputMode(48);
         }
@@ -839,7 +832,6 @@ public class PhotoEditorActivity extends PhotoBaseActivity implements OnPhotoEdi
             public void onScroll(int i) {
                 AdjustAdapter.AdjustModel currentAdjustModel = PhotoEditorActivity.this.mAdjustAdapter.getCurrentAdjustModel();
                 currentAdjustModel.originValue = (((float) Math.abs(i + 50)) * ((currentAdjustModel.maxValue - ((currentAdjustModel.maxValue + currentAdjustModel.minValue) / 2.0f)) / 50.0f)) + currentAdjustModel.minValue;
-                PhotoEditorActivity.this.photoEditor.setAdjustFilter(PhotoEditorActivity.this.mAdjustAdapter.getFilterConfig());
             }
         });
         this.adjustFilter = (DegreeSeekBar) findViewById(R.id.seekbarFilter);
@@ -1291,34 +1283,6 @@ public class PhotoEditorActivity extends PhotoBaseActivity implements OnPhotoEdi
     }
 
 
-    public CGENativeLibrary.LoadImageCallback loadImageCallback = new CGENativeLibrary.LoadImageCallback() {
-        public Bitmap loadImage(String string, Object object) {
-            try {
-                return BitmapFactory.decodeStream(PhotoEditorActivity.this.getAssets().open(string));
-            } catch (IOException ioException) {
-                return null;
-            }
-        }
-
-        public void loadImageOK(Bitmap bitmap, Object object) {
-            bitmap.recycle();
-        }
-    };
-
-    @SuppressLint("ClickableViewAccessibility")
-    View.OnTouchListener onTouchListener = (view, motionEvent) -> {
-        switch (motionEvent.getAction()) {
-            case 0:
-                PhotoEditorActivity.this.photoView.getGLSurfaceView().setAlpha(0.0f);
-                return true;
-            case 1:
-                PhotoEditorActivity.this.photoView.getGLSurfaceView().setAlpha(1.0f);
-                return false;
-            default:
-                return true;
-        }
-    };
-
     public void onRequestPermissionsResult(int i, @NonNull String[] string, @NonNull int[] i2) {
         super.onRequestPermissionsResult(i, string, i2);
     }
@@ -1562,7 +1526,6 @@ public class PhotoEditorActivity extends PhotoBaseActivity implements OnPhotoEdi
                 this.adjustSeekBar.setCurrentDegrees(0);
                 this.mAdjustAdapter = new AdjustAdapter(getApplicationContext(), this);
                 this.recyclerViewAdjust.setAdapter(this.mAdjustAdapter);
-                this.photoEditor.setAdjustFilter(this.mAdjustAdapter.getFilterConfig());
                 break;
             case FILTER:
                 this.constraintLayoutSplash.setVisibility(View.GONE);
@@ -2064,18 +2027,12 @@ public class PhotoEditorActivity extends PhotoBaseActivity implements OnPhotoEdi
     public void onFilterSelected(int itemCurrent, String string) {
         this.photoEditor.setFilterEffect(string);
         this.adjustFilter.setCurrentDegrees(50);
-        if (this.moduleToolsId == Module.FILTER) {
-            this.photoView.getGLSurfaceView().setFilterIntensity(0.5f);
-        }
     }
 
 
     public void onOverlaySelected(int itemCurrent, String string) {
         this.photoEditor.setFilterEffect(string);
         this.seekBarOverlay.setProgress(50);
-        if (this.moduleToolsId == Module.OVERLAY) {
-            this.photoView.getGLSurfaceView().setFilterIntensity(0.5f);
-        }
     }
 
     /**
@@ -2500,7 +2457,6 @@ public class PhotoEditorActivity extends PhotoBaseActivity implements OnPhotoEdi
             List<Bitmap> arrayList = new ArrayList<>();
             arrayList.add(currentBitmap);
             if (this.isSplashSquared) {
-                arrayList.add(FilterUtils.getBlackAndWhiteImageFromBitmap(currentBitmap));
             }
             return arrayList;
         }
@@ -2560,7 +2516,6 @@ public class PhotoEditorActivity extends PhotoBaseActivity implements OnPhotoEdi
             List<Bitmap> arrayList = new ArrayList<>();
             arrayList.add(currentBitmap);
             if (this.isSplashSquared) {
-                arrayList.add(FilterUtils.getBlackAndWhiteImageFromBitmap(currentBitmap));
             }
             return arrayList;
         }
@@ -2590,7 +2545,6 @@ public class PhotoEditorActivity extends PhotoBaseActivity implements OnPhotoEdi
             List<Bitmap> arrayList = new ArrayList<>();
             arrayList.add(currentBitmap);
             if (this.isSplashSquared) {
-                arrayList.add(FilterUtils.getSketchImageFromBitmap(currentBitmap, 0.8f));
             }
             return arrayList;
         }
@@ -2620,7 +2574,6 @@ public class PhotoEditorActivity extends PhotoBaseActivity implements OnPhotoEdi
             List<Bitmap> arrayList = new ArrayList<>();
             arrayList.add(currentBitmap);
             if (this.isSketchBackgroundSquared) {
-                arrayList.add(FilterUtils.getSketchImageFromBitmap(currentBitmap, 0.8f));
             }
             return arrayList;
         }
@@ -2667,7 +2620,6 @@ public class PhotoEditorActivity extends PhotoBaseActivity implements OnPhotoEdi
         }
 
         public void onPreExecute() {
-            PhotoEditorActivity.this.photoView.getGLSurfaceView().setAlpha(0.0f);
             PhotoEditorActivity.this.showLoading(true);
         }
 
@@ -2692,7 +2644,6 @@ public class PhotoEditorActivity extends PhotoBaseActivity implements OnPhotoEdi
         public void onPostExecute(Bitmap bitmap) {
             PhotoEditorActivity.this.photoView.setImageSource(bitmap);
             PhotoEditorActivity.this.photoView.getStickers().clear();
-            PhotoEditorActivity.this.photoView.getGLSurfaceView().setAlpha(1.0f);
             PhotoEditorActivity.this.showLoading(false);
             PhotoEditorActivity.this.reloadingLayout();
         }
@@ -2719,7 +2670,6 @@ public class PhotoEditorActivity extends PhotoBaseActivity implements OnPhotoEdi
                     reloadingLayout();
                 } catch (Exception e) {
                     e.printStackTrace();
-                    MsgUtil.toastMsg(this, "Error: Can not open image");
                 }
             } else {
                 finish();
@@ -2817,20 +2767,10 @@ public class PhotoEditorActivity extends PhotoBaseActivity implements OnPhotoEdi
                 display.getSize(point);
                 int i = point.x;
                 int height = PhotoEditorActivity.this.relativeLayoutWrapper.getHeight();
-                int i2 = PhotoEditorActivity.this.photoView.getGLSurfaceView().getRenderViewport().width;
-                float f = (float) PhotoEditorActivity.this.photoView.getGLSurfaceView().getRenderViewport().height;
-                float f2 = (float) i2;
-                if (((int) ((((float) i) * f) / f2)) <= height) {
-                    RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(-1, -2);
-                    params.addRule(13);
-                    PhotoEditorActivity.this.photoView.setLayoutParams(params);
-                    PhotoEditorActivity.this.photoView.setVisibility(View.VISIBLE);
-                } else {
-                    RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams((int) ((((float) height) * f2) / f), -1);
-                    params.addRule(13);
-                    PhotoEditorActivity.this.photoView.setLayoutParams(params);
-                    PhotoEditorActivity.this.photoView.setVisibility(View.VISIBLE);
-                }
+                RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams((int) ((((float) height) * 50) / 10), -1);
+                params.addRule(13);
+                PhotoEditorActivity.this.photoView.setLayoutParams(params);
+                PhotoEditorActivity.this.photoView.setVisibility(View.VISIBLE);
             } catch (Exception e) {
                 e.printStackTrace();
             }

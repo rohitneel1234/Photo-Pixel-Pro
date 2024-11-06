@@ -19,3 +19,7 @@
 # If you keep the line number information, uncomment this to
 # hide the original source file name.
 #-renamesourcefileattribute SourceFile
+-dontwarn org.kxml2.io.KXmlParser
+-dontwarn org.kxml2.io.KXmlSerializer
+-dontwarn org.kxml2.io.KXml**
+-dontwarn android.content.res.**

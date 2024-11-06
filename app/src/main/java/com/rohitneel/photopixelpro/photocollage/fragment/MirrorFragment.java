@@ -22,9 +22,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.DialogFragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-
-import com.github.flipzeus.FlipDirection;
-import com.github.flipzeus.ImageFlipper;
 import com.rohitneel.photopixelpro.R;
 import com.rohitneel.photopixelpro.photocollage.adapters.Mirror2DAdapter;
 import com.rohitneel.photopixelpro.photocollage.adapters.Mirror3DAdapter;
@@ -203,7 +200,6 @@ public class MirrorFragment extends DialogFragment implements Mirror3DAdapter.Mi
         this.imageView2D_4 = inflate.findViewById(R.id.imageView2D_4);
         this.imageView2D_4.setImageBitmap(this.bitmap);
         this.imageView2D_4.setAdjustViewBounds(true);
-        ImageFlipper.flip(imageView2D_4, FlipDirection.HORIZONTAL);
 
         this.dragLayout2D_5 = inflate.findViewById(R.id.drag2D_5);
         this.dragLayout2D_6 = inflate.findViewById(R.id.drag2D_6);
@@ -217,7 +213,6 @@ public class MirrorFragment extends DialogFragment implements Mirror3DAdapter.Mi
         this.imageView2D_6 = inflate.findViewById(R.id.imageView2D_6);
         this.imageView2D_6.setImageBitmap(this.bitmap);
         this.imageView2D_6.setAdjustViewBounds(true);
-        ImageFlipper.flip(imageView2D_6, FlipDirection.VERTICAL);
 
         this.dragLayout2D_7 = inflate.findViewById(R.id.drag2D_7);
         this.dragLayout2D_8 = inflate.findViewById(R.id.drag2D_8);

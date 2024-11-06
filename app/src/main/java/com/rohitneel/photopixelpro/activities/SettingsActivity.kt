@@ -84,7 +84,7 @@ class SettingsActivity : AppCompatActivity() {
         })
 
         mClHelpAndSupport!!.setOnClickListener(View.OnClickListener {
-            startActivity(Intent(applicationContext,ContactUs::class.java))
+            startActivity(Intent(this, ContactUs::class.java))
         })
 
         if (mSession!!.loadState()) {

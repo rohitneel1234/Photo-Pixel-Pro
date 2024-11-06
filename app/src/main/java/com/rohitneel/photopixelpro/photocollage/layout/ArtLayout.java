@@ -20,8 +20,6 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
-import com.github.flipzeus.FlipDirection;
-import com.github.flipzeus.ImageFlipper;
 import com.rohitneel.photopixelpro.R;
 import com.rohitneel.photopixelpro.photocollage.activities.PhotoBaseActivity;
 import com.rohitneel.photopixelpro.photocollage.activities.PhotoEditorActivity;
@@ -156,13 +154,6 @@ public class ArtLayout extends PhotoBaseActivity implements LayoutItemListener,
             public void onClick(View view) {
                 linearLayoutStyle.setVisibility(View.GONE);
                 linearLayoutBg.setVisibility(View.VISIBLE);
-            }
-        });
-
-        findViewById(R.id.relativeLayoutFlip).setOnClickListener(new OnClickListener() {
-            public void onClick(View view) {
-                ImageFlipper.flip(dripViewFront, FlipDirection.HORIZONTAL);
-                ImageFlipper.flip(dripViewBack, FlipDirection.HORIZONTAL);
             }
         });
 

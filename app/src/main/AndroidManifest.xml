@@ -49,106 +49,129 @@
         <activity
             android:name=".backgroundremover.EraserPhotoShareActivity"
             android:theme="@style/Theme.AppCompat.DayNight.NoActionBar"
+            android:exported="true"
             android:screenOrientation="portrait" />
         <activity android:name=".backgroundremover.BackgroundEraserTutorial"
+            android:exported="true"
             android:screenOrientation="portrait" />
         <activity
             android:name=".gallery.FrameGallery"
             android:label="Photo Frame Gallery"
             android:parentActivityName=".photoframe.activities.ActivityCreatePhoto"
+            android:exported="true"
             android:screenOrientation="portrait" />
         <activity
             android:name=".photoframe.activities.ActivityGalleryFile"
             android:noHistory="true"
             android:screenOrientation="portrait"
+            android:exported="true"
             android:theme="@style/Theme.AppCompat.DayNight.NoActionBar" />
         <activity
             android:name=".photoframe.activities.ActivityGalleryImages"
             android:noHistory="true"
             android:theme="@style/Theme.AppCompat.DayNight.NoActionBar"
+            android:exported="true"
             android:screenOrientation="portrait" />
         <activity
             android:name=".photoframe.activities.PhotoFrameActivity"
             android:label="Select Frame"
             android:screenOrientation="portrait"
+            android:exported="true"
             android:theme="@style/Theme.AppCompat.DayNight.DarkActionBar" />
         <activity
             android:name=".photoframe.activities.ActivityMyCreations"
             android:screenOrientation="portrait"
+            android:exported="true"
             android:theme="@style/Theme.AppCompat.DayNight.NoActionBar" />
         <activity
             android:name=".photoframe.activities.ActivityCreatedAlbumPreview"
             android:screenOrientation="portrait"
+            android:exported="true"
             android:theme="@style/Theme.AppCompat.DayNight.NoActionBar" />
         <activity
             android:name=".photoframe.activities.ActivityPreviewImage"
             android:screenOrientation="portrait"
+            android:exported="true"
             android:theme="@style/Theme.AppCompat.DayNight.NoActionBar" />
         <activity
             android:name=".photoframe.activities.ActivityCreatePhoto"
             android:screenOrientation="portrait"
+            android:exported="true"
             android:theme="@style/Theme.AppCompat.DayNight.NoActionBar" />
         <activity
             android:name=".activities.ContactUs"
             android:label="Contact Us"
+            android:exported="true"
             android:parentActivityName=".activities.SettingsActivity"
             android:screenOrientation="portrait" />
         <activity
             android:name=".gallery.BackgroundEraserGallery"
             android:label="Background Remover Gallery"
+            android:exported="true"
             android:screenOrientation="portrait" />
         <activity
             android:name=".photoeditor.ShowSavedFilePath"
             android:label="Save Path"
             android:parentActivityName=".activities.SettingsActivity"
+            android:exported="true"
             android:screenOrientation="portrait" />
         <activity
             android:name=".gallery.CollageGallery"
             android:label="Collage Gallery"
             android:parentActivityName=".activities.MainActivity"
+            android:exported="true"
             android:screenOrientation="portrait" />
         <activity
             android:name=".backgroundremover.EraserActivity"
             android:label="Eraser"
             android:screenOrientation="portrait"
+            android:exported="true"
             android:theme="@style/Theme.AppCompat.DayNight.DarkActionBar" />
         <activity
             android:name=".activities.LauncherActivity"
             android:windowSoftInputMode="adjustResize"
+            android:exported="true"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".activities.AboutActivity"
             android:screenOrientation="portrait"
+            android:exported="true"
             android:theme="@style/Theme.AppCompat.DayNight.NoActionBar" />
         <activity
             android:name=".activities.SettingsActivity"
             android:label="Settings"
             android:parentActivityName=".activities.MainActivity"
+            android:exported="true"
             android:screenOrientation="portrait" />
         <activity
             android:name=".gallery.PhotoEditorGallery"
             android:label="@string/title_activity_download_media"
             android:parentActivityName=".activities.MainActivity"
             android:screenOrientation="portrait"
+            android:exported="true"
             android:theme="@style/AppTheme" />
         <activity
             android:name=".gallery.FullView"
+            android:exported="true"
             android:theme="@style/fullViewTheme" />
         <activity
             android:name=".photoeditor.MediaActivity"
             android:label="@string/title_activity_media"
             android:parentActivityName=".activities.MainActivity"
             android:screenOrientation="portrait"
+            android:exported="true"
             android:theme="@style/Theme.AppCompat.DayNight.DarkActionBar" />
         <activity
             android:name=".activities.MainActivity"
             android:screenOrientation="portrait"
+            android:exported="true"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".app.SplashScreen"
             android:label="@string/app_name"
             android:launchMode="singleTop"
             android:screenOrientation="portrait"
+            android:exported="true"
             android:theme="@style/SplashTheme" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -159,14 +182,17 @@
         <activity
             android:name=".gallery.ShowVideo"
             android:label="@string/title_activity_show_video"
+            android:exported="true"
             android:theme="@android:style/Theme.Black.NoTitleBar.Fullscreen" />
         <activity android:name=".app.IntroActivity"
+            android:exported="true"
             android:screenOrientation="portrait" />
         <activity
             android:name=".tutorials.TutorialActivity"
             android:icon="@drawable/ic_chevron_left_black_24dp"
             android:label="Tutorial"
             android:screenOrientation="portrait"
+            android:exported="true"
             android:theme="@style/TutorialTheme" />
 
         <provider
@@ -182,65 +208,81 @@
         <activity
             android:name=".photocollage.layout.WingLayout"
             android:screenOrientation="portrait"
+            android:exported="true"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".photocollage.layout.BlurLayout"
             android:screenOrientation="portrait"
+            android:exported="true"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".photocollage.layout.PixLabLayout"
             android:screenOrientation="portrait"
+            android:exported="true"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".photocollage.layout.ArtLayout"
             android:screenOrientation="portrait"
+            android:exported="true"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".photocollage.activities.PhotoEditorActivity"
             android:screenOrientation="portrait"
+            android:exported="true"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".photocollage.activities.PhotoCollageActivity"
             android:screenOrientation="portrait"
+            android:exported="true"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".photocollage.activities.GridPickerActivity"
             android:screenOrientation="portrait"
+            android:exported="true"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".photocollage.activities.PhotoPickerActivity"
             android:screenOrientation="portrait"
+            android:exported="true"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".photocollage.activities.PhotoPagerActivity"
             android:screenOrientation="portrait"
+            android:exported="true"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".photocollage.activities.PhotoShareActivity"
             android:screenOrientation="portrait"
+            android:exported="true"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name="com.karumi.dexter.DexterActivity"
+            android:exported="true"
             android:theme="@style/Dexter.Internal.Theme.Transparent" />
         <activity
             android:name=".photocollage.layout.SplashLayout"
             android:screenOrientation="portrait"
+            android:exported="true"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".photocollage.layout.MotionLayout"
             android:screenOrientation="portrait"
+            android:exported="true"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".photocollage.layout.DripLayout"
             android:screenOrientation="portrait"
+            android:exported="true"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".photocollage.layout.NeonLayout"
             android:screenOrientation="portrait"
+            android:exported="true"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".photocollage.eraser.StickerEraseActivity"
             android:screenOrientation="portrait"
+            android:exported="true"
             android:theme="@style/AppTheme.NoActionBar" />
         <uses-library
             android:name="org.apache.http.legacy"

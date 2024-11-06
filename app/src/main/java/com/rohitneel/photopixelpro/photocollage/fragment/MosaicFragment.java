@@ -82,7 +82,6 @@ public class MosaicFragment extends DialogFragment implements MosaicAdapter.Mosa
         this.queShotMosaicView.setImageBitmap(this.bitmap);
         this.queShotMosaicView.setMosaicItem(new MosaicAdapter.MosaicItem(R.drawable.background_blur, 0, MosaicAdapter.BLUR.BLUR));
         this.backgroundView = inflate.findViewById(R.id.image_view_background);
-        this.adjustBitmap = FilterUtils.getBlurImageFromBitmap(this.bitmap);
         this.backgroundView.setImageBitmap(this.adjustBitmap);
         this.relative_layout_loading = inflate.findViewById(R.id.relative_layout_loading);
         this.relative_layout_loading.setVisibility(View.GONE);
@@ -159,7 +158,6 @@ public class MosaicFragment extends DialogFragment implements MosaicAdapter.Mosa
 
     public void onSelected(MosaicAdapter.MosaicItem mosaicItem) {
         if (mosaicItem.mode == MosaicAdapter.BLUR.BLUR) {
-            this.adjustBitmap = FilterUtils.getBlurImageFromBitmap(this.bitmap);
             this.backgroundView.setImageBitmap(this.adjustBitmap);
         } else if (mosaicItem.mode == MosaicAdapter.BLUR.MOSAIC) {
             this.adjustBitmap = MosaicAsset.getMosaic(this.bitmap);

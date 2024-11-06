@@ -5,7 +5,6 @@ import android.content.Context;
 import android.os.Build;
 import android.os.StrictMode;
 
-import com.google.firebase.messaging.FirebaseMessaging;
 //import com.onesignal.OneSignal;
 import com.rohitneel.photopixelpro.R;
 
@@ -15,7 +14,6 @@ public class Photo extends Application {
 
     public void onCreate() {
         super.onCreate();
-        FirebaseMessaging.getInstance().subscribeToTopic("all");
        /* OneSignal.setLogLevel(OneSignal.LOG_LEVEL.VERBOSE, OneSignal.LOG_LEVEL.NONE);
         OneSignal.initWithContext(this);
         OneSignal.setAppId(getResources().getString(R.string.oneSignal_id));*/

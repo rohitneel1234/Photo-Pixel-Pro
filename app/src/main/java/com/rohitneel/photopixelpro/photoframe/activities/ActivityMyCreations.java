@@ -16,7 +16,6 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.rohitneel.photopixelpro.photoframe.fragments.FragmentCreationsList;
 import com.rohitneel.photopixelpro.R;
-import com.google.android.gms.ads.AdView;
 
 
 public class ActivityMyCreations extends AppCompatActivity {

@@ -44,7 +44,7 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@id/mailSupport"
                 android:layout_marginTop="10dp"
-                android:text="photopixelpro021@gmail.com"
+                android:text="rohitneel.app.feedback@gmail.com"
                 android:textColor="@color/colorDarkBlue"
                 android:fontFamily="@font/font"
                 android:layout_centerHorizontal="true"

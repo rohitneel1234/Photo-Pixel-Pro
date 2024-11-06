@@ -24,7 +24,7 @@ import com.rohitneel.photopixelpro.photocollage.photo.grid.PhotoLayout;
 import com.rohitneel.photopixelpro.photocollage.photo.grid.PhotoLayoutParser;
 import com.rohitneel.photopixelpro.photocollage.photo.grid.PhotoLine;
 import com.rohitneel.photopixelpro.photocollage.utils.MatrixUtils;
-import com.steelkiwi.cropiwa.AspectRatio;
+import com.yalantis.ucrop.model.AspectRatio;
 
 import java.util.ArrayList;
 import java.util.HashMap;

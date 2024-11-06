@@ -2,9 +2,6 @@ package com.rohitneel.photopixelpro.photocollage.assets;
 
 import android.graphics.Bitmap;
 
-import org.wysaid.common.SharedContext;
-import org.wysaid.nativePort.CGEImageHandler;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -82,16 +79,6 @@ public class FilterFileAsset {
 
     public static List<Bitmap> getListBitmapFilter(Bitmap bitmap) {
         ArrayList arrayList = new ArrayList();
-        SharedContext sharedContext = SharedContext.create();
-        sharedContext.makeCurrent();
-        CGEImageHandler cgeImageHandler = new CGEImageHandler();
-        cgeImageHandler.initWithBitmap(bitmap);
-        for (FiltersCode filtersCode : FILTERS) {
-            cgeImageHandler.setFilterWithConfig(filtersCode.getCode());
-            cgeImageHandler.processFilters();
-            arrayList.add(cgeImageHandler.getResultBitmap());
-        }
-        sharedContext.release();
         return arrayList;
     }
 

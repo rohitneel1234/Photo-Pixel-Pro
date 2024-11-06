@@ -9,8 +9,6 @@ import android.view.MenuItem;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.google.android.gms.ads.AdRequest;
-import com.google.android.gms.ads.AdView;
 import com.rohitneel.photopixelpro.R;
 import com.rohitneel.photopixelpro.photocollage.fragment.ImagePagerFragment;
 import com.rohitneel.photopixelpro.photocollage.photo.PhotoPickerView;
@@ -25,8 +23,6 @@ public class PhotoPagerActivity extends AppCompatActivity {
     public boolean onCreateOptionsMenu(Menu menu) {
         return true;
     }
-    private AdView adView;
-    private AdRequest adRequest;
 
     public void onCreate(Bundle bundle) {
         super.onCreate(bundle);

@@ -30,7 +30,7 @@ import com.rohitneel.photopixelpro.photocollage.adapters.AspectAdapter;
 import com.rohitneel.photopixelpro.photocollage.utils.DegreeSeekBar;
 import com.rohitneel.photopixelpro.photocollage.utils.FilterUtils;
 import com.rohitneel.photopixelpro.photocollage.utils.SystemUtil;
-import com.steelkiwi.cropiwa.AspectRatio;
+import com.yalantis.ucrop.model.AspectRatio;
 
 public class RatioFragment extends DialogFragment implements AspectAdapter.OnNewSelectedListener{
     private static final String TAG = "RatioFragment";
@@ -89,7 +89,7 @@ public class RatioFragment extends DialogFragment implements AspectAdapter.OnNew
         this.recycler_view_ratio = inflate.findViewById(R.id.recyclerViewRatio);
         this.recycler_view_ratio.setLayoutManager(new LinearLayoutManager(getContext(), 0, false));
         this.recycler_view_ratio.setAdapter(aspectRatioPreviewAdapter);
-        this.aspectRatio = new AspectRatio(1, 1);
+        this.aspectRatio = new AspectRatio("",1, 1);
 
         this.adjustSeekBar = inflate.findViewById(R.id.seekbarOverlay);
         this.adjustSeekBar.setCenterTextColor(getResources().getColor(R.color.mainColor));
@@ -162,16 +162,16 @@ public class RatioFragment extends DialogFragment implements AspectAdapter.OnNew
 
     private int[] calculateWidthAndHeight(AspectRatio aspectRatio, Point point) {
         int height = this.constraint_layout_ratio.getHeight();
-        if (aspectRatio.getHeight() > aspectRatio.getWidth()) {
-            int mRatio = (int) (aspectRatio.getRatio() * ((float) height));
+        if (aspectRatio.getAspectRatioY() > aspectRatio.getAspectRatioX()) {
+            int mRatio = (int) (aspectRatio.getAspectRatioY() * ((float) height));
             if (mRatio < point.x) {
                 return new int[]{mRatio, height};
             }
-            return new int[]{point.x, (int) (((float) point.x) / aspectRatio.getRatio())};
+            return new int[]{point.x, (int) (((float) point.x) / aspectRatio.getAspectRatioX())};
         }
-        int iRatio = (int) (((float) point.x) / aspectRatio.getRatio());
+        int iRatio = (int) (((float) point.x) / aspectRatio.getAspectRatioX());
         if (iRatio > height) {
-            return new int[]{(int) (((float) height) * aspectRatio.getRatio()), height};
+            return new int[]{(int) (((float) height) * aspectRatio.getAspectRatioY()), height};
         }
         return new int[]{point.x, iRatio};
     }

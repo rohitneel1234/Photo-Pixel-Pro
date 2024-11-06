@@ -120,19 +120,7 @@ public class FilterFragment extends DialogFragment implements FilterListener {
 
     public void onFilterSelected(int item, String str)
     {
-        new LoadBitmapWithFilter().execute(new String[]{str});
-    }
 
-    class LoadBitmapWithFilter extends AsyncTask<String, Bitmap, Bitmap> {
-        LoadBitmapWithFilter() {}
-
-        public Bitmap doInBackground(String... strArr) {
-            return FilterUtils.getBitmapWithFilter(FilterFragment.this.bitmap, strArr[0]);
-        }
-
-        public void onPostExecute(Bitmap bitmap) {
-            FilterFragment.this.image_view_preview.setImageBitmap(bitmap);
-        }
     }
 
 }

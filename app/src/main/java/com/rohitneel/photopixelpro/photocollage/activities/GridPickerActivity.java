@@ -36,9 +36,6 @@ import androidx.exifinterface.media.ExifInterface;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.RequestBuilder;
-import com.google.android.gms.ads.AdRequest;
-import com.google.android.gms.ads.AdView;
-import com.google.android.gms.ads.MobileAds;
 import com.rohitneel.photopixelpro.R;
 import com.rohitneel.photopixelpro.photocollage.adapters.AlbumAdapter;
 import com.rohitneel.photopixelpro.photocollage.adapters.ListAlbumAdapter;
@@ -72,8 +69,6 @@ public class GridPickerActivity extends AppCompatActivity implements View.OnClic
     public int position = 0;
     AlertDialog sortDialog;
     TextView txtTotalImage;
-    private AdView adView;
-    private AdRequest adRequest;
 
     private class GetItemAlbum extends AsyncTask<Void, Void, String> {
 

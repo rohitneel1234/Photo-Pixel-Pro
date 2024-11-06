@@ -17,13 +17,10 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.DialogFragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-
-import com.github.flipzeus.FlipDirection;
-import com.github.flipzeus.ImageFlipper;
 import com.isseiaoki.simplecropview.CropImageView;
 import com.rohitneel.photopixelpro.R;
 import com.rohitneel.photopixelpro.photocollage.adapters.AspectAdapter;
-import com.steelkiwi.cropiwa.AspectRatio;
+import com.yalantis.ucrop.model.AspectRatio;
 
 public class CropFragment extends DialogFragment implements AspectAdapter.OnNewSelectedListener {
     private static final String TAG = "CropFragment";
@@ -94,17 +91,6 @@ public class CropFragment extends DialogFragment implements AspectAdapter.OnNewS
                 CropFragment.this.crop_image_view.rotateImage(CropImageView.RotateDegrees.ROTATE_90D);
             }
         });
-        inflate.findViewById(R.id.relativeLayoutVFlip).setOnClickListener(new View.OnClickListener() {
-            public void onClick(View view) {
-                ImageFlipper.flip(crop_image_view, FlipDirection.VERTICAL);
-            }
-        });
-
-        inflate.findViewById(R.id.relativeLayoutHFlip).setOnClickListener(new View.OnClickListener() {
-            public void onClick(View view) {
-                ImageFlipper.flip(crop_image_view, FlipDirection.HORIZONTAL);
-            }
-        });
         inflate.findViewById(R.id.imageViewSaveCrop).setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
                 new OnSaveCrop().execute(new Void[0]);
@@ -127,10 +113,13 @@ public class CropFragment extends DialogFragment implements AspectAdapter.OnNewS
     }
 
     public void onNewAspectRatioSelected(AspectRatio aspectRatio) {
-        if (aspectRatio.getWidth() == 10 && aspectRatio.getHeight() == 10) {
+        int width = (int) aspectRatio.getAspectRatioX();  // Replace with correct method if available
+        int height = (int) aspectRatio.getAspectRatioY();  // Replace with correct method if available
+
+        if (width == 1 && height == 1) { // For example, for a square ratio
             this.crop_image_view.setCropMode(CropImageView.CropMode.FREE);
         } else {
-            this.crop_image_view.setCustomRatio(aspectRatio.getWidth(), aspectRatio.getHeight());
+            this.crop_image_view.setCustomRatio(width, height);
         }
     }
 

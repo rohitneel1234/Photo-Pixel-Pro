@@ -132,7 +132,7 @@ public class RateDialog extends Dialog implements View.OnClickListener {
             else if (this.star_number > 0) {
                 Intent intent = new Intent("android.intent.action.SEND");
                 intent.setType("message/rfc822");
-                intent.putExtra("android.intent.extra.EMAIL", new String[]{ "photopixelpro021@gmail.com"});
+                intent.putExtra("android.intent.extra.EMAIL", new String[]{ "rohitneel.app.feedback@gmail.com"});
                 intent.putExtra("android.intent.extra.SUBJECT", this.activity.getString(R.string.app_name));
                 this.activity.startActivity(Intent.createChooser(intent, "Send Email"));
                 if (this.exit) {

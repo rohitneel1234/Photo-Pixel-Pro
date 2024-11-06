@@ -1,5 +1,6 @@
 package com.rohitneel.photopixelpro.photoframe.activities;
 
+
 import android.Manifest;
 import android.app.AlertDialog;
 import android.app.Dialog;
@@ -72,7 +73,6 @@ import com.rohitneel.photopixelpro.photoframe.stickerclasses.TextSticker;
 import com.rohitneel.photopixelpro.photoframe.utils.AlertDialogBox;
 import com.rohitneel.photopixelpro.constant.CommonKeys;
 import com.rohitneel.photopixelpro.photoframe.utils.PaletteBar;
-import com.google.android.gms.ads.AdView;
 import com.rohitneel.photopixelpro.photoframe.utils.PathUtills;
 
 import java.io.File;
@@ -84,8 +84,6 @@ import java.net.URISyntaxException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
-
-import jp.co.cyberagent.android.gpuimage.GPUImageView;
 
 
 public class ActivityCreatePhoto extends AppCompatActivity implements FilterFrameAdapter.FilterCallback {
@@ -134,7 +132,6 @@ public class ActivityCreatePhoto extends AppCompatActivity implements FilterFram
     public boolean showingsecond = true;
     TextView etcount;
     String abc = "0";
-    AdView adView;
     androidx.appcompat.app.AlertDialog alertDialog;
 
     public ActivityCreatePhoto() {
@@ -148,7 +145,7 @@ public class ActivityCreatePhoto extends AppCompatActivity implements FilterFram
         return instance;
     }
 
-    GPUImageView gpuImageView;
+    ImageView gpuImageView;
 
     int progressChangedValue = 0;
     float alpha = 0.5f;
@@ -225,8 +222,11 @@ public class ActivityCreatePhoto extends AppCompatActivity implements FilterFram
             ActivityCompat.requestPermissions(this, PERMISSIONS, PERMISSION_ALL);
         }
 
-        Bitmap originalImage = Bitmap.createScaledBitmap(BitmapFactory.decodeResource(getResources(), R.drawable.home), 160, 160, true);
-        gpuImageView.setImage(originalImage);
+        Glide.with(this)
+                .load(R.drawable.home) // Load drawable
+                .override(160, 160) // Set dimensions as required
+                .centerCrop()
+                .into(gpuImageView);
 
         for (int i = 0; i < fontList.length; i++) {
 
@@ -547,6 +547,13 @@ public class ActivityCreatePhoto extends AppCompatActivity implements FilterFram
 
     }
 
+    public void setImageUri(Uri uri) {
+        Glide.with(this)
+                .load(uri)
+                .centerCrop()
+                .into(gpuImageView); // Load image URI into the ImageView
+    }
+
     private void viewTransformation(View view, MotionEvent event) {
         switch (event.getAction() & MotionEvent.ACTION_MASK) {
             case MotionEvent.ACTION_DOWN:
@@ -711,8 +718,7 @@ public class ActivityCreatePhoto extends AppCompatActivity implements FilterFram
             layoutParams.gravity = Gravity.CENTER;
             gpuImageView.setLayoutParams(layoutParams);
 
-
-            gpuImageView.setImage(uri);
+            setImageUri(uri);
 
             RelativeLayout.LayoutParams layoutParams1 = new RelativeLayout.LayoutParams(imageWidth, imageHeight);
             ivImage.setLayoutParams(layoutParams1);
@@ -1529,12 +1535,8 @@ public class ActivityCreatePhoto extends AppCompatActivity implements FilterFram
 
     @Override
     public void FilterMethod(int i) {
-        gpuImageView.setFilter(DataBinder.applyFilter(i, ActivityCreatePhoto.this));
-        ivImage.setVisibility(View.VISIBLE);
-        try {
-            ivImage.setImageBitmap(gpuImageView.capture());
-        } catch (Exception e) {
-
-        }
+        Bitmap originalBitmap = BitmapFactory.decodeResource(getResources(), R.drawable.home);
+        Bitmap filteredBitmap = DataBinder.applyFilter(i, this, originalBitmap);
+        gpuImageView.setImageBitmap(filteredBitmap);
     }
 }

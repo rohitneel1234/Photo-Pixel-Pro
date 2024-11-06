@@ -1,6 +1,7 @@
 package com.rohitneel.photopixelpro.photocollage.activities;
 
-import android.animation.ObjectAnimator;
+import
+        android.animation.ObjectAnimator;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.Dialog;
@@ -93,10 +94,9 @@ import com.rohitneel.photopixelpro.photocollage.utils.SaveFileUtils;
 import com.rohitneel.photopixelpro.photocollage.utils.SystemUtil;
 import com.squareup.picasso.Picasso;
 import com.squareup.picasso.Target;
-import com.steelkiwi.cropiwa.AspectRatio;
+import com.yalantis.ucrop.model.AspectRatio;
 
 import org.jetbrains.annotations.NotNull;
-import org.wysaid.nativePort.CGENativeLibrary;
 
 import java.io.File;
 import java.io.IOException;
@@ -477,11 +477,10 @@ public class PhotoCollageActivity extends PhotoBaseActivity implements GridTools
         layoutParams.height = point.x;
         layoutParams.width = point.x;
         this.queShotGridView.setLayoutParams(layoutParams);
-        this.aspectRatio = new AspectRatio(1, 1);
-        this.queShotGridView.setAspectRatio(new AspectRatio(1, 1));
+        this.aspectRatio = new AspectRatio("",1, 1);
+        this.queShotGridView.setAspectRatio(new AspectRatio("", 1, 1));
         QueShotGridActivityCollage = this;
         this.moduleToolsId = Module.NONE;
-        CGENativeLibrary.setLoadImageCallback(this.loadImageCallback, (Object) null);
         QueShotGridActivityInstance = this;
 
         this.recyclerViewToolsCollage.setAlpha(0.0f);
@@ -746,19 +745,6 @@ public class PhotoCollageActivity extends PhotoBaseActivity implements GridTools
             new SaveCollageAsFile().execute(createBitmap, createBitmap2);
         }
     }
-
-    public CGENativeLibrary.LoadImageCallback loadImageCallback = new CGENativeLibrary.LoadImageCallback() {
-        public Bitmap loadImage(String string, Object object) {
-            try {
-                return BitmapFactory.decodeStream(PhotoCollageActivity.this.getAssets().open(string));
-            } catch (IOException ioException) {
-                return null;
-            }
-        }
-        public void loadImageOK(Bitmap bitmap, Object object) {
-            bitmap.recycle();
-        }
-    };
 
     public void setBackgroundColor() {
         this.recycler_view_color.scrollToPosition(0);
@@ -1250,16 +1236,16 @@ public class PhotoCollageActivity extends PhotoBaseActivity implements GridTools
 
     private int[] calculateWidthAndHeight(AspectRatio aspectRatio, Point point) {
         int height = this.constraint_layout_wrapper_collage_view.getHeight();
-        if (aspectRatio.getHeight() > aspectRatio.getWidth()) {
-            int ratio = (int) (aspectRatio.getRatio() * ((float) height));
+        if (aspectRatio.getAspectRatioY() > aspectRatio.getAspectRatioX()) {
+            int ratio = (int) (aspectRatio.getAspectRatioY() * ((float) height));
             if (ratio < point.x) {
                 return new int[]{ratio, height};
             }
-            return new int[]{point.x, (int) (((float) point.x) / aspectRatio.getRatio())};
+            return new int[]{point.x, (int) (((float) point.x) / aspectRatio.getAspectRatioX())};
         }
-        int ratio2 = (int) (((float) point.x) / aspectRatio.getRatio());
+        int ratio2 = (int) (((float) point.x) / aspectRatio.getAspectRatioX());
         if (ratio2 > height) {
-            return new int[]{(int) (((float) height) * aspectRatio.getRatio()), height};
+            return new int[]{(int) (((float) height) * aspectRatio.getAspectRatioY()), height};
         }
         return new int[]{point.x, ratio2};
     }
@@ -1301,7 +1287,6 @@ public class PhotoCollageActivity extends PhotoBaseActivity implements GridTools
     }
 
     public void onFilterSelected(int item, String str) {
-        new LoadBitmapWithFilter().execute(new String[]{str});
 
     }
 
@@ -1384,35 +1369,6 @@ public class PhotoCollageActivity extends PhotoBaseActivity implements GridTools
             if (PhotoCollageActivity.this.queShotGridView.getQueShotGrid() != null) {
                 FilterFragment.show(PhotoCollageActivity.this, PhotoCollageActivity.this, ((BitmapDrawable) PhotoCollageActivity.this.queShotGridView.getQueShotGrid().getDrawable()).getBitmap(), list);
             }
-        }
-    }
-
-    class LoadBitmapWithFilter extends AsyncTask<String, List<Bitmap>, List<Bitmap>> {
-        LoadBitmapWithFilter() {
-        }
-
-        public void onPreExecute() {
-            PhotoCollageActivity.this.setLoading(true);
-        }
-
-        public List<Bitmap> doInBackground(String... strArr) {
-            ArrayList arrayList = new ArrayList();
-            for (Drawable drawable : PhotoCollageActivity.this.drawableList) {
-                arrayList.add(FilterUtils.getBitmapWithFilter(((BitmapDrawable) drawable).getBitmap(), strArr[0]));
-            }
-            return arrayList;
-        }
-
-
-        public void onPostExecute(List<Bitmap> list) {
-            for (int i = 0; i < list.size(); i++) {
-                BitmapDrawable bitmapDrawable = new BitmapDrawable(PhotoCollageActivity.this.getResources(), list.get(i));
-                bitmapDrawable.setAntiAlias(true);
-                bitmapDrawable.setFilterBitmap(true);
-                PhotoCollageActivity.this.queShotGridView.getQueShotGrids().get(i).setDrawable(bitmapDrawable);
-            }
-            PhotoCollageActivity.this.queShotGridView.invalidate();
-            PhotoCollageActivity.this.setLoading(false);
         }
     }
 

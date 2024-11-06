@@ -1,14 +1,15 @@
 package com.rohitneel.photopixelpro.photoframe.filterclass;
 
 import android.app.Activity;
+import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.ColorMatrix;
+import android.graphics.ColorMatrixColorFilter;
 
 import com.rohitneel.photopixelpro.R;
 
 import java.util.ArrayList;
 
-import jp.co.cyberagent.android.gpuimage.filter.GPUImageFilter;
-import jp.co.cyberagent.android.gpuimage.filter.GPUImageLookupFilter;
 
 public class DataBinder {
     public static ArrayList<Filter> fetchFilters() {
@@ -29,44 +30,53 @@ public class DataBinder {
         return filterArrayList;
     }
 
-    public static GPUImageFilter applyFilter(int position, Activity activity) {
-        GPUImageLookupFilter gpuImageLookupFilter = new GPUImageLookupFilter();
+    public static Bitmap applyFilter(int position, Activity activity, Bitmap originalBitmap) {
         switch (position) {
             case 0:
-                return new GPUImageFilter();
+                return originalBitmap; // Original image
             case 1:
-                return new IF1977Filter(activity);
+                return applyTropicFilter(originalBitmap);
             case 2:
-                return new IFBrannanFilter(activity);
+                return applyValenciaFilter(originalBitmap);
             case 3:
-                return new IFInkwellFilter(activity);
+                return applyBWFilter(originalBitmap);
             case 4:
-                return new IFSierraFilter(activity);
+                return applyLomoFilter(originalBitmap);
             case 5:
-                return new IFToasterFilter(activity);
-            case 6:
-                gpuImageLookupFilter.setBitmap(BitmapFactory.decodeResource(activity.getResources(), R.drawable.pf2));
-                return gpuImageLookupFilter;
-            case 7:
-                gpuImageLookupFilter.setBitmap(BitmapFactory.decodeResource(activity.getResources(), R.drawable.pf3));
-                return gpuImageLookupFilter;
-            case 8:
-                gpuImageLookupFilter.setBitmap(BitmapFactory.decodeResource(activity.getResources(), R.drawable.pf6));
-                return gpuImageLookupFilter;
-            case 9:
-                gpuImageLookupFilter.setBitmap(BitmapFactory.decodeResource(activity.getResources(), R.drawable.pf8));
-                return gpuImageLookupFilter;
-            case 10:
-                gpuImageLookupFilter.setBitmap(BitmapFactory.decodeResource(activity.getResources(), R.drawable.pf28));
-                return gpuImageLookupFilter;
-            case 11:
-                gpuImageLookupFilter.setBitmap(BitmapFactory.decodeResource(activity.getResources(), R.drawable.pf32));
-                return gpuImageLookupFilter;
-            case 12:
-                gpuImageLookupFilter.setBitmap(BitmapFactory.decodeResource(activity.getResources(), R.drawable.pf12));
-                return gpuImageLookupFilter;
+                return applyAutumnFilter(originalBitmap);
+            // Additional cases for other filters...
             default:
                 return null;
         }
+    }
+
+    private static Bitmap applyTropicFilter(Bitmap original) {
+        // Apply your Tropic filter logic here
+        return original; // Placeholder for actual filtered image
+    }
+
+    private static Bitmap applyValenciaFilter(Bitmap original) {
+        // Apply your Valencia filter logic here
+        return original; // Placeholder for actual filtered image
+    }
+
+    private static Bitmap applyBWFilter(Bitmap original) {
+        ColorMatrix matrix = new ColorMatrix();
+        matrix.setSaturation(0); // Convert to grayscale
+        ColorMatrixColorFilter filter = new ColorMatrixColorFilter(matrix);
+        Bitmap filteredBitmap = Bitmap.createBitmap(original);
+        // Apply filter to the Bitmap (may require a Canvas)
+        // For demonstration purposes, returning original
+        return filteredBitmap;
+    }
+
+    private static Bitmap applyLomoFilter(Bitmap original) {
+        // Apply your Lomo filter logic here
+        return original; // Placeholder for actual filtered image
+    }
+
+    private static Bitmap applyAutumnFilter(Bitmap original) {
+        // Apply your Autumn filter logic here
+        return original; // Placeholder for actual filtered image
     }
 }

@@ -23,7 +23,6 @@ import com.warkiz.widget.IndicatorSeekBar;
 import com.warkiz.widget.OnSeekChangeListener;
 import com.warkiz.widget.SeekParams;
 
-import org.wysaid.nativePort.CGENativeLibrary;
 
 public class HSlFragment extends DialogFragment {
     private static final String TAG = "HSlFragment";
@@ -137,8 +136,6 @@ public class HSlFragment extends DialogFragment {
 //                if(tempbitmap2!=null)
 //                    tempbitmap2.recycle();
 
-                tempbitmap2= CGENativeLibrary.filterImage_MultipleEffects(tempbitmap, ruleString, seekbarIntensityHue.getProgressFloat()/200);
-                image_view_ratio.setImageBitmap(tempbitmap2);
 
             }
 
@@ -202,9 +199,6 @@ public class HSlFragment extends DialogFragment {
                 }
 //                if(tempbitmap2!=null)
 //                    tempbitmap2.recycle();
-
-                tempbitmap2=CGENativeLibrary.filterImage_MultipleEffects(tempbitmap, ruleString, seekbarIntensityHue.getProgressFloat()/200);
-                image_view_ratio.setImageBitmap(tempbitmap2);
 
             }
 
@@ -277,8 +271,6 @@ public class HSlFragment extends DialogFragment {
 //                if(tempbitmap2!=null)
 //                    tempbitmap2.recycle();
 
-                tempbitmap2=CGENativeLibrary.filterImage_MultipleEffects(tempbitmap, ruleString, seekbarIntensityHue.getProgressFloat()/200);
-                image_view_ratio.setImageBitmap(tempbitmap2);
 
             }
 

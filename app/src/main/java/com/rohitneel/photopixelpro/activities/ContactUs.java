@@ -1,13 +1,9 @@
 package com.rohitneel.photopixelpro.activities;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 
-import android.app.Activity;
 import android.content.Intent;
-import android.content.IntentSender;
 import android.os.Bundle;
 import android.view.View;
 import android.view.WindowManager;
@@ -16,16 +12,6 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.google.android.material.snackbar.Snackbar;
-import com.google.android.play.core.appupdate.AppUpdateInfo;
-import com.google.android.play.core.appupdate.AppUpdateManager;
-import com.google.android.play.core.appupdate.AppUpdateManagerFactory;
-import com.google.android.play.core.install.InstallState;
-import com.google.android.play.core.install.InstallStateUpdatedListener;
-import com.google.android.play.core.install.model.AppUpdateType;
-import com.google.android.play.core.install.model.InstallStatus;
-import com.google.android.play.core.install.model.UpdateAvailability;
-import com.google.android.play.core.tasks.OnSuccessListener;
 import com.rohitneel.photopixelpro.R;
 import com.rohitneel.photopixelpro.helper.SessionManager;
 
@@ -40,7 +26,7 @@ public class ContactUs extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        //setContentView(R.layout.activity_contact_us);
+        setContentView(R.layout.activity_contact_us);
 
         linkToGmail = findViewById(R.id.mailSupport);
         editTextSubject=(EditText)findViewById(R.id.etSubject);
@@ -90,7 +76,7 @@ public class ContactUs extends AppCompatActivity {
                     editTextMessage.requestFocus();
                 } else {
                     Intent email = new Intent(Intent.ACTION_SEND);
-                    email.putExtra(Intent.EXTRA_EMAIL, new String[]{"photopixelpro021@gmail.com"});
+                    email.putExtra(Intent.EXTRA_EMAIL, new String[]{"rohitneel.app.feedback@gmail.com"});
                     email.putExtra(Intent.EXTRA_SUBJECT, subject);
                     email.putExtra(Intent.EXTRA_TEXT, message);
                     //need this to prompts email client only
@@ -107,7 +93,7 @@ public class ContactUs extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent=new Intent(Intent.ACTION_SEND);
-                String[] recipients={"photopixelpro021@gmail.com"};
+                String[] recipients={"rohitneel.app.feedback@gmail.com"};
                 intent.putExtra(Intent.EXTRA_EMAIL, recipients);
                 intent.setType("text/html");
                 intent.setPackage("com.google.android.gm");

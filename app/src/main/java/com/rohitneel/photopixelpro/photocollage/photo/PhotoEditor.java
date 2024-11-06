@@ -25,9 +25,6 @@ import com.rohitneel.photopixelpro.photocollage.draw.Drawing;
 import com.rohitneel.photopixelpro.photocollage.draw.OnSaveBitmap;
 import com.rohitneel.photopixelpro.photocollage.listener.BrushColorChangeListener;
 import com.rohitneel.photopixelpro.photocollage.listener.OnPhotoEditorListener;
-
-import org.wysaid.view.ImageGLSurfaceView;
-
 import java.io.File;
 import java.io.FileOutputStream;
 import java.util.ArrayList;
@@ -41,7 +38,6 @@ public class PhotoEditor implements BrushColorChangeListener {
     private BrushDrawingView brushDrawingView;
     private Context context;
     private View deleteView;
-    private ImageGLSurfaceView glSurfaceView;
     private boolean isTextPinchZoomable;
     private Typeface mDefaultEmojiTypeface;
     private Typeface mDefaultTextTypeface;
@@ -62,7 +58,6 @@ public class PhotoEditor implements BrushColorChangeListener {
         this.parentView = builder.parentView;
         this.deleteView = builder.deleteView;
         this.brushDrawingView = builder.brushDrawingView;
-        this.glSurfaceView = builder.glSurfaceView;
         this.isTextPinchZoomable = builder.isTextPinchZoomable;
         this.mDefaultTextTypeface = builder.textTypeface;
         this.mDefaultEmojiTypeface = builder.emojiTypeface;
@@ -85,13 +80,6 @@ public class PhotoEditor implements BrushColorChangeListener {
         }
     }
 
-    public void setAdjustFilter(String str) {
-        this.glSurfaceView.setFilterWithConfig(str);
-    }
-
-    public void setFilterIntensityForIndex(float f, int i, boolean z) {
-        this.glSurfaceView.setFilterIntensityForIndex(f, i, z);
-    }
 
     public void setBrushMode(int i) {
         this.brushDrawingView.setDrawMode(i);
@@ -368,8 +356,6 @@ public class PhotoEditor implements BrushColorChangeListener {
 
         public Typeface emojiTypeface;
 
-        public ImageGLSurfaceView glSurfaceView;
-
         public boolean isTextPinchZoomable = true;
 
         public PhotoView parentView;
@@ -380,7 +366,6 @@ public class PhotoEditor implements BrushColorChangeListener {
             this.context = context2;
             this.parentView = photoView;
             this.brushDrawingView = photoView.getBrushDrawingView();
-            this.glSurfaceView = photoView.getGLSurfaceView();
         }
 
 

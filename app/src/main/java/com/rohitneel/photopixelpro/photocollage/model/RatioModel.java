@@ -1,6 +1,7 @@
 package com.rohitneel.photopixelpro.photocollage.model;
 
-import com.steelkiwi.cropiwa.AspectRatio;
+
+import com.yalantis.ucrop.model.AspectRatio;
 
 public class RatioModel extends AspectRatio {
     private int selectedIem;
@@ -8,7 +9,7 @@ public class RatioModel extends AspectRatio {
     private String name;
 
     public RatioModel(int i, int i2, int i3, int i4, String name) {
-        super(i, i2);
+        super("",i, i2);
         this.selectedIem = i4;
         this.unselectItem = i3;
         this.name = name;

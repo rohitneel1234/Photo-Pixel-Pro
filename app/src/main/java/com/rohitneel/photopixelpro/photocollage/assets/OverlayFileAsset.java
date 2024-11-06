@@ -2,8 +2,6 @@ package com.rohitneel.photopixelpro.photocollage.assets;
 
 import android.graphics.Bitmap;
 
-import org.wysaid.common.SharedContext;
-import org.wysaid.nativePort.CGEImageHandler;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -193,91 +191,35 @@ public class OverlayFileAsset {
 
     public static List<Bitmap> getListBitmapDodgeEffect(Bitmap bitmap) {
         ArrayList arrayList = new ArrayList();
-        SharedContext sharedContext = SharedContext.create();
-        sharedContext.makeCurrent();
-        CGEImageHandler cgeImageHandler = new CGEImageHandler();
-        cgeImageHandler.initWithBitmap(bitmap);
-        for (OverlayCode filterBean : DODGE_EFFECTS) {
-            cgeImageHandler.setFilterWithConfig(filterBean.getImage());
-            cgeImageHandler.processFilters();
-            arrayList.add(cgeImageHandler.getResultBitmap());
-        }
-        sharedContext.release();
+
         return arrayList;
     }
 
 
     public static List<Bitmap> getListBitmapOverlayEffect(Bitmap bitmap) {
         ArrayList arrayList = new ArrayList();
-        SharedContext sharedContext = SharedContext.create();
-        sharedContext.makeCurrent();
-        CGEImageHandler cgeImageHandler = new CGEImageHandler();
-        cgeImageHandler.initWithBitmap(bitmap);
-        for (OverlayCode filterBean : OVERLAY_EFFECTS) {
-            cgeImageHandler.setFilterWithConfig(filterBean.getImage());
-            cgeImageHandler.processFilters();
-            arrayList.add(cgeImageHandler.getResultBitmap());
-        }
-        sharedContext.release();
+
         return arrayList;
     }
 
     public static List<Bitmap> getListBitmapHardmixEffect(Bitmap bitmap) {
         ArrayList arrayList = new ArrayList();
-        SharedContext sharedContext = SharedContext.create();
-        sharedContext.makeCurrent();
-        CGEImageHandler cgeImageHandler = new CGEImageHandler();
-        cgeImageHandler.initWithBitmap(bitmap);
-        for (OverlayCode filterBean : HARDMIX_EFFECTS) {
-            cgeImageHandler.setFilterWithConfig(filterBean.getImage());
-            cgeImageHandler.processFilters();
-            arrayList.add(cgeImageHandler.getResultBitmap());
-        }
-        sharedContext.release();
         return arrayList;
     }
     public static List<Bitmap> getListBitmapHueEffect(Bitmap bitmap) {
         ArrayList arrayList = new ArrayList();
-        SharedContext sharedContext = SharedContext.create();
-        sharedContext.makeCurrent();
-        CGEImageHandler cgeImageHandler = new CGEImageHandler();
-        cgeImageHandler.initWithBitmap(bitmap);
-        for (OverlayCode filterBean : HUE_EFFECTS) {
-            cgeImageHandler.setFilterWithConfig(filterBean.getImage());
-            cgeImageHandler.processFilters();
-            arrayList.add(cgeImageHandler.getResultBitmap());
-        }
-        sharedContext.release();
+
         return arrayList;
     }
 
     public static List<Bitmap> getListBitmapColorEffect(Bitmap bitmap) {
         ArrayList arrayList = new ArrayList();
-        SharedContext sharedContext = SharedContext.create();
-        sharedContext.makeCurrent();
-        CGEImageHandler cgeImageHandler = new CGEImageHandler();
-        cgeImageHandler.initWithBitmap(bitmap);
-        for (OverlayCode filterBean : COLOR_EFFECTS) {
-            cgeImageHandler.setFilterWithConfig(filterBean.getImage());
-            cgeImageHandler.processFilters();
-            arrayList.add(cgeImageHandler.getResultBitmap());
-        }
-        sharedContext.release();
         return arrayList;
     }
 
     public static List<Bitmap> getListBitmapBurnEffect(Bitmap bitmap) {
         ArrayList arrayList = new ArrayList();
-        SharedContext sharedContext = SharedContext.create();
-        sharedContext.makeCurrent();
-        CGEImageHandler cgeImageHandler = new CGEImageHandler();
-        cgeImageHandler.initWithBitmap(bitmap);
-        for (OverlayCode filterBean : BURN_EFFECTS) {
-            cgeImageHandler.setFilterWithConfig(filterBean.getImage());
-            cgeImageHandler.processFilters();
-            arrayList.add(cgeImageHandler.getResultBitmap());
-        }
-        sharedContext.release();
+
         return arrayList;
     }
 }

@@ -13,7 +13,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.rohitneel.photopixelpro.R;
 import com.rohitneel.photopixelpro.photocollage.model.RatioModel;
-import com.steelkiwi.cropiwa.AspectRatio;
+import com.yalantis.ucrop.model.AspectRatio;
 
 import java.util.Arrays;
 import java.util.List;
@@ -134,4 +134,5 @@ public class AspectAdapter extends RecyclerView.Adapter<AspectAdapter.ViewHolder
             }
         }
     }
+
 }

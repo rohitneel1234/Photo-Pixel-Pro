@@ -1,33 +1,24 @@
-apply plugin: 'com.android.application'
-apply plugin: 'kotlin-android'
-apply plugin: 'kotlin-kapt'
-apply plugin: 'kotlin-android-extensions'
-
-configurations.all {
-    resolutionStrategy.eachDependency { DependencyResolveDetails details ->
-        def requested = details.requested
-        if (requested.group == 'com.android.support') {
-            if (!requested.name.startsWith("multidex")) {
-                details.useVersion '24.1.0'
-            }
-        }
-    }
+plugins {
+    id 'com.android.application'
+    id 'com.onesignal.androidsdk.onesignal-gradle-plugin'
+    id 'org.jetbrains.kotlin.android'
+    id 'com.google.firebase.crashlytics'
+    id 'com.google.gms.google-services'
 }
 
 android {
-    compileSdkVersion 30
-    buildToolsVersion "30.0.3"
-
-    useLibrary 'org.apache.http.legacy'
+    namespace 'com.rohitneel.photopixelpro'
+    compileSdk 34
     defaultConfig {
         applicationId "com.rohitneel.photopixelpro"
         minSdkVersion 24
-        targetSdkVersion 30
-        versionCode 29
-        versionName "1.1.0"
+        targetSdkVersion 34
+        versionCode 32
+        versionName "1.3.0"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables.useSupportLibrary = true
         multiDexEnabled true
+        useLibrary 'org.apache.http.legacy'
         renderscriptSupportModeEnabled true
     }
 
@@ -46,7 +37,7 @@ android {
         }
     }
 
-        buildTypes {
+    buildTypes {
         release {
             minifyEnabled true
             shrinkResources true
@@ -64,82 +55,62 @@ android {
 
     lintOptions {
         checkReleaseBuilds false
+        abortOnError false
     }
     compileOptions {
-        sourceCompatibility JavaVersion.VERSION_1_8
-        targetCompatibility JavaVersion.VERSION_1_8
+        sourceCompatibility JavaVersion.VERSION_17
+        targetCompatibility JavaVersion.VERSION_17
     }
 
 }
 
+
 dependencies {
-    implementation fileTree(include: ['*.jar'], dir: 'libs')
-    implementation 'androidx.appcompat:appcompat:1.1.0'
-    implementation 'androidx.constraintlayout:constraintlayout:1.1.3'
-    //noinspection GradleCompatible,UseOfBundledGooglePlayServices
-    implementation 'com.google.android.gms:play-services:12.0.1'
+    implementation 'androidx.appcompat:appcompat:1.6.1'
+    implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
+    //implementation 'com.google.android.gms:play-services-ads:23.0.0'
     implementation 'com.android.support:multidex:1.0.3'
 
-    implementation 'com.google.android.material:material:1.0.0'
+    implementation 'com.google.android.material:material:1.11.0'
     implementation 'androidx.navigation:navigation-fragment:2.0.0'
     implementation 'androidx.navigation:navigation-ui:2.0.0'
     //implementation 'androidx.lifecycle:lifecycle-extensions:2.0.0'
     implementation 'androidx.preference:preference:1.1.0-rc01'
-    implementation 'com.google.android.material:material:1.2.1'
     //noinspection GradleDependency
-    implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
+    implementation "org.jetbrains.kotlin:kotlin-stdlib:1.5.20"
     implementation 'com.github.bumptech.glide:glide:4.11.0'
-    kapt 'com.github.bumptech.glide:compiler:4.11.0'
+    annotationProcessor 'com.github.bumptech.glide:compiler:4.11.0'
     implementation 'de.hdodenhof:circleimageview:3.1.0'
     implementation 'com.google.firebase:firebase-core:11.8.0'
-    implementation 'com.google.firebase:firebase-auth:20.0.3'
-    implementation 'androidx.appcompat:appcompat:1.2.0'
     implementation 'com.android.support.constraint:constraint-layout:2.0.1'
     implementation 'com.airbnb.android:lottie:2.5.0'
-    implementation 'com.rbddevs.splashy:splashy:1.3.0'
-    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:1.4.32"
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
-    implementation 'com.google.guava:listenablefuture:9999.0-empty-to-avoid-conflict-with-guava'
-    implementation "com.google.android.play:core:1.10.0"
-    implementation "com.google.android.material:material:1.4.0-rc01"
+    implementation "com.google.android.play:app-update:2.1.0"
     implementation 'com.google.firebase:firebase-crashlytics:18.1.0'
     implementation 'com.google.firebase:firebase-analytics'
-    implementation 'jp.co.cyberagent.android:gpuimage:2.0.3'
+
     implementation 'androidx.cardview:cardview:1.0.0'
     implementation 'androidx.palette:palette-ktx:1.0.0'
     implementation 'androidx.vectordrawable:vectordrawable-animated:1.1.0'
     implementation 'androidx.exifinterface:exifinterface:1.3.2'
     implementation "androidx.work:work-runtime:2.5.0"
     implementation 'com.balysv:material-ripple:1.0.2'
-    implementation 'org.wysaid:gpuimage-plus:2.6.3'
     implementation 'com.karumi:dexter:6.2.1'
     implementation 'com.squareup.picasso:picasso:2.71828'
-    implementation 'com.steelkiwi:cropiwa:1.0.3'
-    implementation 'com.github.warkiz.widget:indicatorseekbar:2.1.2'
+    implementation 'com.github.yalantis:ucrop:2.2.9'
+    implementation 'com.github.warkiz:IndicatorSeekBar:2.1.1'
     implementation 'com.github.pavlospt:circleview:1.3'
     implementation 'com.github.siyamed:android-shape-imageview:0.9.3'
-    implementation 'com.cepheuen.elegant-number-button:lib:1.0.2'
     implementation 'io.reactivex.rxjava2:rxjava:2.2.19'
     implementation 'com.makeramen:roundedimageview:2.3.0'
-    implementation 'com.isseiaoki:simplecropview:1.1.8'
-    implementation 'com.cepheuen.elegant-number-button:lib:1.0.2'
-    implementation 'com.github.flipzeus:flipzeus:0.0.1'
+    implementation 'com.github.isseiaoki:simplecropview:v1.1.6'
     implementation 'com.github.yukuku:ambilwarna:2.0.1'
     implementation 'com.github.ConsultantPlus-Mobile:KeyboardHeightProvider:v1.0.0'
     implementation group: 'org.tensorflow', name: 'tensorflow-android', version: '1.5.0'
-
     implementation 'org.jetbrains.kotlin:kotlin-stdlib'
     implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-core:1.3.9'
 
-
-    testImplementation 'junit:junit:5.6.0'
-    androidTestImplementation 'androidx.test.ext:junit:1.1.1'
-    androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
+    testImplementation 'junit:junit:4.13.2'
+    androidTestImplementation 'androidx.test.ext:junit:1.1.5'
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.5.1'
 }
-
-repositories {
-    mavenCentral()
-}
-
-apply plugin: 'com.google.firebase.crashlytics'
-apply plugin: 'com.google.gms.google-services'
