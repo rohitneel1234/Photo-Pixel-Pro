@@ -45,7 +45,7 @@
                 android:layout_below="@id/mailSupport"
                 android:layout_marginTop="10dp"
                 android:text="rohitneel.app.feedback@gmail.com"
-                android:textColor="@color/colorDarkBlue"
+                android:textColor="@color/darkBlue"
                 android:fontFamily="@font/font"
                 android:layout_centerHorizontal="true"
                 />

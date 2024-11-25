@@ -12,12 +12,6 @@
     </fragment>
 
     <fragment
-        android:id="@+id/bottom_home"
-        android:name="com.rohitneel.photopixelpro.fragments.HomeFragment"
-        android:label="@string/title_home"
-        tools:layout="@layout/fragment_home" />
-
-    <fragment
         android:id="@+id/bottom_dashboard"
         android:name="com.rohitneel.photopixelpro.fragments.PhotoFrameFragment"
         android:label="@string/title_photo_frame"

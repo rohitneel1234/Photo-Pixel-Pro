@@ -2,6 +2,7 @@ package com.rohitneel.photopixelpro.app;
 
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 import android.view.Window;
@@ -15,6 +16,8 @@ import androidx.viewpager.widget.ViewPager;
 import com.rohitneel.photopixelpro.R;
 import com.rohitneel.photopixelpro.activities.LauncherActivity;
 import com.google.android.material.tabs.TabLayout;
+import com.rohitneel.photopixelpro.constant.CommonKeys;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -37,7 +40,9 @@ public class IntroActivity extends AppCompatActivity {
                 WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.activity_intro);
         // hide the action bar
-        getSupportActionBar().hide();
+        if (getSupportActionBar() != null) {
+            getSupportActionBar().hide();
+        }
         // ini views
         btnNext = findViewById(R.id.btn_next);
         btnGetStarted = findViewById(R.id.btn_get_started);
@@ -98,7 +103,10 @@ public class IntroActivity extends AppCompatActivity {
         btnGetStarted.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //open main activity
+                SharedPreferences sharedPreferences = getSharedPreferences(CommonKeys.INTRO_SCREEN_PREF, MODE_PRIVATE);
+                SharedPreferences.Editor editor = sharedPreferences.edit();
+                editor.putBoolean(CommonKeys.IS_FIRST_TIME, false);
+                editor.apply();
                 Intent loginActivity = new Intent(getApplicationContext(), LauncherActivity.class);
                 startActivity(loginActivity);
                 // also we need to save a boolean value to storage so next time when the user run the app

@@ -8,10 +8,6 @@
             android:id="@+id/nav_home"
             android:icon="@drawable/ic_home_black_24dp"
             android:title="Home" />
-          <!--<item
-              android:id="@+id/nav_upload"
-              android:icon="@drawable/photo_editor_icon"
-              android:title="Photo Editor" />-->
         <item
             android:id="@+id/nav_gallery"
             android:icon="@drawable/gallery_view"
@@ -25,11 +21,6 @@
 
     <item android:title="Communicate">
         <menu>
-
-            <item
-                android:id="@+id/nav_settings"
-                android:icon="@drawable/ic_settings_black_24dp"
-                android:title="Settings" />
             <item
                 android:id="@+id/nav_rate_us"
                 android:icon="@drawable/ic_stars_black_24dp"
@@ -39,9 +30,13 @@
                 android:icon="@drawable/ic_baseline_share_24"
                 android:title="Share App" />
             <item
-                android:id="@+id/nav_about"
-                android:icon="@drawable/baseline_info_white_48dp"
-                android:title="About" />
+                android:id="@+id/nav_more_apps"
+                android:icon="@drawable/ic_baseline_apps_24"
+                android:title="More Apps" />
+            <item
+                android:id="@+id/nav_settings"
+                android:icon="@drawable/ic_settings"
+                android:title="Settings" />
         </menu>
     </item>
 

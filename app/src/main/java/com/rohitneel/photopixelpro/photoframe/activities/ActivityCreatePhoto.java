@@ -529,17 +529,19 @@ public class ActivityCreatePhoto extends AppCompatActivity implements FilterFram
                 bitmapsave = viewToBitmap(rl_main1);
                 CommonKeys.Image = bitmapsave;
                 try {
-                    result = saveImage(context, CommonKeys.Image,getApplicationContext().getString(R.string.app_name)
+                    result = saveImage(context, CommonKeys.Image, getApplicationContext().getString(R.string.app_name)
                             ,imgFileName +".jpg");
-                    CommonKeys.filePath = new File(PathUtills.getPath(ActivityCreatePhoto.this, result));
-                    scanFile(context, result);
-                    Toast.makeText(getApplicationContext(), "Saved to Gallery!", Toast.LENGTH_SHORT).show();
-                    Intent i = new Intent(context, ActivityPreviewImage.class);
-                    i.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP | Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                    startActivity(i);
-                } catch (IOException e) {
-                    e.printStackTrace();
-                } catch (URISyntaxException e) {
+                    if (result != null) {
+                        CommonKeys.filePath = new File(PathUtills.getPath(ActivityCreatePhoto.this, result));
+                        scanFile(context, result);
+                        Toast.makeText(getApplicationContext(), "Saved to Gallery!", Toast.LENGTH_SHORT).show();
+                        Intent i = new Intent(context, ActivityPreviewImage.class);
+                        i.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP | Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                        startActivity(i);
+                    } else {
+                        Toast.makeText(getApplicationContext(), "Error saving image.", Toast.LENGTH_SHORT).show();
+                    }
+                } catch (IOException | URISyntaxException e) {
                     e.printStackTrace();
                 }
             }
@@ -1393,51 +1395,47 @@ public class ActivityCreatePhoto extends AppCompatActivity implements FilterFram
 
     private Uri saveImage(Context context, Bitmap bitmap, @NonNull String folderName, @NonNull String fileName) throws IOException {
         OutputStream fos = null;
-        File imageFile = null;
         Uri imageUri = null;
-        imagesDir = new File(Environment.getExternalStoragePublicDirectory(
-                Environment.DIRECTORY_PICTURES).toString() + File.separator + folderName);
 
-        if (!imagesDir.exists())
-            imagesDir.mkdir();
         try {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+                // Scoped Storage logic for Android 10 and above
                 ContentResolver resolver = context.getContentResolver();
                 ContentValues contentValues = new ContentValues();
-                contentValues.put(MediaStore.MediaColumns.DISPLAY_NAME, fileName);
-                contentValues.put(MediaStore.MediaColumns.MIME_TYPE, "image/*");
-                contentValues.put(
-                        MediaStore.MediaColumns.RELATIVE_PATH, Environment.DIRECTORY_PICTURES + File.separator + folderName);
-                imageUri = resolver.insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, contentValues);
 
-                if (imageUri == null)
-                    throw new IOException("Failed to create new MediaStore record.");
+                contentValues.put(MediaStore.MediaColumns.DISPLAY_NAME, fileName);
+                contentValues.put(MediaStore.MediaColumns.MIME_TYPE, "image/jpeg");
+                contentValues.put(MediaStore.MediaColumns.RELATIVE_PATH, Environment.DIRECTORY_PICTURES + File.separator + folderName);
+
+                // Insert into MediaStore and get the Uri
+                imageUri = resolver.insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, contentValues);
+                if (imageUri == null) throw new IOException("Failed to create new MediaStore record.");
 
                 fos = resolver.openOutputStream(imageUri);
             } else {
-                imagesDir = new File(Environment.getExternalStoragePublicDirectory(
-                        Environment.DIRECTORY_PICTURES).toString() + File.separator + folderName);
+                // Legacy storage logic for Android 9 and below
+                File imagesDir = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES).toString()
+                        + File.separator + folderName);
 
-                if (!imagesDir.exists())
-                    imagesDir.mkdir();
+                if (!imagesDir.exists()) imagesDir.mkdirs();
 
-                imageFile = new File(imagesDir, fileName + ".jpg");
+                File imageFile = new File(imagesDir, fileName);
                 fos = new FileOutputStream(imageFile);
+                imageUri = Uri.fromFile(imageFile);
+
+                // Notify the media scanner
+                MediaScannerConnection.scanFile(context, new String[]{imageFile.toString()}, null, null);
             }
 
-
-            if (!bitmap.compress(Bitmap.CompressFormat.PNG, 100, fos))
+            // Write bitmap to file
+            if (!bitmap.compress(Bitmap.CompressFormat.JPEG, 100, fos)) {
                 throw new IOException("Failed to save bitmap.");
+            }
             fos.flush();
         } finally {
-            if (fos != null)
-                fos.close();
+            if (fos != null) fos.close();
         }
 
-        if (imageFile != null) {//pre Q
-            MediaScannerConnection.scanFile(context, new String[]{imageFile.toString()}, null, null);
-            imageUri = Uri.fromFile(imageFile);
-        }
         return imageUri;
     }
 

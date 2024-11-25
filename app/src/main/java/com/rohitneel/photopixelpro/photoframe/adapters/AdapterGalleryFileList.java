@@ -1,7 +1,6 @@
 package com.rohitneel.photopixelpro.photoframe.adapters;
 
 import android.content.Context;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -34,8 +33,6 @@ public class AdapterGalleryFileList extends ArrayAdapter<Model_images> {
 
     @Override
     public int getCount() {
-
-        Log.e("ADAPTER LIST SIZE", al_menu.size() + "");
         return al_menu.size();
     }
 

@@ -69,7 +69,7 @@ public class PhotoEditorGallery extends AppCompatActivity {
             getWindow().clearFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);
         }
 
-        if (Build.VERSION.SDK_INT >= 29) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
             boolean isWritable = Utils.isExternalStorageWritable();
             if(isWritable) {
                 String relativePath = Environment.DIRECTORY_PICTURES + File.separator + getApplicationContext().getString(R.string.app_name) + File.separator;
@@ -124,10 +124,12 @@ public class PhotoEditorGallery extends AppCompatActivity {
      *  Requesting user to grant write external storage permission.
      */
     private void CheckRequestPermissions() {
-        int writeExternalStoragePermission = ContextCompat.checkSelfPermission(getApplicationContext(), Manifest.permission.WRITE_EXTERNAL_STORAGE);
-        if (writeExternalStoragePermission != PackageManager.PERMISSION_GRANTED) {
-            // Request user to grant write external storage permission.
-            ActivityCompat.requestPermissions(PhotoEditorGallery.this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, REQUEST_CODE_WRITE_EXTERNAL_STORAGE_PERMISSION);
+        if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.R) {
+            int writeExternalStoragePermission = ContextCompat.checkSelfPermission(getApplicationContext(), Manifest.permission.WRITE_EXTERNAL_STORAGE);
+            if (writeExternalStoragePermission != PackageManager.PERMISSION_GRANTED) {
+                // Request user to grant write external storage permission.
+                ActivityCompat.requestPermissions(PhotoEditorGallery.this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, REQUEST_CODE_WRITE_EXTERNAL_STORAGE_PERMISSION);
+            }
         }
     }
 

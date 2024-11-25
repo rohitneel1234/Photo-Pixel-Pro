@@ -15,6 +15,9 @@ public class CommonKeys {
     public static String mFlowersKey = "flowers";
     public static String mLoveAnniversaryKey = "loveAnniversary";
     public static String mWallKey = "wall";
+    public static String INTRO_SCREEN_PREF = "intro_screen_prefs";
+    public static String IS_FIRST_TIME = "isFirstTime";
+
     public static String mBackgroundRemoverFilePath = "/storage/emulated/0/Pictures/Photo Pixel Pro/BGEraser";
 
     public static String mHomeKey = "HomeFragment";

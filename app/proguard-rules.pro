@@ -23,3 +23,5 @@
 -dontwarn org.kxml2.io.KXmlSerializer
 -dontwarn org.kxml2.io.KXml**
 -dontwarn android.content.res.**
+-keep public class androidx.core.content.FileProvider { *; }
+-keep class org.xmlpull.v1.** { *; }

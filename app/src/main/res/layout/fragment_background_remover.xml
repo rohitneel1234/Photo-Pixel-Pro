@@ -5,7 +5,7 @@
     android:id="@+id/mainActivity"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/BackgroundCardColor"
+    android:background="#F7F7F7"
     tools:context=".fragments.BackgroundRemoverFragment">
 
     <ImageView
@@ -33,7 +33,7 @@
         android:layout_height="wrap_content"
         android:paddingStart="5dp"
         android:paddingEnd="5dp"
-        android:layout_marginBottom="80dp"
+        android:layout_marginBottom="92dp"
         android:layout_centerHorizontal="true"
         android:layout_alignParentBottom="true"
         android:orientation="horizontal">

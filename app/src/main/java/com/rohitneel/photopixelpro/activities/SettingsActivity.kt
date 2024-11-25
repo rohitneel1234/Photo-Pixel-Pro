@@ -1,12 +1,16 @@
 package com.rohitneel.photopixelpro.activities
 
 import android.Manifest
+import android.content.ActivityNotFoundException
 import android.content.Intent
 import android.content.pm.PackageManager
+import android.net.Uri
 import android.os.Bundle
 import android.view.View
 import android.view.WindowManager
+import android.widget.ImageView
 import android.widget.TextView
+import android.widget.Toast
 import androidx.appcompat.app.ActionBar
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
@@ -14,15 +18,16 @@ import androidx.appcompat.widget.SwitchCompat
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
+import com.rohitneel.photopixelpro.BuildConfig
 import com.rohitneel.photopixelpro.R
 import com.rohitneel.photopixelpro.constant.CommonKeys
 import com.rohitneel.photopixelpro.helper.SessionManager
-import com.rohitneel.photopixelpro.tutorials.TutorialActivity
+import com.rohitneel.photopixelpro.photocollage.dialog.RateDialog
 import com.rohitneel.photopixelpro.photoeditor.ShowSavedFilePath
+import com.rohitneel.photopixelpro.tutorials.TutorialActivity
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
-import java.util.*
 import kotlin.system.measureTimeMillis
 
 
@@ -32,6 +37,10 @@ class SettingsActivity : AppCompatActivity() {
     private var constraintLayout: ConstraintLayout? = null
     private var mClSaveOption : ConstraintLayout? = null
     private var mClHelpAndSupport : ConstraintLayout? = null
+    private var mClRateUs : ConstraintLayout? = null
+    private var mClShareApp : ConstraintLayout? = null
+    private var mClMoreApps : ConstraintLayout? = null
+    private var mClDeveloper : ConstraintLayout? = null
     private var mSwitchFullScreen: SwitchCompat? = null
     private var mSwitchAppPermission: SwitchCompat? = null
     private val REQUEST_PERMISSION_CODE = 7
@@ -43,9 +52,16 @@ class SettingsActivity : AppCompatActivity() {
     private var mTxtContactUs: TextView? = null
     private var mTxtAppSettingsTitle: TextView? = null
     private var mTxtSaveTitle: TextView? = null
-    private var mTxtPermissionTitle: TextView? = null
+    private var mTxtRateUs: TextView? = null
+    private var mTxtShareApp: TextView? = null
+    private var mTxtMoreApps: TextView? = null
+    private var mTxtDeveloper: TextView? = null
+    private var mTxtVersion: TextView? = null
     private var mTxtAppHelpTitle: TextView? = null
-
+    private var txtAppVersion: TextView? = null
+    private var mTxtAboutTitle: TextView? = null
+    private var versionName: String? = null
+    private var imgDarkMode: ImageView? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -56,22 +72,28 @@ class SettingsActivity : AppCompatActivity() {
         mSwitchAppPermission = findViewById<View>(R.id.switchAppPermission) as SwitchCompat
         constraintLayout = findViewById<ConstraintLayout>(R.id.clTutorial)
         mClSaveOption = findViewById<ConstraintLayout>(R.id.clSaveOption)
-        mClHelpAndSupport = findViewById<ConstraintLayout>(R.id.clHelpAndSupport);
+        mClHelpAndSupport = findViewById<ConstraintLayout>(R.id.clContactUs)
+        mClRateUs = findViewById<ConstraintLayout>(R.id.clRateUs)
+        mClShareApp = findViewById<ConstraintLayout>(R.id.clShareApp)
+        mClMoreApps = findViewById<ConstraintLayout>(R.id.clMoreApps)
+        mClDeveloper = findViewById<ConstraintLayout>(R.id.clDeveloper)
         mTxtTutorial = findViewById<TextView>(R.id.txtTutorial)
         mTxtDark = findViewById<TextView>(R.id.txtDarkMode)
         mTxtFullScreen = findViewById<TextView>(R.id.txtFullScreen)
         mTxtSave = findViewById<TextView>(R.id.txtSaveOption)
         mTxtPermission = findViewById<TextView>(R.id.txtAppPermission)
         mTxtContactUs =  findViewById<TextView>(R.id.txtContactUs)
-        mTxtAppSettingsTitle = findViewById(R.id.txtAppSettingsTitle);
-        mTxtSaveTitle = findViewById(R.id.txtSaveTitle);
-        mTxtPermissionTitle = findViewById(R.id.txtPermissionTitle);
-        mTxtAppHelpTitle = findViewById(R.id.txtHelpTitle);
-
-        val actionBar: ActionBar? = supportActionBar
-
-       /* val colorDrawable = ColorDrawable(Color.parseColor("#DC4C25"))
-        actionBar!!.setBackgroundDrawable(colorDrawable);*/
+        mTxtRateUs =  findViewById<TextView>(R.id.txtRateUs)
+        mTxtShareApp =  findViewById<TextView>(R.id.txtShareApp)
+        mTxtMoreApps =  findViewById<TextView>(R.id.txtMoreApps)
+        mTxtDeveloper =  findViewById<TextView>(R.id.txtDeveloper)
+        mTxtVersion =  findViewById<TextView>(R.id.txtVersion)
+        mTxtAppSettingsTitle = findViewById(R.id.txtAppSettingsTitle)
+        mTxtSaveTitle = findViewById(R.id.txtSaveTitle)
+        mTxtAppHelpTitle = findViewById(R.id.txtHelpTitle)
+        mTxtAboutTitle = findViewById(R.id.txtAboutTitle);
+        txtAppVersion = findViewById(R.id.txtVersionName)
+        imgDarkMode = findViewById(R.id.imgTheme)
 
         constraintLayout!!.setOnClickListener(View.OnClickListener {
             val intent = Intent(applicationContext, TutorialActivity::class.java)
@@ -87,6 +109,55 @@ class SettingsActivity : AppCompatActivity() {
             startActivity(Intent(this, ContactUs::class.java))
         })
 
+        mClRateUs!!.setOnClickListener(View.OnClickListener {
+            RateDialog(this, false).show()
+        })
+
+        mClShareApp!!.setOnClickListener(View.OnClickListener {
+            val shareIntent = Intent(Intent.ACTION_SEND)
+            shareIntent.type = "text/plain"
+            shareIntent.putExtra(Intent.EXTRA_SUBJECT, "Photo Pixel Pro")
+            var shareMessage = "Let me recommend you this application. It is easy and amazing app for creative photo editing. Download & check it out!\n".trimIndent()
+            shareMessage = """
+                    ${shareMessage} https://play.google.com/store/apps/details?id=${BuildConfig.APPLICATION_ID}
+                    """.trimIndent()
+            shareIntent.putExtra(Intent.EXTRA_TEXT, shareMessage)
+            startActivity(Intent.createChooser(shareIntent, "choose one"))
+        })
+
+        mClMoreApps!!.setOnClickListener(View.OnClickListener {
+            try {
+                startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(getString(R.string.market_string))))
+            } catch (e: ActivityNotFoundException) {
+                try {
+                    startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(getString(R.string.market_developer_string))))
+                } catch (e: Throwable) {
+                    Toast.makeText(this, "something went wrong!", Toast.LENGTH_SHORT).show()
+                }
+            } catch (e: Throwable) {
+                Toast.makeText(this, "something went wrong!", Toast.LENGTH_SHORT).show()
+            }
+        })
+
+        mClDeveloper!!.setOnClickListener(View.OnClickListener {
+            try {
+                val intent = Intent(Intent.ACTION_VIEW)
+                intent.data = Uri.parse("https://zaap.bio/rohitneel")
+                startActivity(intent)
+            } catch (e: Throwable) {
+                Toast.makeText(this, "something went wrong!", Toast.LENGTH_SHORT).show()
+            }
+        })
+
+        val manager = this.packageManager
+        try {
+            val info = manager.getPackageInfo(this.packageName, PackageManager.GET_ACTIVITIES)
+            versionName = info.versionName
+            txtAppVersion?.text = String.format("%s", "v$versionName")
+        } catch (e: PackageManager.NameNotFoundException) {
+            e.printStackTrace()
+        }
+
         if (mSession!!.loadState()) {
             AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
             setTheme(R.style.darkTheme)
@@ -96,11 +167,17 @@ class SettingsActivity : AppCompatActivity() {
             mTxtSave!!.setTextColor(ContextCompat.getColor(applicationContext, R.color.white))
             mTxtPermission!!.setTextColor(ContextCompat.getColor(applicationContext, R.color.white))
             mTxtContactUs!!.setTextColor(ContextCompat.getColor(applicationContext, R.color.white))
+            mTxtRateUs!!.setTextColor(ContextCompat.getColor(applicationContext, R.color.white))
+            mTxtShareApp!!.setTextColor(ContextCompat.getColor(applicationContext, R.color.white))
+            mTxtMoreApps!!.setTextColor(ContextCompat.getColor(applicationContext, R.color.white))
+            mTxtDeveloper!!.setTextColor(ContextCompat.getColor(applicationContext, R.color.white))
+            mTxtVersion!!.setTextColor(ContextCompat.getColor(applicationContext, R.color.white))
+            txtAppVersion!!.setTextColor(ContextCompat.getColor(applicationContext, R.color.white))
             mTxtAppSettingsTitle!!.setTextColor(ContextCompat.getColor(applicationContext, R.color.white))
             mTxtSaveTitle!!.setTextColor(ContextCompat.getColor(applicationContext, R.color.white))
-            mTxtPermissionTitle!!.setTextColor(ContextCompat.getColor(applicationContext, R.color.white))
             mTxtAppHelpTitle!!.setTextColor(ContextCompat.getColor(applicationContext, R.color.white))
-
+            mTxtAboutTitle!!.setTextColor(ContextCompat.getColor(applicationContext, R.color.white))
+            imgDarkMode!!.setColorFilter(ContextCompat.getColor(this, R.color.white))
         } else {
             AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
             setTheme(R.style.AppTheme)
@@ -110,6 +187,12 @@ class SettingsActivity : AppCompatActivity() {
             mTxtSave!!.setTextColor(ContextCompat.getColor(applicationContext, R.color.settingsTextColor))
             mTxtPermission!!.setTextColor(ContextCompat.getColor(applicationContext, R.color.settingsTextColor))
             mTxtContactUs!!.setTextColor(ContextCompat.getColor(applicationContext, R.color.settingsTextColor))
+            mTxtRateUs!!.setTextColor(ContextCompat.getColor(applicationContext, R.color.settingsTextColor))
+            mTxtShareApp!!.setTextColor(ContextCompat.getColor(applicationContext, R.color.settingsTextColor))
+            mTxtMoreApps!!.setTextColor(ContextCompat.getColor(applicationContext, R.color.settingsTextColor))
+            mTxtDeveloper!!.setTextColor(ContextCompat.getColor(applicationContext, R.color.settingsTextColor))
+            mTxtVersion!!.setTextColor(ContextCompat.getColor(applicationContext, R.color.settingsTextColor))
+            txtAppVersion!!.setTextColor(ContextCompat.getColor(applicationContext, R.color.settingsTextColor))
         }
 
         //calling dark theme state to load and save

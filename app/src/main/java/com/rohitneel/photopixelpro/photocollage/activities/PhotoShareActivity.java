@@ -20,6 +20,7 @@ import androidx.core.content.FileProvider;
 import com.bumptech.glide.Glide;
 import com.rohitneel.photopixelpro.R;
 import com.rohitneel.photopixelpro.activities.MainActivity;
+import com.rohitneel.photopixelpro.constant.CommonKeys;
 import com.rohitneel.photopixelpro.photocollage.constants.Constants;
 import com.rohitneel.photopixelpro.photocollage.dialog.RateDialog;
 import com.rohitneel.photopixelpro.photocollage.picker.ImageCaptureManager;
@@ -41,11 +42,10 @@ public class PhotoShareActivity extends PhotoBaseActivity implements View.OnClic
         } else {
             setFullScreen();
         }
-        setContentView((int) R.layout.activity_share_photo);
-        createImageFile1=new ImageCaptureManager(this);
+        setContentView(R.layout.activity_share_photo);
+        createImageFile1 = new ImageCaptureManager(this);
         String keyFromActivity = getIntent().getExtras().getString("activity");
-        String string = getIntent().getExtras().getString("path");
-        this.file = new File(string);
+        this.file = CommonKeys.filePath;
         Glide.with(getApplicationContext()).load(this.file).into((ImageView) findViewById(R.id.image_view_preview));
         findViewById(R.id.image_view_preview).setOnClickListener(new View.OnClickListener() {
             public final void onClick(View view) {
@@ -106,24 +106,24 @@ public class PhotoShareActivity extends PhotoBaseActivity implements View.OnClic
                         startAcitivity(PhotoShareActivity.this, view);
                         return;
                     case R.id.linear_layout_facebook:
-                        shareToFacebook(file.getPath());
+                        shareToFacebook(Uri.parse(file.getPath()));
                         return;
                     case R.id.linear_layout_instagram:
-                        shareToInstagram(file.getPath());
+                        shareToInstagram(Uri.parse(file.getPath()));
                         return;
                     case R.id.linear_layout_messenger:
-                        shareToMessenger(file.getPath());
+                        shareToMessenger(Uri.parse(file.getPath()));
                         return;
                     case R.id.linear_layout_share_more:
-                        shareImage(file.getPath());
+                        shareImage(Uri.parse(file.getPath()));
                         return;
                     default:
                         switch (id) {
                             case R.id.linear_layout_twitter:
-                                shareToTwitter(file.getPath());
+                                shareToTwitter(Uri.parse(file.getPath()));
                                 return;
                             case R.id.linear_layout_whatsapp:
-                                shareToWhatsapp(file.getPath());
+                                shareToWhatsapp(Uri.parse(file.getPath()));
                                 return;
                             default:
                                 return;
@@ -140,16 +140,13 @@ public class PhotoShareActivity extends PhotoBaseActivity implements View.OnClic
     }
 
     @SuppressLint("WrongConstant")
-    private void shareToFacebook(String str) {
-        Intent intent = new Intent("android.intent.action.SEND");
-        String str1 = "com.facebook.katana";
-        intent.setPackage(str1);
+    private void shareToFacebook(Uri uri) {
+        String str1 = Constants.FACEBOOK;
         try {
-            StringBuilder sb = new StringBuilder();
-            sb.append(getApplicationContext().getPackageName());
-            sb.append(".provider");
-            intent.putExtra("android.intent.extra.STREAM", FileProvider.getUriForFile(this, sb.toString(), new File(str)));
+            Intent intent = new Intent("android.intent.action.SEND");
+            intent.putExtra("android.intent.extra.STREAM", uri);
             intent.setType("image/*");
+            intent.setPackage(str1);
             intent.addFlags(1);
             startActivity(Intent.createChooser(intent, "Share Photo"));
         } catch (Exception e){
@@ -158,13 +155,9 @@ public class PhotoShareActivity extends PhotoBaseActivity implements View.OnClic
     }
 
     @SuppressLint("WrongConstant")
-    private void shareToInstagram(String str) {
+    private void shareToInstagram(Uri uri) {
         String str1 = Constants.INSTAGRAM;
         try {
-            StringBuilder sb = new StringBuilder();
-            sb.append(getApplicationContext().getPackageName());
-            sb.append(".provider");
-            Uri uri = FileProvider.getUriForFile(this, sb.toString(), new File(str));
             Intent intent = new Intent("android.intent.action.SEND");
             intent.putExtra("android.intent.extra.STREAM", uri);
             intent.setType("image/*");
@@ -177,17 +170,14 @@ public class PhotoShareActivity extends PhotoBaseActivity implements View.OnClic
     }
 
 
-    private void shareToWhatsapp(String str) {
+    private void shareToWhatsapp(Uri uri) {
         String str1 = Constants.WHATSAPP;
         try {
-            StringBuilder sb = new StringBuilder();
-            sb.append(getApplicationContext().getPackageName());
-            sb.append(".provider");
-            Uri uri = FileProvider.getUriForFile(this, sb.toString(), new File(str));
             Intent intent = new Intent("android.intent.action.SEND");
             intent.putExtra("android.intent.extra.STREAM", uri);
             intent.setType("image/*");
             intent.setPackage(str1);
+            intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
             startActivity(intent);
         } catch (Exception e){
             e.printStackTrace();
@@ -195,13 +185,9 @@ public class PhotoShareActivity extends PhotoBaseActivity implements View.OnClic
     }
 
     @SuppressLint("WrongConstant")
-    private void shareToMessenger(String str) {
+    private void shareToMessenger(Uri uri) {
         String str1 = Constants.MESSEGER;
         try {
-            StringBuilder sb = new StringBuilder();
-            sb.append(getApplicationContext().getPackageName());
-            sb.append(".provider");
-            Uri uri = FileProvider.getUriForFile(this, sb.toString(), new File(str));
             Intent intent = new Intent("android.intent.action.SEND");
             intent.putExtra("android.intent.extra.STREAM", uri);
             intent.setType("image/*");
@@ -214,13 +200,9 @@ public class PhotoShareActivity extends PhotoBaseActivity implements View.OnClic
     }
 
     @SuppressLint("WrongConstant")
-    private void shareToTwitter(String str) {
+    private void shareToTwitter(Uri uri) {
         String str1 = Constants.TWITTER;
         try {
-            StringBuilder sb = new StringBuilder();
-            sb.append(getApplicationContext().getPackageName());
-            sb.append(".provider");
-            Uri uri = FileProvider.getUriForFile(this, sb.toString(), new File(str));
             Intent intent = new Intent("android.intent.action.SEND");
             intent.putExtra("android.intent.extra.STREAM", uri);
             intent.setType("image/*");
@@ -233,12 +215,8 @@ public class PhotoShareActivity extends PhotoBaseActivity implements View.OnClic
     }
 
     @SuppressLint("WrongConstant")
-    public void shareImage(String str){
+    public void shareImage(Uri uri){
         try {
-            StringBuilder sb = new StringBuilder();
-            sb.append(getApplicationContext().getPackageName());
-            sb.append(".provider");
-            Uri uri = FileProvider.getUriForFile(this, sb.toString(), new File(str));
             Intent intent = new Intent("android.intent.action.SEND");
             intent.addFlags(1);
             intent.setType("image/*");

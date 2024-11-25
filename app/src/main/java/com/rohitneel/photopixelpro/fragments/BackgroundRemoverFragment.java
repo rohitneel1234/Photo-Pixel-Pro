@@ -8,6 +8,7 @@ import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.view.LayoutInflater;
@@ -88,11 +89,16 @@ public class BackgroundRemoverFragment extends Fragment {
      */
     private void RequestMultiplePermission() {
         // Creating String Array with Permissions.
-        ActivityCompat.requestPermissions(getActivity(), new String[]
-                {
-                        CAMERA,
-                        WRITE_EXTERNAL_STORAGE
-                }, REQUEST_MULTIPLE_PERMISSION_CODE);
+        if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.R) {
+            ActivityCompat.requestPermissions(getActivity(), new String[]{
+                    CAMERA,
+                    WRITE_EXTERNAL_STORAGE
+            }, REQUEST_MULTIPLE_PERMISSION_CODE);
+        } else {
+            ActivityCompat.requestPermissions(getActivity(), new String[]{
+                    CAMERA
+            }, REQUEST_MULTIPLE_PERMISSION_CODE);
+        }
     }
 
 

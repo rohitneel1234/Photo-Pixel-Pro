@@ -51,10 +51,9 @@ public class PhotoPickerActivity extends AppCompatActivity {
         setSupportActionBar(findViewById(R.id.toolbar));
         setTitle("");
         ActionBar supportActionBar = getSupportActionBar();
+        assert supportActionBar != null;
         supportActionBar.setDisplayHomeAsUpEnabled(true);
-        if (Build.VERSION.SDK_INT >= 21) {
-            supportActionBar.setElevation(25.0f);
-        }
+        supportActionBar.setElevation(25.0f);
         this.maxCount = getIntent().getIntExtra(PhotoPickerView.EXTRA_MAX_COUNT, 9);
         int intExtra = getIntent().getIntExtra(PhotoPickerView.EXTRA_GRID_COLUMN, 4);
         this.originalPhotos = getIntent().getStringArrayListExtra(PhotoPickerView.EXTRA_ORIGINAL_PHOTOS);

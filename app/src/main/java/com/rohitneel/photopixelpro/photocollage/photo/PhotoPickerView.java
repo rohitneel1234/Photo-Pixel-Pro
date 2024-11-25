@@ -23,6 +23,9 @@ public class PhotoPickerView {
     public static final String KEY_SELECTED_PHOTOS = "SELECTED_PHOTOS";
     public static final String MAIN_ACTIVITY = "MAIN_ACTIVITY";
     public static final int REQUEST_CODE = 233;
+    public static final String REQUEST_CODE_KEY = "REQUEST_CODE";
+    public static final String CAMERA_REQUEST_CODE = "4";
+    public static final String GALLERY_REQUEST_CODE = "5";
 
     public static PhotoPickerBuilder builder() {
         return new PhotoPickerBuilder();

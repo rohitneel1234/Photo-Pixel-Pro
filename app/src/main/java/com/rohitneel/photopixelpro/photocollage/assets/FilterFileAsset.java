@@ -1,9 +1,17 @@
 package com.rohitneel.photopixelpro.photocollage.assets;
 
+import android.content.Context;
 import android.graphics.Bitmap;
 
 import java.util.ArrayList;
 import java.util.List;
+import jp.co.cyberagent.android.gpuimage.GPUImage;
+import jp.co.cyberagent.android.gpuimage.filter.GPUImageBrightnessFilter;
+import jp.co.cyberagent.android.gpuimage.filter.GPUImageContrastFilter;
+import jp.co.cyberagent.android.gpuimage.filter.GPUImageFilter;
+import jp.co.cyberagent.android.gpuimage.filter.GPUImageSaturationFilter;
+import jp.co.cyberagent.android.gpuimage.filter.GPUImageSepiaToneFilter;
+import jp.co.cyberagent.android.gpuimage.filter.GPUImageToneCurveFilter;
 
 public class FilterFileAsset {
 
@@ -77,9 +85,40 @@ public class FilterFileAsset {
 
     };
 
-    public static List<Bitmap> getListBitmapFilter(Bitmap bitmap) {
-        ArrayList arrayList = new ArrayList();
-        return arrayList;
+    public static List<Bitmap> getListBitmapFilter(Context context, Bitmap bitmap) {
+        List<Bitmap> filteredBitmaps = new ArrayList<>();
+        GPUImage gpuImage = new GPUImage(context);
+
+        for (FiltersCode filtersCode : FILTERS) {
+            // Set the original bitmap
+            gpuImage.setImage(bitmap);
+
+            // Apply filter based on the filter code
+            switch (filtersCode.getCode()) {
+                case "brightness":
+                    gpuImage.setFilter(new GPUImageBrightnessFilter(0.5f)); // Example: increase brightness
+                    break;
+                case "contrast":
+                    gpuImage.setFilter(new GPUImageContrastFilter(1.5f)); // Example: increase contrast
+                    break;
+                case "saturation":
+                    gpuImage.setFilter(new GPUImageSaturationFilter(1.5f)); // Example: increase saturation
+                    break;
+                case "sepia":
+                    gpuImage.setFilter(new GPUImageSepiaToneFilter()); // Example: sepia effect
+                    break;
+                case "tonecurve":
+                    gpuImage.setFilter(new GPUImageToneCurveFilter()); // Example: tone curve filter
+                    break;
+                default:
+                    gpuImage.setFilter(new GPUImageFilter()); // No filter
+                    break;
+            }
+            // Get the filtered bitmap and add to the list
+            filteredBitmaps.add(gpuImage.getBitmapWithFilterApplied());
+        }
+
+        return filteredBitmaps;
     }
 
 }

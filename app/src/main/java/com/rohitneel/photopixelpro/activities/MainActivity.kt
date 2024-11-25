@@ -1,14 +1,18 @@
 package com.rohitneel.photopixelpro.activities
 
 import android.app.AlertDialog
+import android.content.ActivityNotFoundException
 import android.content.Context
 import android.content.DialogInterface
 import android.content.Intent
 import android.content.IntentSender.SendIntentException
 import android.graphics.Color
+import android.net.Uri
 import android.os.Bundle
 import android.text.Html
-import android.view.*
+import android.view.Menu
+import android.view.View
+import android.view.WindowManager
 import android.widget.Button
 import android.widget.TextView
 import android.widget.Toast
@@ -18,11 +22,10 @@ import androidx.appcompat.widget.Toolbar
 import androidx.core.content.ContextCompat
 import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
-import androidx.fragment.app.Fragment
 import androidx.navigation.Navigation
+import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.NavigationUI
-import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.navigation.NavigationView
 import com.google.android.material.snackbar.Snackbar
 import com.google.android.play.core.appupdate.AppUpdateManager
@@ -33,6 +36,8 @@ import com.google.android.play.core.install.model.InstallStatus
 import com.google.android.play.core.install.model.UpdateAvailability
 import com.rohitneel.photopixelpro.BuildConfig
 import com.rohitneel.photopixelpro.R
+import com.rohitneel.photopixelpro.curvedbottomnavigation.CbnMenuItem
+import com.rohitneel.photopixelpro.curvedbottomnavigation.CurvedBottomNavigationView
 import com.rohitneel.photopixelpro.gallery.PhotoEditorGallery
 import com.rohitneel.photopixelpro.helper.SessionManager
 import com.rohitneel.photopixelpro.photocollage.dialog.RateDialog
@@ -45,23 +50,23 @@ class MainActivity : AppCompatActivity() {
     private var appUpdateManager: AppUpdateManager? = null
     private val RC_APP_UPDATE = 100
 
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+        val activeIndex = savedInstanceState?.getInt("activeIndex") ?: 0
         toolbar = findViewById(R.id.toolbar)
         setSupportActionBar(toolbar)
 
         appUpdateManager = AppUpdateManagerFactory.create(this)
         appUpdateManager!!.appUpdateInfo.addOnSuccessListener { result ->
             if (result.updateAvailability() == UpdateAvailability.UPDATE_AVAILABLE
-                && result.isUpdateTypeAllowed(AppUpdateType.FLEXIBLE)
+                && result.isUpdateTypeAllowed(AppUpdateType.IMMEDIATE)
             ) {
                 try {
-                    appUpdateManager!!.startUpdateFlowForResult(
+                    appUpdateManager?.startUpdateFlowForResult(
                         result,
-                        AppUpdateType.FLEXIBLE,
-                        this@MainActivity,
+                        AppUpdateType.IMMEDIATE,
+                        this,
                         RC_APP_UPDATE
                     )
                 } catch (e: SendIntentException) {
@@ -70,7 +75,7 @@ class MainActivity : AppCompatActivity() {
             }
         }
 
-        appUpdateManager!!.registerListener(installStateUpdatedListener)
+        appUpdateManager?.registerListener(installStateUpdatedListener)
 
         val drawer = findViewById<DrawerLayout>(R.id.drawer_layout)
         val toggle = ActionBarDrawerToggle(
@@ -89,7 +94,8 @@ class MainActivity : AppCompatActivity() {
         }
 
         val navigationView = findViewById<NavigationView>(R.id.nav_view)
-        val bottomNavigationView = findViewById<BottomNavigationView>(R.id.bottom_nav_view)
+        val bottomNavigationView = findViewById<CurvedBottomNavigationView>(R.id.bottom_nav_view)
+
         if(navigationView.getHeaderView(0)!=null) {
             headerTextTitle = navigationView.getHeaderView(0).findViewById<View>(R.id.txtHeader) as TextView
         }
@@ -101,22 +107,44 @@ class MainActivity : AppCompatActivity() {
         headerTextTitle!!.setOnClickListener {
         }
 
-        val navController = Navigation.findNavController(this, R.id.nav_host_fragment)
+        val navHostFragment = supportFragmentManager.findFragmentById(R.id.nav_host_fragment) as NavHostFragment
+        val navController = navHostFragment.navController
         // Passing each menu ID as a set of Ids because each
         // menu should be considered as top level destinations.
         mAppBarConfiguration = AppBarConfiguration.Builder(
-                R.id.nav_home, R.id.bottom_home, R.id.bottom_dashboard, R.id.bottom_notifications)
+                R.id.nav_home, R.id.bottom_dashboard, R.id.bottom_notifications)
                 .setDrawerLayout(drawer)
                 .build()
         NavigationUI.setupActionBarWithNavController(this, navController, mAppBarConfiguration!!)
         NavigationUI.setupWithNavController(navigationView, navController)
-        NavigationUI.setupWithNavController(bottomNavigationView,navController)
+
+        val menuItems = arrayOf(
+            CbnMenuItem(
+                R.drawable.ic_outline_home_24,
+                R.drawable.avd_home,
+                R.id.nav_home,
+                "Home"
+            ),
+            CbnMenuItem(
+                R.drawable.outline_filter_frames_24,
+                R.drawable.avd_photo_frame,
+                R.id.bottom_dashboard,
+                "Photo Frame"
+            ),
+            CbnMenuItem(
+                R.drawable.ic_background_remover,
+                R.drawable.avd_background_remover,
+                R.id.bottom_notifications,
+                "BG Eraser"
+            )
+        )
+        bottomNavigationView.setMenuItems(menuItems, activeIndex)
+        bottomNavigationView.setupWithNavController(navController)
 
         navigationView.setNavigationItemSelectedListener { menuItem ->
             when (menuItem.itemId) {
                 R.id.nav_gallery -> startActivity(Intent(applicationContext, PhotoEditorGallery::class.java))
                 R.id.nav_settings -> startActivity(Intent(applicationContext, SettingsActivity::class.java))
-                R.id.nav_about -> startActivity(Intent(applicationContext, AboutActivity::class.java))
                 R.id.nav_exit -> {
                     moveTaskToBack(true)
                     finish()
@@ -136,25 +164,24 @@ class MainActivity : AppCompatActivity() {
                     shareIntent.putExtra(Intent.EXTRA_TEXT, shareMessage)
                     startActivity(Intent.createChooser(shareIntent, "choose one"))
                 }
-
+                R.id.nav_more_apps -> {
+                    try {
+                        startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(getString(R.string.market_string))))
+                    } catch (e: ActivityNotFoundException) {
+                        try {
+                            startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(getString(R.string.market_developer_string))))
+                        } catch (e: Throwable) {
+                            Toast.makeText(this, "something went wrong!", Toast.LENGTH_SHORT).show()
+                        }
+                    } catch (e: Throwable) {
+                        Toast.makeText(this, "something went wrong!", Toast.LENGTH_SHORT).show()
+                    }
+                }
             }
             val drawer = findViewById<View>(R.id.drawer_layout) as DrawerLayout
             drawer.closeDrawer(GravityCompat.START)
             true
         }
-    }
-
-
-    private fun loadFragment(fragment: Fragment?): Boolean {
-        //switching fragment
-        if (fragment != null) {
-            supportFragmentManager
-                    .beginTransaction()
-                    .replace(R.id.nav_host_fragment, fragment)
-                    .commit()
-            return true
-        }
-        return false
     }
 
     private val installStateUpdatedListener =
@@ -165,20 +192,16 @@ class MainActivity : AppCompatActivity() {
         }
 
     override fun onStop() {
-        if (appUpdateManager != null) appUpdateManager!!.unregisterListener(
-            installStateUpdatedListener
-        )
+        appUpdateManager?.unregisterListener(installStateUpdatedListener)
         super.onStop()
     }
 
     private fun showCompletedUpdate() {
         val snackbar = Snackbar.make(
             findViewById(android.R.id.content),
-            "New app is ready!",
+            "Update downloaded. Please restart to complete!",
             Snackbar.LENGTH_INDEFINITE
-        )
-        snackbar.setAction("Install")
-        {
+        ).setAction("Restart") {
             appUpdateManager?.completeUpdate()
         }
         snackbar.show()

@@ -8,6 +8,7 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
@@ -51,6 +52,8 @@ import static android.Manifest.permission.WRITE_EXTERNAL_STORAGE;
 
 public class MediaActivity extends AppCompatActivity {
     public static final int REQUEST_PERMISSION_CODE = 7;
+    private static final int REQUEST_GALLERY_CODE = 8;
+    private static final int REQUEST_CAMERA_CODE = 1;
     private LinearLayout fabCameraUploadBtn;
     private LinearLayout fabGalleryUploadBtn;
     private File dir;
@@ -126,38 +129,33 @@ public class MediaActivity extends AppCompatActivity {
      */
     private void RequestMultiplePermission() {
         // Creating String Array with Permissions.
-        ActivityCompat.requestPermissions(MediaActivity.this, new String[]
-                {
-                        CAMERA,
-                        WRITE_EXTERNAL_STORAGE
-                }, REQUEST_PERMISSION_CODE);
+        if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.R) {
+            // For Android versions below Android 11, request both camera and storage permissions
+            ActivityCompat.requestPermissions(MediaActivity.this, new String[]{
+                    CAMERA,
+                    WRITE_EXTERNAL_STORAGE
+            }, REQUEST_PERMISSION_CODE);
+        } else {
+            // For Android 11 and above, only request camera permission
+            ActivityCompat.requestPermissions(MediaActivity.this, new String[]{
+                    CAMERA
+            }, REQUEST_PERMISSION_CODE);
+        }
     }
 
     @SuppressLint("ClickableViewAccessibility")
     public void addListeners() {
         fabCameraUploadBtn.setOnClickListener(view -> {
-            String[] arrPermissions = {"android.permission.CAMERA","android.permission.READ_EXTERNAL_STORAGE", "android.permission.WRITE_EXTERNAL_STORAGE"};
-            if (Build.VERSION.SDK_INT >= 29)arrPermissions=new String[]{"android.permission.CAMERA"};
-            Dexter.withContext(MediaActivity.this).withPermissions(arrPermissions)
-                    .withListener(new MultiplePermissionsListener() {
-                        public void onPermissionsChecked(MultiplePermissionsReport multiplePermissionsReport) {
-                            if (multiplePermissionsReport.areAllPermissionsGranted()) {
-                                takePhotoFromCamera();
-                            }
-                            if (multiplePermissionsReport.isAnyPermissionPermanentlyDenied()) {
-                                DetailsDialog.showDetailsDialog(MediaActivity.this);
-                            }
-                        }
-
-                        public void onPermissionRationaleShouldBeShown(List<PermissionRequest> list, PermissionToken permissionToken) {
-                            permissionToken.continuePermissionRequest();
-                        }
-                    }).withErrorListener(dexterError -> Toast.makeText(getApplicationContext(), "Error occurred! ", Toast.LENGTH_SHORT).show()).onSameThread().check();
-
+            goToCapturePhoto();
         });
 
         fabGalleryUploadBtn.setOnClickListener(view -> {
-            goToEditPhoto();
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+                // Use Storage Access Framework for Android 11+ to open the gallery
+                openGalleryForImage();
+            } else {
+                goToEditPhoto(); // For older versions, continue using the existing method
+            }
         });
 
         if (mSession.loadFullScreenState()) {
@@ -169,12 +167,29 @@ public class MediaActivity extends AppCompatActivity {
         }
     }
 
+    private void goToCapturePhoto() {
+        String[] arrPermissions = {"android.permission.CAMERA", "android.permission.READ_EXTERNAL_STORAGE", "android.permission.WRITE_EXTERNAL_STORAGE"};
+        if (Build.VERSION.SDK_INT >= 29) arrPermissions = new String[]{"android.permission.CAMERA"};
+        Dexter.withContext(MediaActivity.this).withPermissions(arrPermissions)
+                .withListener(new MultiplePermissionsListener() {
+                    public void onPermissionsChecked(MultiplePermissionsReport multiplePermissionsReport) {
+                        if (multiplePermissionsReport.areAllPermissionsGranted()) {
+                            takePhotoFromCamera();
+                        }
+                        if (multiplePermissionsReport.isAnyPermissionPermanentlyDenied()) {
+                            DetailsDialog.showDetailsDialog(MediaActivity.this);
+                        }
+                    }
+                    public void onPermissionRationaleShouldBeShown(List<PermissionRequest> list, PermissionToken permissionToken) {
+                        permissionToken.continuePermissionRequest();
+                    }
+                }).withErrorListener(dexterError -> Toast.makeText(getApplicationContext(), "Error occurred! ", Toast.LENGTH_SHORT).show()).onSameThread().check();
+    }
 
     private void goToEditPhoto()
     {
         String[] arrPermissions = {"android.permission.READ_EXTERNAL_STORAGE", "android.permission.WRITE_EXTERNAL_STORAGE"};
-        if (Build.VERSION.SDK_INT >= 29)arrPermissions=new String[]{"android.permission.READ_EXTERNAL_STORAGE"};
-
+        if (Build.VERSION.SDK_INT >= 29) arrPermissions = new String[]{"android.permission.READ_EXTERNAL_STORAGE"};
         Dexter.withContext(MediaActivity.this).withPermissions(arrPermissions).withListener(new MultiplePermissionsListener() {
             public void onPermissionsChecked(MultiplePermissionsReport multiplePermissionsReport) {
                 if (multiplePermissionsReport.areAllPermissionsGranted()) {
@@ -184,7 +199,6 @@ public class MediaActivity extends AppCompatActivity {
                     DetailsDialog.showDetailsDialog(MediaActivity.this);
                 }
             }
-
             public void onPermissionRationaleShouldBeShown(List<PermissionRequest> list, PermissionToken permissionToken) {
                 permissionToken.continuePermissionRequest();
             }
@@ -195,10 +209,19 @@ public class MediaActivity extends AppCompatActivity {
         super.onPostCreate(bundle);
     }
 
-    public void onActivityResult(int i, int i2, Intent intent) {
-        if (i2 != -1) {
-            super.onActivityResult(i, i2, intent);
-        } else if (i == 1) {
+    private void openGalleryForImage() {
+        Intent intent = new Intent(Intent.ACTION_OPEN_DOCUMENT);
+        intent.setType("image/*");
+        startActivityForResult(intent, REQUEST_GALLERY_CODE);
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent intent) {
+        super.onActivityResult(requestCode, resultCode, intent);
+        if (resultCode != RESULT_OK) {
+            return;
+        }
+        if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.Q) {
             if (this.imageCaptureManager == null) {
                 this.imageCaptureManager = new ImageCaptureManager(this);
             }
@@ -206,12 +229,34 @@ public class MediaActivity extends AppCompatActivity {
             Intent intent2 = new Intent(getApplicationContext(), PhotoEditorActivity.class);
             intent2.putExtra(PhotoPickerView.KEY_SELECTED_PHOTOS, this.imageCaptureManager.getCurrentPhotoPath());
             startActivity(intent2);
+        } else {
+            if (requestCode == REQUEST_CAMERA_CODE) {
+                if (this.imageCaptureManager == null) {
+                    this.imageCaptureManager = new ImageCaptureManager(this);
+                }
+                new Handler().post(() -> MediaActivity.this.imageCaptureManager.galleryAddPic());
+                Intent photoEditorIntent = new Intent(getApplicationContext(), PhotoEditorActivity.class);
+                photoEditorIntent.putExtra(PhotoPickerView.KEY_SELECTED_PHOTOS, this.imageCaptureManager.getCurrentPhotoPath());
+                photoEditorIntent.putExtra(PhotoPickerView.REQUEST_CODE_KEY, PhotoPickerView.CAMERA_REQUEST_CODE);
+                startActivity(photoEditorIntent);
+            } else if (requestCode == REQUEST_GALLERY_CODE) {
+                if (intent != null && intent.getData() != null) {
+                    Uri selectedImageUri = intent.getData();
+                    if (selectedImageUri != null) {
+                        Intent photoEditorIntent = new Intent(getApplicationContext(), PhotoEditorActivity.class);
+                        photoEditorIntent.putExtra(PhotoPickerView.KEY_SELECTED_PHOTOS, selectedImageUri.toString());
+                        photoEditorIntent.putExtra(PhotoPickerView.REQUEST_CODE_KEY, PhotoPickerView.GALLERY_REQUEST_CODE);
+                        startActivity(photoEditorIntent);
+                    }
+                }
+            }
         }
     }
 
+
     public void takePhotoFromCamera() {
         try {
-            startActivityForResult(this.imageCaptureManager.dispatchTakePictureIntent(), 1);
+            startActivityForResult(this.imageCaptureManager.dispatchTakePictureIntent(), REQUEST_CAMERA_CODE);
         } catch (IOException | ActivityNotFoundException e) {
             e.printStackTrace();
         }
@@ -229,16 +274,13 @@ public class MediaActivity extends AppCompatActivity {
 
     @Override
     public void onRequestPermissionsResult(int requestCode, @NotNull String[] permissions, @NotNull int[] grantResults) {
-
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         if (requestCode == REQUEST_PERMISSION_CODE) {
-
             if (grantResults.length > 0) {
-
                 boolean CameraPermission = grantResults[0] == PackageManager.PERMISSION_GRANTED;
-                boolean WriteStoragePermission = grantResults[1] == PackageManager.PERMISSION_GRANTED;
+                boolean storagePermissionGranted = (Build.VERSION.SDK_INT < Build.VERSION_CODES.R) && (grantResults[1] == PackageManager.PERMISSION_GRANTED);
 
-                if (CameraPermission && WriteStoragePermission ) {
-                    Toast.makeText(MediaActivity.this, "Permission Granted", Toast.LENGTH_LONG).show();
+                if (CameraPermission && (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R || storagePermissionGranted)) {
                 } else {
                     Toast.makeText(MediaActivity.this, "Permission Denied", Toast.LENGTH_LONG).show();
                     alertDialog = new AlertDialog.Builder(MediaActivity.this).create();

@@ -7,6 +7,7 @@ import android.media.ThumbnailUtils;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -55,11 +56,11 @@ public class FragmentCreationsList extends Fragment {
 
         mSession = new SessionManager(getContext());
 
-        if(mSession.loadState()){
+        if (mSession.loadState()){
             txtImageNotFound.setTextColor(ContextCompat.getColor(getContext(), R.color.white));
         }
 
-        getMyVideoList();
+        getMyCreationsList();
 
         GridLayoutManager gridLayoutManager = new GridLayoutManager(context, 3);
         recyclerView.setLayoutManager(gridLayoutManager);
@@ -72,25 +73,28 @@ public class FragmentCreationsList extends Fragment {
         super.onResume();
     }
 
-    public void getMyVideoList() {
+    public void getMyCreationsList() {
         filenames.clear();
-        if(path!=null) {
+        if (path != null) {
             File directory = new File(path);
             //File[] files = directory.listFiles();
             ArrayList<ModelclassDownloadedImages> dataCombined = new ArrayList<ModelclassDownloadedImages>();
             if (directory.exists()) {
                 for (File filePath : Objects.requireNonNull(directory.listFiles())) {
-                    if (filePath.getPath().contains("PhotoFrame_")) {
-                        String file_name = filePath.getName();
-                        String file_path = filePath.getPath();
-                        Bitmap thumb = ThumbnailUtils.createVideoThumbnail(file_path, MediaStore.Video.Thumbnails.FULL_SCREEN_KIND);
-                        // you can store name to arraylist and use it later
-                        filenames.add(new ModelclassDownloadedImages(file_name, file_path, thumb));
+                    if (filePath.exists() && !filePath.getName().startsWith(".trashed")) {
+                        if (filePath.getPath().contains("PhotoFrame_")) {
+                            String file_name = filePath.getName();
+                            String file_path = filePath.getPath();
+                            Bitmap thumb = ThumbnailUtils.createVideoThumbnail(file_path, MediaStore.Video.Thumbnails.FULL_SCREEN_KIND);
+                            filenames.add(new ModelclassDownloadedImages(file_name, file_path, thumb));
+                        } else {
+                            Log.w("File Check", "Skipping non-existent or trashed file: " + filePath.getName());
+                        }
                     }
                 }
                 dataCombined.addAll(filenames);
 
-                if (dataCombined.size() != 0) {
+                if (!dataCombined.isEmpty()) {
                     recyclerView.setVisibility(View.VISIBLE);
                     adapterMyCreations = new AdapterMyCreations(context, dataCombined);
                     recyclerView.setAdapter(adapterMyCreations);

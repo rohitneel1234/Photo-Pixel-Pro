@@ -145,30 +145,26 @@ public class PhotoFrameActivity extends AppCompatActivity {
     private void getToolBarTitle() {
         ActionBar bar = this.getSupportActionBar();
         if (bar != null) {
-            bar.setBackgroundDrawable(new ColorDrawable(Color.parseColor("#4030E8")));
+            bar.setBackgroundDrawable(new ColorDrawable(Color.parseColor("#C44BC1")));
         }
         if (frameValue.equals(mBirthdayKey)) {
             ActionBar actionBar = this.getSupportActionBar();
             if (actionBar != null) {
                 actionBar.setTitle("Select Birthday Frame");
-                actionBar.setBackgroundDrawable(new ColorDrawable(Color.parseColor("#0B0B0B")));
             }
         } else if (frameValue.equals(mFlowersKey)) {
             ActionBar actionBar = this.getSupportActionBar();
             if (actionBar != null) {
-                actionBar.setBackgroundDrawable(new ColorDrawable(Color.parseColor("#0B0B0B")));
                 actionBar.setTitle("Select Flowers Frame");
             }
         } else if (frameValue.equals(mLoveAnniversaryKey)) {
             ActionBar actionBar = this.getSupportActionBar();
             if (actionBar != null) {
-                actionBar.setBackgroundDrawable(new ColorDrawable(Color.parseColor("#0B0B0B")));
                 actionBar.setTitle("Select Love or Anniversary Frame");
             }
         } else {
             ActionBar actionBar = this.getSupportActionBar();
             if (actionBar != null) {
-                actionBar.setBackgroundDrawable(new ColorDrawable(Color.parseColor("#0B0B0B")));
                 actionBar.setTitle("Select Frame");
             }
         }

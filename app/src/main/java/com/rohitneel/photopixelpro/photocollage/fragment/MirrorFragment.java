@@ -412,7 +412,7 @@ public class MirrorFragment extends DialogFragment implements Mirror3DAdapter.Mi
         }
 
         public Bitmap doInBackground(Bitmap... bitmapArr) {
-            Bitmap cloneBitmap = FilterUtils.cloneBitmap(bitmapArr[0]);
+            Bitmap cloneBitmap = FilterUtils.cloneBitmap(getContext(), bitmapArr[0]);
             bitmapArr[0].recycle();
             bitmapArr[0] = null;
             return cloneBitmap;

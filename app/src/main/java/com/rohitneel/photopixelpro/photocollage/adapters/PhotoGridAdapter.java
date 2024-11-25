@@ -65,7 +65,7 @@ public class PhotoGridAdapter extends SelectableAdapter<PhotoGridAdapter.PhotoVi
     }
 
     public PhotoViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
-        PhotoViewHolder photoViewHolder = new PhotoViewHolder(LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.item_photo, viewGroup, false));
+        PhotoViewHolder photoViewHolder = new PhotoViewHolder(LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.item_editor_photo, viewGroup, false));
         if (i == 100) {
             photoViewHolder.image_view_picker.setScaleType(ImageView.ScaleType.CENTER);
             photoViewHolder.image_view_picker.setOnClickListener(new View.OnClickListener() {

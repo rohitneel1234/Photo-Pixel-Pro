@@ -30,6 +30,11 @@ import java.io.FileOutputStream;
 import java.util.ArrayList;
 import java.util.List;
 
+import jp.co.cyberagent.android.gpuimage.GPUImage;
+import jp.co.cyberagent.android.gpuimage.filter.GPUImageBrightnessFilter;
+import jp.co.cyberagent.android.gpuimage.filter.GPUImageContrastFilter;
+import jp.co.cyberagent.android.gpuimage.filter.GPUImageFilter;
+
 public class PhotoEditor implements BrushColorChangeListener {
 
     private static final String TAG = "PhotoEditor";
@@ -38,6 +43,7 @@ public class PhotoEditor implements BrushColorChangeListener {
     private BrushDrawingView brushDrawingView;
     private Context context;
     private View deleteView;
+    private GPUImage gpuImage;
     private boolean isTextPinchZoomable;
     private Typeface mDefaultEmojiTypeface;
     private Typeface mDefaultTextTypeface;
@@ -58,6 +64,7 @@ public class PhotoEditor implements BrushColorChangeListener {
         this.parentView = builder.parentView;
         this.deleteView = builder.deleteView;
         this.brushDrawingView = builder.brushDrawingView;
+        this.gpuImage = new GPUImage(context);
         this.isTextPinchZoomable = builder.isTextPinchZoomable;
         this.mDefaultTextTypeface = builder.textTypeface;
         this.mDefaultEmojiTypeface = builder.emojiTypeface;
@@ -78,6 +85,24 @@ public class PhotoEditor implements BrushColorChangeListener {
         if (this.brushDrawingView != null) {
             this.brushDrawingView.setBrushDrawingMode(z);
         }
+    }
+
+    public void setAdjustFilter(String filterConfig) {
+        GPUImageFilter filter;
+        switch (filterConfig) {
+            case "brightness":
+                filter = new GPUImageBrightnessFilter();
+                ((GPUImageBrightnessFilter) filter).setBrightness(0.5f); // Adjust brightness level
+                break;
+            case "contrast":
+                filter = new GPUImageContrastFilter();
+                ((GPUImageContrastFilter) filter).setContrast(1.5f); // Adjust contrast level
+                break;
+            default:
+                filter = new GPUImageFilter(); // No filter
+        }
+        gpuImage.setFilter(filter);
+        gpuImage.requestRender(); // Refresh rendering
     }
 
 

@@ -1,25 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.rohitneel.photopixelpro.photocollage.widget.SquareLayout
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/rfItem"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@color/BackgroundColor"
-    xmlns:android="http://schemas.android.com/apk/res/android">
+    android:layout_height="wrap_content">
 
-    <com.rohitneel.photopixelpro.photocollage.widget.TouchImageView
-        android:id="@+id/image_view_picker"
+    <com.rohitneel.photopixelpro.photocollage.widget.SquareLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_margin="1dp"
-        android:clickable="true"
-        android:layout_gravity="center"
-        android:scaleType="centerCrop"
-        android:adjustViewBounds="true"
-        android:focusable="true" />
+        android:layout_height="wrap_content"
+        android:layout_margin="2dp">
 
-    <ImageView
-        android:id="@+id/image_view_selected"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="@drawable/border_photo_selected"/>
+        <ImageView
+            android:id="@+id/ivItem"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scaleType="centerCrop"/>
 
-</com.rohitneel.photopixelpro.photocollage.widget.SquareLayout>
+    </com.rohitneel.photopixelpro.photocollage.widget.SquareLayout>
+
+</LinearLayout>

@@ -20,7 +20,6 @@ import android.content.ContentResolver;
 import android.content.ContentValues;
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.Build;
@@ -38,8 +37,6 @@ import com.rohitneel.photopixelpro.BuildConfig;
 import com.rohitneel.photopixelpro.R;
 import com.rohitneel.photopixelpro.adapters.GlideApp;
 import com.rohitneel.photopixelpro.adapters.ImageListAdapter;
-import com.rohitneel.photopixelpro.fragments.BackgroundRemoverFragment;
-import com.rohitneel.photopixelpro.fragments.PhotoFrameFragment;
 import com.rohitneel.photopixelpro.photocollage.utils.FilePathUtil;
 import com.rohitneel.photopixelpro.util.Utils;
 
@@ -70,7 +67,6 @@ public class BackgroundEraserGallery extends AppCompatActivity {
         bgEraserFileList = new ArrayList<>();
         ActionBar bar = this.getSupportActionBar();
         if (bar != null) {
-            bar.setBackgroundDrawable(new ColorDrawable(Color.parseColor("#4030E8")));
             bar.hide();
         }
 
@@ -124,10 +120,12 @@ public class BackgroundEraserGallery extends AppCompatActivity {
      *  Requesting user to grant write external storage permission.
      */
     private void CheckRequestPermissions() {
-        int writeExternalStoragePermission = ContextCompat.checkSelfPermission(getApplicationContext(), Manifest.permission.WRITE_EXTERNAL_STORAGE);
-        if (writeExternalStoragePermission != PackageManager.PERMISSION_GRANTED) {
-            // Request user to grant write external storage permission.
-            ActivityCompat.requestPermissions(BackgroundEraserGallery.this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, REQUEST_CODE_WRITE_EXTERNAL_STORAGE_PERMISSION);
+        if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.R) {
+            int writeExternalStoragePermission = ContextCompat.checkSelfPermission(getApplicationContext(), Manifest.permission.WRITE_EXTERNAL_STORAGE);
+            if (writeExternalStoragePermission != PackageManager.PERMISSION_GRANTED) {
+                // Request user to grant write external storage permission.
+                ActivityCompat.requestPermissions(BackgroundEraserGallery.this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, REQUEST_CODE_WRITE_EXTERNAL_STORAGE_PERMISSION);
+            }
         }
     }
 

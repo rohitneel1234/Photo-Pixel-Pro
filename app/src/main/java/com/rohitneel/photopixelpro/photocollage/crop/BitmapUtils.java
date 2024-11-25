@@ -1,5 +1,6 @@
 package com.rohitneel.photopixelpro.photocollage.crop;
 
+import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
@@ -20,6 +21,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.Arrays;
 
 
@@ -544,5 +546,15 @@ public class BitmapUtils {
         createBitmap.setPixels(copyOf, 0, bitmap.getWidth(), 0, 0, bitmap.getWidth(), bitmap.getHeight());
         System.currentTimeMillis();
         return createBitmap;
+    }
+
+    public static Bitmap loadBitmapFromAssets(Context context, String filePath) {
+        Bitmap bitmap = null;
+        try (InputStream inputStream = context.getAssets().open(filePath)) {
+            bitmap = BitmapFactory.decodeStream(inputStream);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return bitmap;
     }
 }

@@ -15,17 +15,19 @@ import android.graphics.PorterDuff.Mode;
 import android.graphics.PorterDuffXfermode;
 import android.graphics.RectF;
 import android.net.Uri;
-import android.os.Environment;
-import android.provider.MediaStore;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Toast;
 
 import com.rohitneel.photopixelpro.R;
+import com.rohitneel.photopixelpro.constant.CommonKeys;
+import com.rohitneel.photopixelpro.photocollage.utils.SaveFileUtils;
+import com.rohitneel.photopixelpro.photoframe.utils.PathUtills;
 
 import java.io.File;
-import java.io.FileOutputStream;
+import java.io.IOException;
+import java.net.URISyntaxException;
 import java.util.ArrayList;
 
 @SuppressLint("ViewConstructor")
@@ -134,32 +136,19 @@ public class HoverView extends View {
 		addToStack(true);
 	}
 	
-	public String save() {
-		Bitmap bitmap =  saveDrawnBitmap();
-		File sdCard = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES);
-		File dir = new File (sdCard.getAbsolutePath() + "/Photo Pixel Pro");
-		if(!dir.exists()) {
-			dir.mkdirs();
-		}
-		File dest = new File(dir, filename);
+	public void save() {
 		try {
-			FileOutputStream out = new FileOutputStream(dest);
-			bitmap.compress(Bitmap.CompressFormat.PNG, 100, out);
-			out.flush();
-			out.close();
-		} catch (Exception e) {
+			Bitmap bitmap = saveDrawnBitmap();
+			Uri uri = SaveFileUtils.saveBitmapFile(getContext(), bitmap, filename, getContext().getString(R.string.app_name));
+			CommonKeys.filePath = new File(PathUtills.getPath(getContext(), uri));
+			Intent intent = new Intent(getContext(), EraserPhotoShareActivity.class);
+			mContext.startActivity(intent);
+			Toast.makeText(getContext(), "Saved to Gallery", Toast.LENGTH_LONG).show();
+		} catch (IOException e) {
 			e.printStackTrace();
+		} catch (URISyntaxException e) {
+			throw new RuntimeException(e);
 		}
-		refreshGallery(dest);
-		saveFilePath = sdCard + "/Photo Pixel Pro/"+filename;
-		//String path = MediaStore.Images.Media.insertImage(mContext.getContentResolver(), bitmap, "Title", null);
-		Intent intent = new Intent(getContext(), EraserPhotoShareActivity.class);
-		intent.putExtra("path", saveFilePath);
-		mContext.startActivity(intent);
-
-		Toast.makeText(getContext(), "Saved to Gallery", Toast.LENGTH_LONG).show();
-
-		return saveFilePath;
 	}
 	
 	private void refreshGallery(File file) {

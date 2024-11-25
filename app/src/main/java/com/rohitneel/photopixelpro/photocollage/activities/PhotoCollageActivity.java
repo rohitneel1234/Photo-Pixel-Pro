@@ -1,13 +1,11 @@
 package com.rohitneel.photopixelpro.photocollage.activities;
 
-import
-        android.animation.ObjectAnimator;
+import static com.rohitneel.photopixelpro.fragments.HomeFragment.KEY_DATA_RESULT;
+import android.animation.ObjectAnimator;
 import android.annotation.SuppressLint;
-import android.app.Activity;
 import android.app.Dialog;
 import android.content.Intent;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
@@ -37,7 +35,6 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.SeekBar;
 import android.widget.TextView;
-
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.constraintlayout.widget.ConstraintLayout;
@@ -50,9 +47,12 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager.widget.PagerAdapter;
 import androidx.viewpager.widget.ViewPager;
-
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.target.CustomTarget;
+import com.bumptech.glide.request.transition.Transition;
 import com.hold1.keyboardheightprovider.KeyboardHeightProvider;
 import com.rohitneel.photopixelpro.R;
+import com.rohitneel.photopixelpro.constant.CommonKeys;
 import com.rohitneel.photopixelpro.photocollage.adapters.AspectAdapter;
 import com.rohitneel.photopixelpro.photocollage.adapters.CollageBackgroundAdapter;
 import com.rohitneel.photopixelpro.photocollage.adapters.CollageColorAdapter;
@@ -92,7 +92,7 @@ import com.rohitneel.photopixelpro.photocollage.utils.CollageUtils;
 import com.rohitneel.photopixelpro.photocollage.utils.FilterUtils;
 import com.rohitneel.photopixelpro.photocollage.utils.SaveFileUtils;
 import com.rohitneel.photopixelpro.photocollage.utils.SystemUtil;
-import com.squareup.picasso.Picasso;
+import com.rohitneel.photopixelpro.photoframe.utils.PathUtills;
 import com.squareup.picasso.Target;
 import com.yalantis.ucrop.model.AspectRatio;
 
@@ -100,13 +100,10 @@ import org.jetbrains.annotations.NotNull;
 
 import java.io.File;
 import java.io.IOException;
-import java.text.SimpleDateFormat;
+import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Date;
 import java.util.List;
-import java.util.Locale;
-import java.util.Objects;
 
 @SuppressLint("StaticFieldLeak")
 public class PhotoCollageActivity extends PhotoBaseActivity implements GridToolsAdapter.OnItemSelected,
@@ -166,7 +163,6 @@ public class PhotoCollageActivity extends PhotoBaseActivity implements GridTools
     private LinearLayout linearLayoutBorder;
     private RelativeLayout relativeLayoutAddText;
     private TextView text_view_save;
-    private TextView textViewTitle;
     private TextView textViewSeekBarPadding;
     private TextView textViewSeekBarRadius;
     public TextView textViewCancel;
@@ -233,7 +229,7 @@ public class PhotoCollageActivity extends PhotoBaseActivity implements GridTools
         this.seekBarPadding.setOnSeekBarChangeListener(this.onSeekBarChangeListener);
         this.seekBarRadius = findViewById(R.id.seekbar_radius);
         this.seekBarRadius.setOnSeekBarChangeListener(this.onSeekBarChangeListener);
-        this.stringList = getIntent().getStringArrayListExtra(GridPickerActivity.KEY_DATA_RESULT);
+        this.stringList = getIntent().getStringArrayListExtra(KEY_DATA_RESULT);
         this.relativeLayoutLoading = findViewById(R.id.relative_layout_loading);
         this.recyclerViewFilter = findViewById(R.id.recycler_view_filter);
         this.linearLayoutBorder = findViewById(R.id.linearLayoutPadding);
@@ -313,7 +309,6 @@ public class PhotoCollageActivity extends PhotoBaseActivity implements GridTools
         this.linearLayoutBlur.setOnClickListener(view -> PhotoCollageActivity.this.selectBackgroundBlur());
 
         this.constrant_layout_change_Layout = findViewById(R.id.constrant_layout_change_Layout);
-        this.textViewTitle = findViewById(R.id.textViewTitle);
         this.textViewSeekBarPadding = findViewById(R.id.seekbarPadding);
         this.textViewSeekBarRadius = findViewById(R.id.seekbarRadius);
         GridAdapter collageAdapter = new GridAdapter();
@@ -600,6 +595,7 @@ public class PhotoCollageActivity extends PhotoBaseActivity implements GridTools
                 this.constraint_layout_filter_layout.setVisibility(View.GONE);
                 this.recyclerViewToolsCollage.setVisibility(View.VISIBLE);
                 PhotoCollageActivity.this.moduleToolsId = Module.NONE;
+                setVisibleSave();
                 return;
             case R.id.imageViewSaveText:
                 setGuideLineTools();
@@ -984,44 +980,61 @@ public class PhotoCollageActivity extends PhotoBaseActivity implements GridTools
 
     public void loadPhoto() {
         final int i;
-        final ArrayList arrayList = new ArrayList();
-        if (this.stringList.size() > this.queShotLayout.getAreaCount()) {
-            i = this.queShotLayout.getAreaCount();
-        } else {
-            i = this.stringList.size();
-        }
+        ArrayList<Bitmap> arrayList = new ArrayList<>();
+        i = Math.min(stringList.size(), queShotLayout.getAreaCount());
         for (int i2 = 0; i2 < i; i2++) {
-            Target r4 = new Target() {
-                public void onBitmapFailed(Exception exc, Drawable drawable) {
-                }
+            Glide.with(this)
+                    .asBitmap()
+                    .load("file:///" + stringList.get(i2))
+                    .into(new CustomTarget<Bitmap>() {
 
-                public void onPrepareLoad(Drawable drawable) {
-                }
-
-                public void onBitmapLoaded(Bitmap bitmap, Picasso.LoadedFrom loadedFrom) {
-                    int width = bitmap.getWidth();
-                    float f = (float) width;
-                    float height = (float) bitmap.getHeight();
-                    float max = Math.max(f / f, height / f);
-                    if (max > 1.0f) {
-                        bitmap = Bitmap.createScaledBitmap(bitmap, (int) (f / max), (int) (height / max), false);
-                    }
-                    arrayList.add(bitmap);
-                    if (arrayList.size() == i) {
-                        if (PhotoCollageActivity.this.stringList.size() < PhotoCollageActivity.this.queShotLayout.getAreaCount()) {
-                            for (int i = 0; i < PhotoCollageActivity.this.queShotLayout.getAreaCount(); i++) {
-                                PhotoCollageActivity.this.queShotGridView.addQuShotCollage((Bitmap) arrayList.get(i % i));
+                        @Override
+                        public void onResourceReady(@NonNull Bitmap btm, @Nullable Transition<? super Bitmap> transition) {
+                            try {
+                                Bitmap bitmap = resizeBitmapIfNeeded(btm);
+                                arrayList.add(bitmap);
+                            } catch (Exception e) {
+                                e.printStackTrace();
                             }
-                        } else {
-                            PhotoCollageActivity.this.queShotGridView.addPieces(arrayList);
+                            if (arrayList.size() != i) {
+                                return;
+                            }
+                            if (stringList.size() < queShotLayout.getAreaCount()) {
+                                for (int i = 0; i < queShotLayout.getAreaCount(); i++) {
+                                    queShotGridView.addQuShotCollage(arrayList.get(0));
+                                }
+                                return;
+                            }
+                            queShotGridView.addPieces(arrayList);
+                            setLoading(false);
                         }
-                    }
-                    PhotoCollageActivity.this.targets.remove(this);
+
+                        @Override
+                        public void onLoadCleared(@Nullable Drawable placeholder) {
+
+                        }
+                    });
+        }
+    }
+
+    private Bitmap resizeBitmapIfNeeded(Bitmap bitmap) {
+        try {
+            if (bitmap != null) {
+                float width = bitmap.getWidth();
+                float height = bitmap.getHeight();
+                float max = Math.max(width / 1280.0f, height / 1280.0f);
+
+                if (max > 1.0f) {
+                    return Bitmap.createScaledBitmap(bitmap, (int) (width / max), (int) (height / max), false);
+                } else {
+                    return bitmap;
                 }
-            };
-            Picasso picasso = Picasso.get();
-            picasso.load("file:///" + this.stringList.get(i2)).resize(this.deviceWidth, this.deviceWidth).centerInside().config(Bitmap.Config.RGB_565).into((Target) r4);
-            this.targets.add(r4);
+            } else {
+                return null;
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
         }
     }
 
@@ -1265,7 +1278,7 @@ public class PhotoCollageActivity extends PhotoBaseActivity implements GridTools
             new AsyncTask<Void, Bitmap, Bitmap>() {
 
                 public Bitmap doInBackground(Void... voidArr) {
-                    return FilterUtils.getBlurImageFromBitmap(((BitmapDrawable) squareView.drawable).getBitmap(), 5.0f);
+                    return FilterUtils.getBlurImageFromBitmap(getApplicationContext(), ((BitmapDrawable) squareView.drawable).getBitmap(), 5.0f);
                 }
 
 
@@ -1322,11 +1335,6 @@ public class PhotoCollageActivity extends PhotoBaseActivity implements GridTools
         }
     }
 
-
-
-
-
-
     class allFilters extends AsyncTask<Void, Void, Void> {
         allFilters() { }
 
@@ -1337,7 +1345,7 @@ public class PhotoCollageActivity extends PhotoBaseActivity implements GridTools
         @SuppressLint("WrongThread")
         public Void doInBackground(Void... voidArr) {
             PhotoCollageActivity.this.listFilterAll.clear();
-            PhotoCollageActivity.this.listFilterAll.addAll(FilterFileAsset.getListBitmapFilter(ThumbnailUtils.extractThumbnail(((BitmapDrawable) PhotoCollageActivity.this.queShotGridView.getQueShotGrids().get(0).getDrawable()).getBitmap(), 100, 100)));
+            PhotoCollageActivity.this.listFilterAll.addAll(FilterFileAsset.getListBitmapFilter(getApplicationContext(), ThumbnailUtils.extractThumbnail(((BitmapDrawable) PhotoCollageActivity.this.queShotGridView.getQueShotGrids().get(0).getDrawable()).getBitmap(), 100, 100)));
             return null;
         }
 
@@ -1361,7 +1369,7 @@ public class PhotoCollageActivity extends PhotoBaseActivity implements GridTools
         }
         @SuppressLint("WrongThread")
         public List<Bitmap> doInBackground(Void... voidArr) {
-            return FilterFileAsset.getListBitmapFilter(ThumbnailUtils.extractThumbnail(((BitmapDrawable) PhotoCollageActivity.this.queShotGridView.getQueShotGrid().getDrawable()).getBitmap(), 100, 100));
+            return FilterFileAsset.getListBitmapFilter(getApplicationContext(), ThumbnailUtils.extractThumbnail(((BitmapDrawable) PhotoCollageActivity.this.queShotGridView.getQueShotGrid().getDrawable()).getBitmap(), 100, 100));
         }
 
         public void onPostExecute(List<Bitmap> list) {
@@ -1403,14 +1411,14 @@ public class PhotoCollageActivity extends PhotoBaseActivity implements GridTools
     }
 
 
-    class SaveCollageAsFile extends AsyncTask<Bitmap, String, String> {
+    class SaveCollageAsFile extends AsyncTask<Bitmap, String, Uri> {
         SaveCollageAsFile() {}
 
         public void onPreExecute() {
             PhotoCollageActivity.this.setLoading(true);
         }
 
-        public String doInBackground(Bitmap... bitmapArr) {
+        public Uri doInBackground(Bitmap... bitmapArr) {
             Bitmap bitmap = bitmapArr[0];
             Bitmap bitmap2 = bitmapArr[1];
             Bitmap createBitmap = Bitmap.createBitmap(bitmap.getWidth(), bitmap.getHeight(), Bitmap.Config.ARGB_8888);
@@ -1422,19 +1430,21 @@ public class PhotoCollageActivity extends PhotoBaseActivity implements GridTools
             bitmap2.recycle();
             try {
                 String fileName = "COLLAGE_"+ String.format("%d.jpg", System.currentTimeMillis());
-                File image = SaveFileUtils.saveBitmapFileCollage(PhotoCollageActivity.this, createBitmap, fileName,null);
+                Uri uri = SaveFileUtils.saveBitmapFile(PhotoCollageActivity.this, createBitmap, fileName, getApplicationContext().getString(R.string.app_name));
+                CommonKeys.filePath = new File(PathUtills.getPath(PhotoCollageActivity.this, uri));
                 createBitmap.recycle();
-                return image.getAbsolutePath();
+                return uri;
             } catch (IOException e) {
                 e.printStackTrace();
                 return null;
+            } catch (URISyntaxException e) {
+                throw new RuntimeException(e);
             }
         }
 
-        public void onPostExecute(String str) {
+        public void onPostExecute(Uri uri) {
             PhotoCollageActivity.this.setLoading(false);
             Intent intent = new Intent(PhotoCollageActivity.this, PhotoShareActivity.class);
-            intent.putExtra("path", str);
             intent.putExtra("activity","PhotoCollageActivity");
             PhotoCollageActivity.this.startActivity(intent);
         }

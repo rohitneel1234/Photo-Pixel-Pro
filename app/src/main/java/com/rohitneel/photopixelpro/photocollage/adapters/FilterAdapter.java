@@ -75,7 +75,8 @@ public class FilterAdapter extends RecyclerView.Adapter<FilterAdapter.ViewHolder
             view.setOnClickListener(new View.OnClickListener() {
                 public void onClick(View view) {
                     FilterAdapter.this.selectedIndex = ViewHolder.this.getLayoutPosition();
-                    FilterAdapter.this.filterListener.onFilterSelected(selectedIndex,((FilterFileAsset.FiltersCode) FilterAdapter.this.filterBeanList.get(FilterAdapter.this.selectedIndex)).getCode());                    FilterAdapter.this.notifyDataSetChanged();
+                    FilterAdapter.this.filterListener.onFilterSelected(selectedIndex,((FilterFileAsset.FiltersCode) FilterAdapter.this.filterBeanList.get(FilterAdapter.this.selectedIndex)).getCode());
+                    FilterAdapter.this.notifyDataSetChanged();
                 }
             });
         }

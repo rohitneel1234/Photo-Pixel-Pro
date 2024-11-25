@@ -4,8 +4,9 @@ import android.app.Dialog;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.ColorDrawable;
-import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -26,6 +27,8 @@ import com.rohitneel.photopixelpro.photocollage.utils.FilterUtils;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 public class FilterFragment extends DialogFragment implements FilterListener {
     private static final String TAG = "FilterFragment";
@@ -118,9 +121,15 @@ public class FilterFragment extends DialogFragment implements FilterListener {
         }
     }
 
-    public void onFilterSelected(int item, String str)
-    {
-
+    public void onFilterSelected(int item, String filterCode) {
+        ExecutorService executorService = Executors.newSingleThreadExecutor();
+        Handler mainHandler = new Handler(Looper.getMainLooper());
+        executorService.execute(() -> {
+            Bitmap filteredBitmap = FilterUtils.getBitmapWithFilter(getContext(), this.bitmap, filterCode);
+            mainHandler.post(() -> {
+                image_view_preview.setImageBitmap(filteredBitmap);
+            });
+        });
     }
 
 }

@@ -46,6 +46,7 @@ import androidx.viewpager.widget.ViewPager;
 
 import com.hold1.keyboardheightprovider.KeyboardHeightProvider;
 import com.rohitneel.photopixelpro.R;
+import com.rohitneel.photopixelpro.constant.CommonKeys;
 import com.rohitneel.photopixelpro.photocollage.adapters.AdjustAdapter;
 import com.rohitneel.photopixelpro.photocollage.adapters.ColorAdapter;
 import com.rohitneel.photopixelpro.photocollage.adapters.FilterAdapter;
@@ -113,18 +114,18 @@ import com.rohitneel.photopixelpro.photocollage.utils.DegreeSeekBar;
 import com.rohitneel.photopixelpro.photocollage.utils.FilterUtils;
 import com.rohitneel.photopixelpro.photocollage.utils.SaveFileUtils;
 import com.rohitneel.photopixelpro.photocollage.utils.SystemUtil;
+import com.rohitneel.photopixelpro.photoframe.utils.PathUtills;
 
 import org.jetbrains.annotations.NotNull;
 
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
-import java.text.SimpleDateFormat;
+import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Date;
 import java.util.List;
-import java.util.Locale;
 import java.util.Objects;
 
 @SuppressLint("StaticFieldLeak")
@@ -624,7 +625,17 @@ public class PhotoEditorActivity extends PhotoBaseActivity implements OnPhotoEdi
 
         Bundle bundle = getIntent().getExtras();
         if (bundle != null) {
-            new loadBitmapUri().execute(bundle.getString(PhotoPickerView.KEY_SELECTED_PHOTOS));
+            String selectedPhotoPath = bundle.getString(PhotoPickerView.KEY_SELECTED_PHOTOS);
+            if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.Q) {
+                if (selectedPhotoPath != null) {
+                    new loadBitmapUri().execute(selectedPhotoPath);
+                }
+            } else {
+                String requestCodeKey = bundle.getString(PhotoPickerView.REQUEST_CODE_KEY);
+                if (selectedPhotoPath != null && requestCodeKey != null) {
+                    new loadBitmapUri().execute(selectedPhotoPath, requestCodeKey);
+                }
+            }
         }
         Display display = getWindowManager().getDefaultDisplay();
         Point point = new Point();
@@ -647,7 +658,7 @@ public class PhotoEditorActivity extends PhotoBaseActivity implements OnPhotoEdi
         });
     }
 
-    private void  onClickListener(){
+    private void onClickListener() {
         this.textViewSaveEditing.setOnClickListener(view -> {
             SaveView();
         });
@@ -832,6 +843,7 @@ public class PhotoEditorActivity extends PhotoBaseActivity implements OnPhotoEdi
             public void onScroll(int i) {
                 AdjustAdapter.AdjustModel currentAdjustModel = PhotoEditorActivity.this.mAdjustAdapter.getCurrentAdjustModel();
                 currentAdjustModel.originValue = (((float) Math.abs(i + 50)) * ((currentAdjustModel.maxValue - ((currentAdjustModel.maxValue + currentAdjustModel.minValue) / 2.0f)) / 50.0f)) + currentAdjustModel.minValue;
+                PhotoEditorActivity.this.photoEditor.setAdjustFilter(PhotoEditorActivity.this.mAdjustAdapter.getFilterConfig());
             }
         });
         this.adjustFilter = (DegreeSeekBar) findViewById(R.id.seekbarFilter);
@@ -1282,7 +1294,6 @@ public class PhotoEditorActivity extends PhotoBaseActivity implements OnPhotoEdi
         });
     }
 
-
     public void onRequestPermissionsResult(int i, @NonNull String[] string, @NonNull int[] i2) {
         super.onRequestPermissionsResult(i, string, i2);
     }
@@ -1326,7 +1337,7 @@ public class PhotoEditorActivity extends PhotoBaseActivity implements OnPhotoEdi
                 onBackPressed();
                 return;
             case R.id.imageViewSaveAdjust:
-                new SaveFilter().execute();
+                //new SaveFilter().execute();
                 this.constraintLayoutAdjust.setVisibility(View.GONE);
                 this.recyclerViewTools.setVisibility(View.VISIBLE);
                 this.constraintLayoutSave.setVisibility(View.VISIBLE);
@@ -1394,7 +1405,7 @@ public class PhotoEditorActivity extends PhotoBaseActivity implements OnPhotoEdi
                 this.moduleToolsId = Module.NONE;
                 return;
             case R.id.imageViewSaveFilter:
-                new SaveFilter().execute();
+                //new SaveFilter().execute();
                 this.imageViewCompareFilter.setVisibility(View.GONE);
                 viewSlideUp(recyclerViewTools);
                 viewSlideDown(constraintLayoutFilter);
@@ -2055,7 +2066,7 @@ public class PhotoEditorActivity extends PhotoBaseActivity implements OnPhotoEdi
 
         public Void doInBackground(Void... voids) {
             PhotoEditorActivity.this.listFilter.clear();
-            PhotoEditorActivity.this.listFilter.addAll(FilterFileAsset.getListBitmapFilter(ThumbnailUtils.extractThumbnail(PhotoEditorActivity.this.photoView.getCurrentBitmap(), 100, 100)));
+            PhotoEditorActivity.this.listFilter.addAll(FilterFileAsset.getListBitmapFilter(getApplicationContext(), ThumbnailUtils.extractThumbnail(PhotoEditorActivity.this.photoView.getCurrentBitmap(), 100, 100)));
             Log.d("XXXXXXXX", "allFilters " + PhotoEditorActivity.this.listFilter.size());
             return null;
         }
@@ -2081,7 +2092,7 @@ public class PhotoEditorActivity extends PhotoBaseActivity implements OnPhotoEdi
         }
 
         public Bitmap doInBackground(Void... voids) {
-            return FilterUtils.getBlurImageFromBitmap(PhotoEditorActivity.this.photoView.getCurrentBitmap(), 5.0f);
+            return FilterUtils.getBlurImageFromBitmap(getApplicationContext(), PhotoEditorActivity.this.photoView.getCurrentBitmap(), 5.0f);
         }
 
         public void onPostExecute(Bitmap bitmap) {
@@ -2099,7 +2110,7 @@ public class PhotoEditorActivity extends PhotoBaseActivity implements OnPhotoEdi
         }
 
         public Bitmap doInBackground(Void... voids) {
-            return FilterUtils.getBlurImageFromBitmap(PhotoEditorActivity.this.photoView.getCurrentBitmap(), 5.0f);
+            return FilterUtils.getBlurImageFromBitmap(getApplicationContext(), PhotoEditorActivity.this.photoView.getCurrentBitmap(), 5.0f);
         }
 
         public void onPostExecute(Bitmap bitmap) {
@@ -2262,7 +2273,7 @@ public class PhotoEditorActivity extends PhotoBaseActivity implements OnPhotoEdi
         }
 
         public Bitmap doInBackground(Void... voids) {
-            return FilterUtils.getBlurImageFromBitmap(PhotoEditorActivity.this.photoView.getCurrentBitmap(), 5.0f);
+            return FilterUtils.getBlurImageFromBitmap(getApplicationContext(), PhotoEditorActivity.this.photoView.getCurrentBitmap(), 5.0f);
         }
 
         public void onPostExecute(Bitmap bitmap) {
@@ -2281,8 +2292,8 @@ public class PhotoEditorActivity extends PhotoBaseActivity implements OnPhotoEdi
 
         public List<Bitmap> doInBackground(Void... voids) {
             List<Bitmap> arrayList = new ArrayList<>();
-            arrayList.add(FilterUtils.cloneBitmap(PhotoEditorActivity.this.photoView.getCurrentBitmap()));
-            arrayList.add(FilterUtils.getBlurImageFromBitmap(PhotoEditorActivity.this.photoView.getCurrentBitmap(), 8.0f));
+            arrayList.add(FilterUtils.cloneBitmap(getApplicationContext(), PhotoEditorActivity.this.photoView.getCurrentBitmap()));
+            arrayList.add(FilterUtils.getBlurImageFromBitmap(getApplicationContext(), PhotoEditorActivity.this.photoView.getCurrentBitmap(), 8.0f));
             return arrayList;
         }
 
@@ -2302,8 +2313,8 @@ public class PhotoEditorActivity extends PhotoBaseActivity implements OnPhotoEdi
 
         public List<Bitmap> doInBackground(Void... voids) {
             List<Bitmap> arrayList = new ArrayList<>();
-            arrayList.add(FilterUtils.cloneBitmap(PhotoEditorActivity.this.photoView.getCurrentBitmap()));
-            arrayList.add(FilterUtils.getBlurImageFromBitmap(PhotoEditorActivity.this.photoView.getCurrentBitmap(), 8.0f));
+            arrayList.add(FilterUtils.cloneBitmap(getApplicationContext(), PhotoEditorActivity.this.photoView.getCurrentBitmap()));
+            arrayList.add(FilterUtils.getBlurImageFromBitmap(getApplicationContext(), PhotoEditorActivity.this.photoView.getCurrentBitmap(), 8.0f));
             return arrayList;
         }
 
@@ -2457,6 +2468,7 @@ public class PhotoEditorActivity extends PhotoBaseActivity implements OnPhotoEdi
             List<Bitmap> arrayList = new ArrayList<>();
             arrayList.add(currentBitmap);
             if (this.isSplashSquared) {
+                arrayList.add(FilterUtils.getBlackAndWhiteImageFromBitmap(getApplicationContext(), currentBitmap));
             }
             return arrayList;
         }
@@ -2486,7 +2498,7 @@ public class PhotoEditorActivity extends PhotoBaseActivity implements OnPhotoEdi
             List<Bitmap> arrayList = new ArrayList<>();
             arrayList.add(currentBitmap);
             if (this.isSplashSquared) {
-                arrayList.add(FilterUtils.getBlurImageFromBitmap(currentBitmap, 2.5f));
+                arrayList.add(FilterUtils.getBlurImageFromBitmap(getApplicationContext(), currentBitmap, 2.5f));
             }
             return arrayList;
         }
@@ -2516,6 +2528,7 @@ public class PhotoEditorActivity extends PhotoBaseActivity implements OnPhotoEdi
             List<Bitmap> arrayList = new ArrayList<>();
             arrayList.add(currentBitmap);
             if (this.isSplashSquared) {
+                arrayList.add(FilterUtils.getBlackAndWhiteImageFromBitmap(getApplicationContext(), currentBitmap));
             }
             return arrayList;
         }
@@ -2545,6 +2558,7 @@ public class PhotoEditorActivity extends PhotoBaseActivity implements OnPhotoEdi
             List<Bitmap> arrayList = new ArrayList<>();
             arrayList.add(currentBitmap);
             if (this.isSplashSquared) {
+                arrayList.add(FilterUtils.getSketchImageFromBitmap(getApplicationContext(), currentBitmap, 0.8f));
             }
             return arrayList;
         }
@@ -2574,6 +2588,7 @@ public class PhotoEditorActivity extends PhotoBaseActivity implements OnPhotoEdi
             List<Bitmap> arrayList = new ArrayList<>();
             arrayList.add(currentBitmap);
             if (this.isSketchBackgroundSquared) {
+                arrayList.add(FilterUtils.getSketchImageFromBitmap(getApplicationContext(), currentBitmap, 0.8f));
             }
             return arrayList;
         }
@@ -2730,21 +2745,57 @@ public class PhotoEditorActivity extends PhotoBaseActivity implements OnPhotoEdi
 
         public Bitmap doInBackground(String... string) {
             try {
-                File file = new File(string[0]);
-                Uri fromFile = Uri.fromFile(file);
-                Bitmap bitmap = MediaStore.Images.Media.getBitmap(PhotoEditorActivity.this.getContentResolver(), fromFile);
-                float width = (float) bitmap.getWidth();
-                float height = (float) bitmap.getHeight();
-                float max = Math.max(width / 1280.0f, height / 1280.0f);
-                if (max > 1.0f) {
-                    bitmap = Bitmap.createScaledBitmap(bitmap, (int) (width / max), (int) (height / max), false);
+                if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.Q) {
+                    File file = new File(string[0]);
+                    Uri fromFile = Uri.fromFile(file);
+                    Bitmap bitmap = MediaStore.Images.Media.getBitmap(PhotoEditorActivity.this.getContentResolver(), fromFile);
+                    bitmap = scaleBitmapIfNeeded(bitmap);
+                    Bitmap bitmap1 = SystemUtil.rotateBitmap(bitmap, new ExifInterface(Objects.requireNonNull(PhotoEditorActivity.this.getContentResolver().openInputStream(fromFile))).getAttributeInt(ExifInterface.TAG_ORIENTATION, 1));
+                    if (bitmap1 != bitmap) {
+                        bitmap.recycle();
+                    }
+                    return bitmap1;
+                } else {
+                    String requestCode = string[1];
+                    if (Objects.equals(requestCode, PhotoPickerView.CAMERA_REQUEST_CODE)) {
+                        File file = new File(string[0]);
+                        Uri fromFile = Uri.fromFile(file);
+                        Bitmap bitmap = MediaStore.Images.Media.getBitmap(PhotoEditorActivity.this.getContentResolver(), fromFile);
+                        bitmap = scaleBitmapIfNeeded(bitmap);
+                        Bitmap bitmap1 = SystemUtil.rotateBitmap(bitmap, new ExifInterface(Objects.requireNonNull(PhotoEditorActivity.this.getContentResolver().openInputStream(fromFile))).getAttributeInt(ExifInterface.TAG_ORIENTATION, 1));
+                        if (bitmap1 != bitmap) {
+                            bitmap.recycle();
+                        }
+                        return bitmap1;
+                    } else if (Objects.equals(requestCode, PhotoPickerView.GALLERY_REQUEST_CODE)) {
+                        Uri imageUri = Uri.parse(string[0]);
+                        InputStream inputStream = PhotoEditorActivity.this.getContentResolver().openInputStream(imageUri);
+                        if (inputStream == null) {
+                            throw new FileNotFoundException("Unable to open input stream for URI: " + imageUri);
+                        }
+                        // Decode the bitmap from the input stream
+                        Bitmap bitmap = BitmapFactory.decodeStream(inputStream);
+                        // If decoding was successful, we scale the image
+                        if (bitmap != null) {
+                            float width = (float) bitmap.getWidth();
+                            float height = (float) bitmap.getHeight();
+                            float max = Math.max(width / 1280.0f, height / 1280.0f);
+                            if (max > 1.0f) {
+                                bitmap = Bitmap.createScaledBitmap(bitmap, (int) (width / max), (int) (height / max), false);
+                            }
+                            // Rotate the bitmap based on EXIF orientation if necessary
+                            ExifInterface exifInterface = new ExifInterface(inputStream);
+                            int orientation = exifInterface.getAttributeInt(ExifInterface.TAG_ORIENTATION, ExifInterface.ORIENTATION_UNDEFINED);
+                            Bitmap rotatedBitmap = SystemUtil.rotateBitmap(bitmap, orientation);
+                            // Recycle the original bitmap if a new rotated bitmap was created
+                            if (rotatedBitmap != bitmap) {
+                                bitmap.recycle();
+                            }
+                            return rotatedBitmap;
+                        }
+                    }
                 }
-                Bitmap bitmap1 = SystemUtil.rotateBitmap(bitmap, new ExifInterface(PhotoEditorActivity.this.getContentResolver().openInputStream(fromFile)).getAttributeInt(ExifInterface.TAG_ORIENTATION, 1));
-                if (bitmap1 != bitmap) {
-                    bitmap.recycle();
-                }
-
-                return bitmap1;
+                return null;
             } catch (Exception e) {
                 e.printStackTrace();
                 return null;
@@ -2756,6 +2807,18 @@ public class PhotoEditorActivity extends PhotoBaseActivity implements OnPhotoEdi
             PhotoEditorActivity.this.photoView.setImageSource(bitmap);
             PhotoEditorActivity.this.reloadingLayout();
         }
+    }
+
+    private Bitmap scaleBitmapIfNeeded(Bitmap bitmap) {
+        if (bitmap != null) {
+            float width = (float) bitmap.getWidth();
+            float height = (float) bitmap.getHeight();
+            float max = Math.max(width / 1280.0f, height / 1280.0f);
+            if (max > 1.0f) {
+                bitmap = Bitmap.createScaledBitmap(bitmap, (int) (width / max), (int) (height / max), false);
+            }
+        }
+        return bitmap;
     }
 
 
@@ -2778,7 +2841,7 @@ public class PhotoEditorActivity extends PhotoBaseActivity implements OnPhotoEdi
         }, 300);
     }
 
-    class SaveEditingBitmap extends AsyncTask<Void, String, String> {
+    class SaveEditingBitmap extends AsyncTask<Void, String, Uri> {
         SaveEditingBitmap() {
         }
 
@@ -2786,24 +2849,27 @@ public class PhotoEditorActivity extends PhotoBaseActivity implements OnPhotoEdi
             PhotoEditorActivity.this.showLoading(true);
         }
 
-        public String doInBackground(Void... voids) {
+        public Uri doInBackground(Void... voids) {
             try {
                 String fileName = "PhotoEditor_"+ String.format("%d.jpg", System.currentTimeMillis());
-                return SaveFileUtils.saveBitmapFileEditor(PhotoEditorActivity.this, PhotoEditorActivity.this.photoView.getCurrentBitmap(),fileName, null).getAbsolutePath();
+                Uri uri = SaveFileUtils.saveBitmapFile(PhotoEditorActivity.this, PhotoEditorActivity.this.photoView.getCurrentBitmap(),fileName, getApplicationContext().getString(R.string.app_name));
+                CommonKeys.filePath = new File(PathUtills.getPath(PhotoEditorActivity.this, uri));
+                return uri;
             } catch (IOException e) {
                 e.printStackTrace();
                 return null;
+            } catch (URISyntaxException e) {
+                throw new RuntimeException(e);
             }
         }
 
-        public void onPostExecute(String string) {
+        public void onPostExecute(Uri uri) {
             PhotoEditorActivity.this.showLoading(false);
-            if (string == null) {
+            if (uri == null) {
                 Toast.makeText(PhotoEditorActivity.this.getApplicationContext(), "Oop! Something went wrong", Toast.LENGTH_LONG).show();
                 return;
             }
             Intent intent = new Intent(PhotoEditorActivity.this, PhotoShareActivity.class);
-            intent.putExtra("path", string);
             intent.putExtra("activity","PhotoEditorActivity");
             PhotoEditorActivity.this.startActivity(intent);
         }

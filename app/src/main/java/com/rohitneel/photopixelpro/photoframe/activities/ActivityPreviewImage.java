@@ -123,7 +123,7 @@ public class ActivityPreviewImage extends AppCompatActivity {
         ivShare.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                shareImage(CommonKeys.filePath.getPath());
+                shareImage(Uri.parse(CommonKeys.filePath.getPath()));
             }
         });
 
@@ -142,24 +142,23 @@ public class ActivityPreviewImage extends AppCompatActivity {
             if (id != R.id.imgViewPreview) {
                 switch (id) {
                     case R.id.frame_linear_layout_facebook:
-                        shareToFacebook(CommonKeys.filePath.getPath());
+                        shareToFacebook(Uri.parse(CommonKeys.filePath.getPath()));
                         return;
                     case R.id.frame_linear_layout_instagram:
-                        shareToInstagram(CommonKeys.filePath.getPath());
+                        shareToInstagram(Uri.parse(CommonKeys.filePath.getPath()));
                         return;
                     case R.id.frame_linear_layout_messenger:
-                        shareToMessenger(CommonKeys.filePath.getPath());
+                        shareToMessenger(Uri.parse(CommonKeys.filePath.getPath()));
                         return;
                     default:
                         switch (id) {
                             case R.id.frame_linear_layout_twitter:
-                                shareToTwitter(CommonKeys.filePath.getPath());
+                                shareToTwitter(Uri.parse(CommonKeys.filePath.getPath()));
                                 return;
                             case R.id.frame_linear_layout_whatsapp:
-                                shareToWhatsapp(CommonKeys.filePath.getPath());
+                                shareToWhatsapp(Uri.parse(CommonKeys.filePath.getPath()));
                                 return;
                             default:
-                                return;
                         }
                 }
             } else {
@@ -368,12 +367,8 @@ public class ActivityPreviewImage extends AppCompatActivity {
     }*/
 
     @SuppressLint("WrongConstant")
-    public void shareImage(String str){
+    public void shareImage(Uri uri){
         try {
-            StringBuilder sb = new StringBuilder();
-            sb.append(getApplicationContext().getPackageName());
-            sb.append(".provider");
-            Uri uri = FileProvider.getUriForFile(this, sb.toString(), new File(str));
             Intent intent = new Intent("android.intent.action.SEND");
             intent.addFlags(1);
             intent.setType("image/*");
@@ -392,16 +387,13 @@ public class ActivityPreviewImage extends AppCompatActivity {
     }
 
     @SuppressLint("WrongConstant")
-    private void shareToFacebook(String str) {
-        Intent intent = new Intent(Intent.ACTION_SEND);
-        String str1 = "com.facebook.katana";
-        intent.setPackage(str1);
+    private void shareToFacebook(Uri uri) {
+        String str1 = Constants.FACEBOOK;
         try {
-            StringBuilder sb = new StringBuilder();
-            sb.append(getApplicationContext().getPackageName());
-            sb.append(".provider");
-            intent.putExtra("android.intent.extra.STREAM", FileProvider.getUriForFile(this, sb.toString(), new File(str)));
+            Intent intent = new Intent(Intent.ACTION_SEND);
+            intent.putExtra("android.intent.extra.STREAM", uri);
             intent.setType("image/*");
+            intent.setPackage(str1);
             intent.addFlags(1);
             startActivity(Intent.createChooser(intent, "Share Photo"));
         } catch (Exception e){
@@ -410,13 +402,9 @@ public class ActivityPreviewImage extends AppCompatActivity {
     }
 
     @SuppressLint("WrongConstant")
-    private void shareToInstagram(String str) {
+    private void shareToInstagram(Uri uri) {
         String str1 = Constants.INSTAGRAM;
         try {
-            StringBuilder sb = new StringBuilder();
-            sb.append(getApplicationContext().getPackageName());
-            sb.append(".provider");
-            Uri uri = FileProvider.getUriForFile(this, sb.toString(), new File(str));
             Intent intent = new Intent("android.intent.action.SEND");
             intent.putExtra("android.intent.extra.STREAM", uri);
             intent.setType("image/*");
@@ -429,17 +417,14 @@ public class ActivityPreviewImage extends AppCompatActivity {
     }
 
 
-    private void shareToWhatsapp(String str) {
+    private void shareToWhatsapp(Uri uri) {
         String str1 = Constants.WHATSAPP;
         try {
-            StringBuilder sb = new StringBuilder();
-            sb.append(getApplicationContext().getPackageName());
-            sb.append(".provider");
-            Uri uri = FileProvider.getUriForFile(this, sb.toString(), new File(str));
             Intent intent = new Intent("android.intent.action.SEND");
             intent.putExtra("android.intent.extra.STREAM", uri);
             intent.setType("image/*");
             intent.setPackage(str1);
+            intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
             startActivity(intent);
         } catch (Exception e){
             e.printStackTrace();
@@ -447,13 +432,9 @@ public class ActivityPreviewImage extends AppCompatActivity {
     }
 
     @SuppressLint("WrongConstant")
-    private void shareToMessenger(String str) {
+    private void shareToMessenger(Uri uri) {
         String str1 = Constants.MESSEGER;
         try {
-            StringBuilder sb = new StringBuilder();
-            sb.append(getApplicationContext().getPackageName());
-            sb.append(".provider");
-            Uri uri = FileProvider.getUriForFile(this, sb.toString(), new File(str));
             Intent intent = new Intent("android.intent.action.SEND");
             intent.putExtra("android.intent.extra.STREAM", uri);
             intent.setType("image/*");
@@ -466,13 +447,9 @@ public class ActivityPreviewImage extends AppCompatActivity {
     }
 
     @SuppressLint("WrongConstant")
-    private void shareToTwitter(String str) {
+    private void shareToTwitter(Uri uri) {
         String str1 = Constants.TWITTER;
         try {
-            StringBuilder sb = new StringBuilder();
-            sb.append(getApplicationContext().getPackageName());
-            sb.append(".provider");
-            Uri uri = FileProvider.getUriForFile(this, sb.toString(), new File(str));
             Intent intent = new Intent("android.intent.action.SEND");
             intent.putExtra("android.intent.extra.STREAM", uri);
             intent.setType("image/*");

@@ -218,27 +218,19 @@ public class PhotoView extends PhotoStickerView implements ScaleGestureDetector.
 
     public boolean undo() {
         Log.d("TAG", "undo: "+index);
-
         if (index > 0) {
             setImageSourceUndoRedo(bitmaplist.get(--index));
             return true;
-
         }
-
         return false;
     }
 
     public boolean redo() {
         Log.d("TAG", "redo: "+index);
-
-        if (index+1<bitmaplist.size()) {
-
+        if (index+1 < bitmaplist.size()) {
             setImageSourceUndoRedo(bitmaplist.get(++index));
             return true;
-
-
         }
-
         return false;
     }
 

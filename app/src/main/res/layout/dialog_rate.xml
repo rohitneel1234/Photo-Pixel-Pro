@@ -66,8 +66,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
-                android:paddingLeft="25dp"
-                android:paddingRight="25dp"
+                android:paddingLeft="26dp"
+                android:paddingRight="26dp"
                 android:paddingBottom="20dp">
 
                 <TextView
@@ -85,6 +85,7 @@
                 <TextView
                     android:id="@+id/textViewRate"
                     android:textSize="17sp"
+                    android:lineHeight="24sp"
                     android:textColor="@color/white"
                     android:gravity="center"
                     android:layout_marginTop="15dp"
