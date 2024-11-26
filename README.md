@@ -3,12 +3,14 @@ It is a photo editor mobile application and It's easy to use and free with featu
 ## Features:
 <ul dir="auto">
 <li>Phot Editor</li>
-<li>Collage</li>
-<li>Frame</li>
+<li>Collage Maker</li>
+<li>Photo Frame</li>
 <li>Background Eraser</li>
 <li>Neon</li>
 <li>Sticker</li>
 <li>Filter</li>
+<li>Art</li>
+<li>Overlay Effects</li>
 </ul>
 <h2 tabindex="-1" dir="auto"><a class="anchor" aria-hidden="true" tabindex="-1" href="#technologies"></a>Technologies:</h2>
 <ul dir="auto">
