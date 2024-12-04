@@ -2038,6 +2038,9 @@ public class PhotoEditorActivity extends PhotoBaseActivity implements OnPhotoEdi
     public void onFilterSelected(int itemCurrent, String string) {
         this.photoEditor.setFilterEffect(string);
         this.adjustFilter.setCurrentDegrees(50);
+        if (this.moduleToolsId == Module.FILTER) {
+            this.photoView.setFilterIntensity(0.5f);
+        }
     }
 
 
