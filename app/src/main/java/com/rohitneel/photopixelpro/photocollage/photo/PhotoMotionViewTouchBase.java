@@ -17,10 +17,9 @@ import androidx.recyclerview.widget.ItemTouchHelper;
 import com.rohitneel.photopixelpro.photocollage.crop.Cubic;
 import com.rohitneel.photopixelpro.photocollage.crop.Easing;
 import com.rohitneel.photopixelpro.photocollage.drip.graphic.FastBitmapDrawable;
-import com.rohitneel.photopixelpro.photocollage.drip.org.tensorflow.IDisposable;
 
 
-public abstract class PhotoMotionViewTouchBase extends AppCompatImageView implements IDisposable {
+public abstract class PhotoMotionViewTouchBase extends AppCompatImageView {
     protected static final boolean LOG_ENABLED = false;
     public static final String LOG_TAG = "ImageViewTouchBase";
     public static final float ZOOM_INVALID = -1.0f;

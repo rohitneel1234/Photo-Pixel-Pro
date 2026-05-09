@@ -1,7 +1,6 @@
 package com.rohitneel.photopixelpro.constant;
 
 import android.net.Uri;
-import com.facebook.common.util.UriUtil;
 
 public class SelectorSettings {
     public static final String SELECTOR_INITIAL_SELECTED_LIST = "selector_initial_selected_list";
@@ -23,6 +22,6 @@ public class SelectorSettings {
     }
 
     public static Uri getUriByResId(int resId) {
-        return new Uri.Builder().scheme(UriUtil.LOCAL_RESOURCE_SCHEME).path(String.valueOf(resId)).build();
+        return new Uri.Builder().path(String.valueOf(resId)).build();
     }
 }

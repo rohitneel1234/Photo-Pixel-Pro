@@ -55,7 +55,7 @@ public class MLCropAsyncTask extends AsyncTask<Void, Void, Void> {
             return null;
         }
         DeeplabMobile deeplabMobile = new DeeplabMobile();
-        deeplabMobile.initialize(this.activity.getApplicationContext());
+        //deeplabMobile.initialize(this.activity.getApplicationContext());
         this.cropped = loadInBackground(StoreManager.getCurrentOriginalBitmap(this.activity), deeplabMobile);
         StoreManager.setCurrentCropedBitmap(this.activity, this.cropped);
         return null;
