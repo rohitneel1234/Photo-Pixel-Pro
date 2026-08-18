@@ -16,11 +16,14 @@ import android.view.WindowManager
 import android.widget.Button
 import android.widget.TextView
 import android.widget.Toast
+import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.core.content.ContextCompat
 import androidx.core.view.GravityCompat
+import androidx.core.view.ViewCompat
+import androidx.core.view.WindowInsetsCompat
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.navigation.Navigation
 import androidx.navigation.fragment.NavHostFragment
@@ -51,8 +54,18 @@ class MainActivity : AppCompatActivity() {
     private val RC_APP_UPDATE = 100
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        enableEdgeToEdge()
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+
+        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
+            val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
+            val toolbar = findViewById<Toolbar>(R.id.toolbar)
+            toolbar?.setPadding(0, systemBars.top, 0, 0)
+            findViewById<View>(R.id.bottom_nav_view)?.setPadding(0, 0, 0, systemBars.bottom)
+            insets
+        }
+
         val activeIndex = savedInstanceState?.getInt("activeIndex") ?: 0
         toolbar = findViewById(R.id.toolbar)
         setSupportActionBar(toolbar)
@@ -77,7 +90,7 @@ class MainActivity : AppCompatActivity() {
 
         appUpdateManager?.registerListener(installStateUpdatedListener)
 
-        val drawer = findViewById<DrawerLayout>(R.id.drawer_layout)
+        val drawer = findViewById<DrawerLayout>(R.id.main)
         val toggle = ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close)
         drawer.addDrawerListener(toggle)
@@ -178,7 +191,7 @@ class MainActivity : AppCompatActivity() {
                     }
                 }
             }
-            val drawer = findViewById<View>(R.id.drawer_layout) as DrawerLayout
+            val drawer = findViewById<View>(R.id.main) as DrawerLayout
             drawer.closeDrawer(GravityCompat.START)
             true
         }

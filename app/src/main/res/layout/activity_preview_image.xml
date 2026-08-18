@@ -1,57 +1,70 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/BackgroundColor"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    tools:context=".photoframe.activities.ActivityPreviewImage">
 
-    <RelativeLayout
+    <LinearLayout
+        android:id="@+id/topBar"
         android:layout_width="match_parent"
-        android:layout_height="60dp"
-        android:background="@color/BackgroundCardColor">
+        android:layout_height="wrap_content"
+        android:background="@color/BackgroundCardColor"
+        android:elevation="4dp"
+        android:orientation="vertical">
 
-        <ImageView
-            android:id="@+id/ivcancel"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:layout_marginLeft="10dp"
-            android:src="@drawable/ic_arrow_back_white_24dp" />
+        <View
+            android:id="@+id/statusBarSpacer"
+            android:layout_width="match_parent"
+            android:layout_height="0dp" />
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:layout_marginStart="60dp"
-            android:text="Share"
-            android:textColor="@color/white"
-            android:textSize="20dp"
-            android:textStyle="bold" />
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="56dp">
 
-        <!--<ImageView
-            android:id="@+id/ivSave"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
-            android:layout_centerVertical="true"
-            android:layout_marginEnd="15dp"
-            android:src="@drawable/save_logo"
-            ads:tint="@color/white" />-->
+            <ImageView
+                android:id="@+id/ivcancel"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_centerVertical="true"
+                android:layout_marginStart="10dp"
+                android:padding="8dp"
+                android:src="@drawable/ic_arrow_back_white_24dp"
+                app:tint="@color/white" />
 
-        <TextView
-            android:id="@+id/txtDone"
-            android:layout_width="70dp"
-            android:layout_height="45dp"
-            android:layout_alignParentRight="true"
-            android:layout_centerVertical="true"
-            android:fontFamily="@font/font"
-            android:gravity="center"
-            android:text="DONE"
-            android:textColor="@color/mainColor"
-            android:textSize="17sp"
-            android:textStyle="bold" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:fontFamily="@font/font"
+                android:includeFontPadding="false"
+                android:text="Share"
+                android:textColor="@color/white"
+                android:textSize="20sp"
+                android:textStyle="bold" />
 
-    </RelativeLayout>
+            <TextView
+                android:id="@+id/txtDone"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_centerVertical="true"
+                android:layout_marginEnd="10dp"
+                android:fontFamily="@font/font"
+                android:gravity="center"
+                android:paddingHorizontal="10dp"
+                android:text="DONE"
+                android:textColor="@color/mainColor"
+                android:textSize="17sp"
+                android:textStyle="bold" />
+
+        </RelativeLayout>
+
+    </LinearLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -81,7 +94,7 @@
                 android:layout_marginEnd="10dp"
                 android:padding="10dp"
                 android:src="@drawable/ic_baseline_home_24"
-                />
+                app:tint="@color/white" />
 
         </RelativeLayout>
 
@@ -117,7 +130,6 @@
                     android:clickable="true"
                     android:focusable="true"
                     android:gravity="center"
-                    android:onClick="onClick"
                     android:orientation="vertical">
 
                     <ImageView

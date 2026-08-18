@@ -30,12 +30,16 @@ import android.widget.SeekBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.activity.EdgeToEdge;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.constraintlayout.widget.ConstraintSet;
 import androidx.constraintlayout.widget.Guideline;
 import androidx.core.content.ContextCompat;
+import androidx.core.graphics.Insets;
+import androidx.core.view.ViewCompat;
+import androidx.core.view.WindowInsetsCompat;
 import androidx.core.internal.view.SupportMenu;
 import androidx.exifinterface.media.ExifInterface;
 import androidx.recyclerview.widget.GridLayoutManager;
@@ -319,15 +323,35 @@ public class PhotoEditorActivity extends PhotoBaseActivity implements OnPhotoEdi
     private TextView text_view_burn;
 
     public void onCreate(Bundle bundle) {
+        EdgeToEdge.enable(this);
         super.onCreate(bundle);
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
-            getWindow().setFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS, WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS);
-            getWindow().setStatusBarColor(getColor(R.color.login_sign_up_background));
-        } else {
-            requestWindowFeature(1);
-            getWindow().setFlags(1024, 1024);
-        }
         setContentView(R.layout.activity_photo_editor);
+
+        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
+            Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
+            findViewById(R.id.constraintLayoutSave).setPadding(0, systemBars.top, 0, 0);
+            findViewById(R.id.constraint_layout_confirm_save_overlay).setPadding(0, systemBars.top, 0, 0);
+
+            findViewById(R.id.constraint_layout_confirm_save_text).setPadding(0, 0, 0, systemBars.bottom);
+            findViewById(R.id.constraint_layout_confirm_save_sticker).setPadding(0, 0, 0, systemBars.bottom);
+            findViewById(R.id.recyclerViewTools).setPadding(0, 0, 0, systemBars.bottom);
+            findViewById(R.id.constraint_layout_effects).setPadding(0, 0, 0, systemBars.bottom);
+            findViewById(R.id.constraint_layout_blur_sqaure).setPadding(0, 0, 0, systemBars.bottom);
+            findViewById(R.id.constraint_layout_draw).setPadding(0, 0, 0, systemBars.bottom);
+            findViewById(R.id.constraint_layout_filter).setPadding(0, 0, 0, systemBars.bottom);
+            findViewById(R.id.constraintLayoutAdjust).setPadding(0, 0, 0, systemBars.bottom);
+            findViewById(R.id.constraint_layout_overlay).setPadding(0, 0, 0, systemBars.bottom);
+            findViewById(R.id.constraint_layout_sticker).setPadding(0, 0, 0, systemBars.bottom);
+            findViewById(R.id.constraint_layout_blur).setPadding(0, 0, 0, systemBars.bottom);
+            findViewById(R.id.constraint_layout_splash).setPadding(0, 0, 0, systemBars.bottom);
+            findViewById(R.id.constraintLayoutPaint).setPadding(0, 0, 0, systemBars.bottom);
+            findViewById(R.id.constraintLayoutNeon).setPadding(0, 0, 0, systemBars.bottom);
+            findViewById(R.id.constraintLayoutMagic).setPadding(0, 0, 0, systemBars.bottom);
+            findViewById(R.id.constraint_layout_confirm_text).setPadding(0, 0, 0, systemBars.bottom);
+
+            return insets;
+        });
+
         slideDownAnimation = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.slide_down);
         slideUpAnimation = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.slide_up);
         if (Build.VERSION.SDK_INT < 26) {

@@ -27,11 +27,17 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.activity.EdgeToEdge;
+import androidx.activity.SystemBarStyle;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.FileProvider;
+import androidx.core.graphics.Insets;
+import androidx.core.view.ViewCompat;
+import androidx.core.view.WindowInsetsCompat;
+import android.graphics.Color;
 
 import com.rohitneel.photopixelpro.R;
 import com.rohitneel.photopixelpro.activities.MainActivity;
@@ -66,15 +72,22 @@ public class ActivityPreviewImage extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        EdgeToEdge.enable(this, SystemBarStyle.dark(Color.TRANSPARENT));
         super.onCreate(savedInstanceState);
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
-            getWindow().setFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS, WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS);
-            getWindow().setStatusBarColor(getColor(R.color.login_sign_up_background));
-        } else {
-            requestWindowFeature(1);
-            getWindow().setFlags(1024, 1024);
-        }
         setContentView(R.layout.activity_preview_image);
+
+        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main_layout), (v, insets) -> {
+            Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
+            v.setPadding(systemBars.left, 0, systemBars.right, systemBars.bottom);
+
+            View statusBarSpacer = findViewById(R.id.statusBarSpacer);
+            if (statusBarSpacer != null) {
+                statusBarSpacer.getLayoutParams().height = systemBars.top;
+                statusBarSpacer.requestLayout();
+            }
+            return insets;
+        });
+
         ivcancel = findViewById(R.id.ivcancel);
         ivHome = findViewById(R.id.ivHome);
         txtDone = findViewById(R.id.txtDone);

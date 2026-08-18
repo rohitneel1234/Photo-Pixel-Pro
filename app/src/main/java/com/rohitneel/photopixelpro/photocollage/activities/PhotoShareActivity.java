@@ -6,7 +6,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.net.Uri;
-import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -14,8 +13,12 @@ import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import androidx.activity.EdgeToEdge;
 import androidx.annotation.Nullable;
 import androidx.core.content.FileProvider;
+import androidx.core.graphics.Insets;
+import androidx.core.view.ViewCompat;
+import androidx.core.view.WindowInsetsCompat;
 
 import com.bumptech.glide.Glide;
 import com.rohitneel.photopixelpro.R;
@@ -35,14 +38,16 @@ public class PhotoShareActivity extends PhotoBaseActivity implements View.OnClic
     private File file;
     ImageCaptureManager createImageFile1;
     public void onCreate(@Nullable Bundle bundle) {
+        EdgeToEdge.enable(this);
         super.onCreate(bundle);
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
-            getWindow().setFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS, WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS);
-            getWindow().setStatusBarColor(getColor(R.color.login_sign_up_background));
-        } else {
-            setFullScreen();
-        }
         setContentView(R.layout.activity_share_photo);
+
+        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
+            Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
+            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
+            return insets;
+        });
+
         createImageFile1 = new ImageCaptureManager(this);
         String keyFromActivity = getIntent().getExtras().getString("activity");
         this.file = CommonKeys.filePath;

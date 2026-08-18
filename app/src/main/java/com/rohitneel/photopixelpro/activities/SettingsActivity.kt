@@ -18,6 +18,10 @@ import androidx.appcompat.widget.SwitchCompat
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
+import androidx.activity.enableEdgeToEdge
+import androidx.core.view.ViewCompat
+import androidx.core.view.WindowCompat
+import androidx.core.view.WindowInsetsCompat
 import com.rohitneel.photopixelpro.BuildConfig
 import com.rohitneel.photopixelpro.R
 import com.rohitneel.photopixelpro.constant.CommonKeys
@@ -41,12 +45,10 @@ class SettingsActivity : AppCompatActivity() {
     private var mClShareApp : ConstraintLayout? = null
     private var mClMoreApps : ConstraintLayout? = null
     private var mClDeveloper : ConstraintLayout? = null
-    private var mSwitchFullScreen: SwitchCompat? = null
     private var mSwitchAppPermission: SwitchCompat? = null
     private val REQUEST_PERMISSION_CODE = 7
     private var mTxtTutorial: TextView? = null
     private var mTxtDark: TextView? = null
-    private var mTxtFullScreen: TextView? = null
     private var mTxtSave: TextView? = null
     private var mTxtPermission: TextView? = null
     private var mTxtContactUs: TextView? = null
@@ -64,11 +66,16 @@ class SettingsActivity : AppCompatActivity() {
     private var imgDarkMode: ImageView? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        enableEdgeToEdge()
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_settings)
+        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
+            val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
+            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
+            insets
+        }
         mSession = SessionManager(applicationContext)
         mSwitchCompat = findViewById<View>(R.id.switchTheme) as SwitchCompat
-        mSwitchFullScreen = findViewById<View>(R.id.switchFullScreen) as SwitchCompat
         mSwitchAppPermission = findViewById<View>(R.id.switchAppPermission) as SwitchCompat
         constraintLayout = findViewById<ConstraintLayout>(R.id.clTutorial)
         mClSaveOption = findViewById<ConstraintLayout>(R.id.clSaveOption)
@@ -79,7 +86,6 @@ class SettingsActivity : AppCompatActivity() {
         mClDeveloper = findViewById<ConstraintLayout>(R.id.clDeveloper)
         mTxtTutorial = findViewById<TextView>(R.id.txtTutorial)
         mTxtDark = findViewById<TextView>(R.id.txtDarkMode)
-        mTxtFullScreen = findViewById<TextView>(R.id.txtFullScreen)
         mTxtSave = findViewById<TextView>(R.id.txtSaveOption)
         mTxtPermission = findViewById<TextView>(R.id.txtAppPermission)
         mTxtContactUs =  findViewById<TextView>(R.id.txtContactUs)
@@ -91,29 +97,29 @@ class SettingsActivity : AppCompatActivity() {
         mTxtAppSettingsTitle = findViewById(R.id.txtAppSettingsTitle)
         mTxtSaveTitle = findViewById(R.id.txtSaveTitle)
         mTxtAppHelpTitle = findViewById(R.id.txtHelpTitle)
-        mTxtAboutTitle = findViewById(R.id.txtAboutTitle);
+        mTxtAboutTitle = findViewById(R.id.txtAboutTitle)
         txtAppVersion = findViewById(R.id.txtVersionName)
         imgDarkMode = findViewById(R.id.imgTheme)
 
-        constraintLayout!!.setOnClickListener(View.OnClickListener {
+        constraintLayout?.setOnClickListener(View.OnClickListener {
             val intent = Intent(applicationContext, TutorialActivity::class.java)
             intent.putExtra(CommonKeys.mSettingsKey, "settings")
             startActivity(intent)
         })
 
-        mClSaveOption!!.setOnClickListener(View.OnClickListener {
+        mClSaveOption?.setOnClickListener(View.OnClickListener {
             startActivity(Intent(applicationContext, ShowSavedFilePath::class.java))
         })
 
-        mClHelpAndSupport!!.setOnClickListener(View.OnClickListener {
+        mClHelpAndSupport?.setOnClickListener(View.OnClickListener {
             startActivity(Intent(this, ContactUs::class.java))
         })
 
-        mClRateUs!!.setOnClickListener(View.OnClickListener {
+        mClRateUs?.setOnClickListener(View.OnClickListener {
             RateDialog(this, false).show()
         })
 
-        mClShareApp!!.setOnClickListener(View.OnClickListener {
+        mClShareApp?.setOnClickListener(View.OnClickListener {
             val shareIntent = Intent(Intent.ACTION_SEND)
             shareIntent.type = "text/plain"
             shareIntent.putExtra(Intent.EXTRA_SUBJECT, "Photo Pixel Pro")
@@ -125,7 +131,7 @@ class SettingsActivity : AppCompatActivity() {
             startActivity(Intent.createChooser(shareIntent, "choose one"))
         })
 
-        mClMoreApps!!.setOnClickListener(View.OnClickListener {
+        mClMoreApps?.setOnClickListener(View.OnClickListener {
             try {
                 startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(getString(R.string.market_string))))
             } catch (e: ActivityNotFoundException) {
@@ -139,7 +145,7 @@ class SettingsActivity : AppCompatActivity() {
             }
         })
 
-        mClDeveloper!!.setOnClickListener(View.OnClickListener {
+        mClDeveloper?.setOnClickListener(View.OnClickListener {
             try {
                 val intent = Intent(Intent.ACTION_VIEW)
                 intent.data = Uri.parse("https://zaap.bio/rohitneel")
@@ -158,68 +164,46 @@ class SettingsActivity : AppCompatActivity() {
             e.printStackTrace()
         }
 
-        if (mSession!!.loadState()) {
+        val session = mSession
+        if (session != null && session.loadState()) {
             AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
             setTheme(R.style.darkTheme)
-            mTxtTutorial!!.setTextColor(ContextCompat.getColor(applicationContext, R.color.white))
-            mTxtDark!!.setTextColor(ContextCompat.getColor(applicationContext, R.color.white))
-            mTxtFullScreen!!.setTextColor(ContextCompat.getColor(applicationContext, R.color.white))
-            mTxtSave!!.setTextColor(ContextCompat.getColor(applicationContext, R.color.white))
-            mTxtPermission!!.setTextColor(ContextCompat.getColor(applicationContext, R.color.white))
-            mTxtContactUs!!.setTextColor(ContextCompat.getColor(applicationContext, R.color.white))
-            mTxtRateUs!!.setTextColor(ContextCompat.getColor(applicationContext, R.color.white))
-            mTxtShareApp!!.setTextColor(ContextCompat.getColor(applicationContext, R.color.white))
-            mTxtMoreApps!!.setTextColor(ContextCompat.getColor(applicationContext, R.color.white))
-            mTxtDeveloper!!.setTextColor(ContextCompat.getColor(applicationContext, R.color.white))
-            mTxtVersion!!.setTextColor(ContextCompat.getColor(applicationContext, R.color.white))
-            txtAppVersion!!.setTextColor(ContextCompat.getColor(applicationContext, R.color.white))
-            mTxtAppSettingsTitle!!.setTextColor(ContextCompat.getColor(applicationContext, R.color.white))
-            mTxtSaveTitle!!.setTextColor(ContextCompat.getColor(applicationContext, R.color.white))
-            mTxtAppHelpTitle!!.setTextColor(ContextCompat.getColor(applicationContext, R.color.white))
-            mTxtAboutTitle!!.setTextColor(ContextCompat.getColor(applicationContext, R.color.white))
-            imgDarkMode!!.setColorFilter(ContextCompat.getColor(this, R.color.white))
+            mTxtTutorial?.setTextColor(ContextCompat.getColor(applicationContext, R.color.white))
+            mTxtDark?.setTextColor(ContextCompat.getColor(applicationContext, R.color.white))
+            mTxtSave?.setTextColor(ContextCompat.getColor(applicationContext, R.color.white))
+            mTxtPermission?.setTextColor(ContextCompat.getColor(applicationContext, R.color.white))
+            mTxtContactUs?.setTextColor(ContextCompat.getColor(applicationContext, R.color.white))
+            mTxtRateUs?.setTextColor(ContextCompat.getColor(applicationContext, R.color.white))
+            mTxtShareApp?.setTextColor(ContextCompat.getColor(applicationContext, R.color.white))
+            mTxtMoreApps?.setTextColor(ContextCompat.getColor(applicationContext, R.color.white))
+            mTxtDeveloper?.setTextColor(ContextCompat.getColor(applicationContext, R.color.white))
+            mTxtVersion?.setTextColor(ContextCompat.getColor(applicationContext, R.color.white))
+            txtAppVersion?.setTextColor(ContextCompat.getColor(applicationContext, R.color.white))
+            mTxtAppSettingsTitle?.setTextColor(ContextCompat.getColor(applicationContext, R.color.white))
+            mTxtSaveTitle?.setTextColor(ContextCompat.getColor(applicationContext, R.color.white))
+            mTxtAppHelpTitle?.setTextColor(ContextCompat.getColor(applicationContext, R.color.white))
+            mTxtAboutTitle?.setTextColor(ContextCompat.getColor(applicationContext, R.color.white))
+            imgDarkMode?.setColorFilter(ContextCompat.getColor(this, R.color.white))
         } else {
             AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
             setTheme(R.style.AppTheme)
-            mTxtTutorial!!.setTextColor(ContextCompat.getColor(applicationContext, R.color.settingsTextColor))
-            mTxtDark!!.setTextColor(ContextCompat.getColor(applicationContext, R.color.settingsTextColor))
-            mTxtFullScreen!!.setTextColor(ContextCompat.getColor(applicationContext, R.color.settingsTextColor))
-            mTxtSave!!.setTextColor(ContextCompat.getColor(applicationContext, R.color.settingsTextColor))
-            mTxtPermission!!.setTextColor(ContextCompat.getColor(applicationContext, R.color.settingsTextColor))
-            mTxtContactUs!!.setTextColor(ContextCompat.getColor(applicationContext, R.color.settingsTextColor))
-            mTxtRateUs!!.setTextColor(ContextCompat.getColor(applicationContext, R.color.settingsTextColor))
-            mTxtShareApp!!.setTextColor(ContextCompat.getColor(applicationContext, R.color.settingsTextColor))
-            mTxtMoreApps!!.setTextColor(ContextCompat.getColor(applicationContext, R.color.settingsTextColor))
-            mTxtDeveloper!!.setTextColor(ContextCompat.getColor(applicationContext, R.color.settingsTextColor))
-            mTxtVersion!!.setTextColor(ContextCompat.getColor(applicationContext, R.color.settingsTextColor))
-            txtAppVersion!!.setTextColor(ContextCompat.getColor(applicationContext, R.color.settingsTextColor))
+            mTxtTutorial?.setTextColor(ContextCompat.getColor(applicationContext, R.color.settingsTextColor))
+            mTxtDark?.setTextColor(ContextCompat.getColor(applicationContext, R.color.settingsTextColor))
+            mTxtSave?.setTextColor(ContextCompat.getColor(applicationContext, R.color.settingsTextColor))
+            mTxtPermission?.setTextColor(ContextCompat.getColor(applicationContext, R.color.settingsTextColor))
+            mTxtContactUs?.setTextColor(ContextCompat.getColor(applicationContext, R.color.settingsTextColor))
+            mTxtRateUs?.setTextColor(ContextCompat.getColor(applicationContext, R.color.settingsTextColor))
+            mTxtShareApp?.setTextColor(ContextCompat.getColor(applicationContext, R.color.settingsTextColor))
+            mTxtMoreApps?.setTextColor(ContextCompat.getColor(applicationContext, R.color.settingsTextColor))
+            mTxtDeveloper?.setTextColor(ContextCompat.getColor(applicationContext, R.color.settingsTextColor))
+            mTxtVersion?.setTextColor(ContextCompat.getColor(applicationContext, R.color.settingsTextColor))
+            txtAppVersion?.setTextColor(ContextCompat.getColor(applicationContext, R.color.settingsTextColor))
         }
 
         //calling dark theme state to load and save
         loadDarkThemeState()
 
-        if (mSession!!.loadFullScreenState()) {
-            this.window.clearFlags(WindowManager.LayoutParams.FLAG_FORCE_NOT_FULLSCREEN);
-            this.window.addFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);
-        } else {
-            this.window.addFlags(WindowManager.LayoutParams.FLAG_FORCE_NOT_FULLSCREEN);
-            this.window.clearFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);
-        }
-
-        //Calling full screen state to load and save
-        loadFullScreenState()
-
         loadAppPermission()
-
-        GlobalScope.launch {
-            val time = measureTimeMillis {
-                val one = sampleOne()
-                val two = sampleTwo()
-                println("The answer is ${one + two}")
-            }
-            println("Completed in $time ms")
-        }
-        println("EOF")
     }
 
     private suspend fun sampleOne(): Int {
@@ -234,18 +218,17 @@ class SettingsActivity : AppCompatActivity() {
         return 10
     }
 
-
     private fun loadAppPermission() {
-        if (mSession!!.loadAppPermissionState() && checkingPermissionIsEnabledOrNot()) {
-            mSwitchAppPermission!!.isChecked = true
+        if (mSession?.loadAppPermissionState() == true && checkingPermissionIsEnabledOrNot()) {
+            mSwitchAppPermission?.isChecked = true
         }
-        mSwitchAppPermission!!.setOnCheckedChangeListener { buttonView, isChecked ->
+        mSwitchAppPermission?.setOnCheckedChangeListener { buttonView, isChecked ->
             if (isChecked) {
-                mSession!!.saveAppPermissionState(true)
+                mSession?.saveAppPermissionState(true)
                 requestMultiplePermission()
             }
             else {
-                mSession!!.saveAppPermissionState(false)
+                mSession?.saveAppPermissionState(false)
             }
         }
     }
@@ -265,38 +248,20 @@ class SettingsActivity : AppCompatActivity() {
                 secondPermissionResult == PackageManager.PERMISSION_GRANTED
     }
 
-    private fun loadFullScreenState() {
-        if (mSession!!.loadFullScreenState()) {
-            mSwitchFullScreen!!.isChecked = true
-        }
-
-        mSwitchFullScreen!!.setOnCheckedChangeListener { buttonView, isChecked ->
-            if (isChecked) {
-                this.window.clearFlags(WindowManager.LayoutParams.FLAG_FORCE_NOT_FULLSCREEN);
-                this.window.addFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);
-                mSession!!.saveFullScreenState(true)
-            } else {
-                this.window.addFlags(WindowManager.LayoutParams.FLAG_FORCE_NOT_FULLSCREEN);
-                this.window.clearFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);
-                mSession!!.saveFullScreenState(false)
-            }
-        }
-    }
-
     private fun loadDarkThemeState() {
-        if (mSession!!.loadState()) {
-            mSwitchCompat!!.isChecked = true
+        if (mSession?.loadState() == true) {
+            mSwitchCompat?.isChecked = true
         }
 
-        mSwitchCompat!!.setOnCheckedChangeListener { buttonView, isChecked ->
+        mSwitchCompat?.setOnCheckedChangeListener { _, isChecked ->
             if (isChecked) {
                 AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
-                mSession!!.saveState(true)
-                recreate()
+                mSession?.saveState(true)
             } else {
                 AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
-                mSession!!.saveState(false)
+                mSession?.saveState(false)
             }
+            recreate()
         }
     }
 

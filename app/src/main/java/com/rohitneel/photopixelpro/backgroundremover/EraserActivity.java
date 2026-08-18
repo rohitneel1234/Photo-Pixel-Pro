@@ -8,7 +8,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.graphics.Matrix;
-import android.media.ExifInterface;
+import androidx.exifinterface.media.ExifInterface;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -23,11 +23,17 @@ import android.widget.RelativeLayout;
 import android.widget.SeekBar;
 import android.widget.SeekBar.OnSeekBarChangeListener;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import androidx.activity.EdgeToEdge;
+import androidx.activity.SystemBarStyle;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
+import androidx.core.graphics.Insets;
+import androidx.core.view.ViewCompat;
+import androidx.core.view.WindowInsetsCompat;
 
 import com.rohitneel.photopixelpro.R;
 
@@ -76,15 +82,16 @@ public class EraserActivity extends AppCompatActivity implements OnClickListener
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
+		EdgeToEdge.enable(this);
 		super.onCreate(savedInstanceState);
-		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
-            getWindow().setFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS, WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS);
-            getWindow().setStatusBarColor(getColor(R.color.login_sign_up_background));
-        } else {
-            requestWindowFeature(1);
-            getWindow().setFlags(1024, 1024);
-        }
 		setContentView(R.layout.activity_eraser);
+
+		ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
+			Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
+			v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
+			return insets;
+		});
+
 		mContentResolver = getContentResolver();
 		backgroundEraserBack = findViewById(R.id.bgScreenBack);
 		eraserImage = findViewById(R.id.eraser_img);
@@ -117,11 +124,56 @@ public class EraserActivity extends AppCompatActivity implements OnClickListener
 
 
 		Bundle extras = getIntent().getExtras();
+		Uri imageUri = getIntent().getData();
+
 		if (extras != null) {
 			imageFilePath = extras.getString("imagePath");
 		}
 
-		mBitmap = BitmapFactory.decodeFile(imageFilePath);
+		if (imageUri != null) {
+			try {
+				InputStream inputStream = getContentResolver().openInputStream(imageUri);
+				mBitmap = BitmapFactory.decodeStream(inputStream);
+				if (inputStream != null) {
+					inputStream.close();
+				}
+
+				// Apply orientation
+				InputStream exifStream = getContentResolver().openInputStream(imageUri);
+				if (exifStream != null) {
+					ExifInterface exif = new ExifInterface(exifStream);
+					int orientation = exif.getAttributeInt(ExifInterface.TAG_ORIENTATION, ExifInterface.ORIENTATION_NORMAL);
+					Matrix matrix = new Matrix();
+					switch (orientation) {
+						case ExifInterface.ORIENTATION_ROTATE_90:
+							matrix.postRotate(90);
+							break;
+						case ExifInterface.ORIENTATION_ROTATE_180:
+							matrix.postRotate(180);
+							break;
+						case ExifInterface.ORIENTATION_ROTATE_270:
+							matrix.postRotate(270);
+							break;
+					}
+					if (mBitmap != null && orientation != ExifInterface.ORIENTATION_NORMAL) {
+						mBitmap = Bitmap.createBitmap(mBitmap, 0, 0, mBitmap.getWidth(), mBitmap.getHeight(), matrix, true);
+					}
+					exifStream.close();
+				}
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
+
+		if (mBitmap == null && imageFilePath != null) {
+			mBitmap = BitmapFactory.decodeFile(imageFilePath);
+		}
+
+		if (mBitmap == null) {
+			Toast.makeText(this, "Failed to load image", Toast.LENGTH_SHORT).show();
+			finish();
+			return;
+		}
 
 		mLayout = (RelativeLayout) findViewById(R.id.mainLayout);
         mDensity = getResources().getDisplayMetrics().density;
@@ -151,9 +203,11 @@ public class EraserActivity extends AppCompatActivity implements OnClickListener
 
 		mBitmap = Bitmap.createScaledBitmap(mBitmap, bmWidth, bmHeight, false);
 
-		File fdelete = new File(imageFilePath);
-		if (fdelete.exists()) {
-			fdelete.delete();
+		if (imageFilePath != null) {
+			File fdelete = new File(imageFilePath);
+			if (fdelete.exists()) {
+				fdelete.delete();
+			}
 		}
 
 		mHoverView = new HoverView(this, mBitmap, bmWidth, bmHeight, viewWidth, viewHeight);

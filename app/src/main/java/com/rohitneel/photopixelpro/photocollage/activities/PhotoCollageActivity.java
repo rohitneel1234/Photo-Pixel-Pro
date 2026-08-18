@@ -35,12 +35,17 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.SeekBar;
 import android.widget.TextView;
+
+import androidx.activity.EdgeToEdge;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.constraintlayout.widget.ConstraintSet;
 import androidx.constraintlayout.widget.Guideline;
 import androidx.core.content.ContextCompat;
+import androidx.core.graphics.Insets;
+import androidx.core.view.ViewCompat;
+import androidx.core.view.WindowInsetsCompat;
 import androidx.exifinterface.media.ExifInterface;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -198,14 +203,25 @@ public class PhotoCollageActivity extends PhotoBaseActivity implements GridTools
 
 
     public void onCreate(@Nullable Bundle bundle) {
+        EdgeToEdge.enable(this);
         super.onCreate(bundle);
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
-            getWindow().setFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS, WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS);
-            getWindow().setStatusBarColor(getColor(R.color.login_sign_up_background));
-        } else {
-            setFullScreen();
-        }
         setContentView(R.layout.activity_photo_collage);
+
+        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
+            Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
+            findViewById(R.id.constraint_save_control).setPadding(0, systemBars.top, 0, 0);
+            findViewById(R.id.constraint_layout_confirm_save_text).setPadding(0, 0, 0, systemBars.bottom);
+            findViewById(R.id.constraint_layout_confirm_save_sticker).setPadding(0, 0, 0, systemBars.bottom);
+            findViewById(R.id.recycler_view_tools).setPadding(0, 0, 0, systemBars.bottom);
+            findViewById(R.id.recycler_view_tools_collage).setPadding(0, 0, 0, systemBars.bottom);
+            findViewById(R.id.constrant_layout_change_Layout).setPadding(0, 0, 0, systemBars.bottom);
+            findViewById(R.id.constrant_layout_change_background).setPadding(0, 0, 0, systemBars.bottom);
+            findViewById(R.id.constraint_layout_sticker).setPadding(0, 0, 0, systemBars.bottom);
+            findViewById(R.id.constraint_layout_filter_layout).setPadding(0, 0, 0, systemBars.bottom);
+            findViewById(R.id.constraint_layout_confirm_text).setPadding(0, 0, 0, systemBars.bottom);
+            return insets;
+        });
+
         if (Build.VERSION.SDK_INT < 30) {
             getWindow().setSoftInputMode(72);
         }

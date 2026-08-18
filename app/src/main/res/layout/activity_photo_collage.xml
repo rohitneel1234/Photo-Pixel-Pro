@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
@@ -9,7 +10,8 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/constraint_save_control"
         android:layout_width="match_parent"
-        android:layout_height="45dp"
+        android:layout_height="wrap_content"
+        android:minHeight="45dp"
         android:background="@color/BackgroundCardColor"
         app:layout_constraintTop_toTopOf="parent">
 
@@ -44,7 +46,8 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/constraint_layout_confirm_save_text"
         android:layout_width="match_parent"
-        android:layout_height="45dp"
+        android:layout_height="wrap_content"
+        android:minHeight="45dp"
         android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="parent">
 
@@ -76,7 +79,8 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/constraint_layout_confirm_save_sticker"
         android:layout_width="match_parent"
-        android:layout_height="45dp"
+        android:layout_height="wrap_content"
+        android:minHeight="45dp"
         android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="parent">
 
@@ -856,7 +860,8 @@
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recycler_view_tools_collage"
             android:layout_width="0dp"
-            android:layout_height="55dp"
+            android:layout_height="wrap_content"
+            android:minHeight="55dp"
             android:background="@drawable/background_submit"
             android:layout_marginStart="15dp"
             android:layout_marginEnd="15dp"
@@ -868,7 +873,8 @@
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recycler_view_tools"
             android:layout_width="0dp"
-            android:layout_height="70dp"
+            android:layout_height="wrap_content"
+            android:minHeight="70dp"
             android:background="@color/BackgroundColor"
             android:orientation="horizontal"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"

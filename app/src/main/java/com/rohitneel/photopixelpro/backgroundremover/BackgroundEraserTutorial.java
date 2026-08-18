@@ -1,7 +1,11 @@
 package com.rohitneel.photopixelpro.backgroundremover;
 
+import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.graphics.Insets;
+import androidx.core.view.ViewCompat;
+import androidx.core.view.WindowInsetsCompat;
 
 import android.os.Bundle;
 import android.view.View;
@@ -15,8 +19,17 @@ public class BackgroundEraserTutorial extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        EdgeToEdge.enable(this);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_background_eraser_tutorial);
+
+        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
+            Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
+            findViewById(R.id.toolbar).setPadding(0, systemBars.top, 0, 0);
+            v.setPadding(systemBars.left, 0, systemBars.right, systemBars.bottom);
+            return insets;
+        });
+
         imgViewBack =  findViewById(R.id.bgTutorialBack);
 
         imgViewBack.setOnClickListener(new View.OnClickListener() {

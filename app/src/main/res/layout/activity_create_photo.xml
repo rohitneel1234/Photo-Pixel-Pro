@@ -2,50 +2,70 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/BackgroundCardColor"
     android:orientation="vertical"
     tools:context=".photoframe.activities.ActivityCreatePhoto">
 
 
-    <RelativeLayout
+    <LinearLayout
+        android:id="@+id/topBar"
         android:layout_width="match_parent"
-        android:layout_height="60dp"
+        android:layout_height="wrap_content"
         android:background="@color/BackgroundCardColor"
-        android:gravity="center_vertical">
+        android:elevation="4dp"
+        android:orientation="vertical">
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerInParent="true"
-            android:text="Edit Frame"
-            android:textColor="@color/white"
-            android:textSize="17sp"
-            android:textStyle="bold" />
+        <View
+            android:id="@+id/statusBarSpacer"
+            android:layout_width="match_parent"
+            android:layout_height="0dp" />
 
-        <ImageView
-            android:id="@+id/iv_createphoto_back"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentStart="true"
-            android:layout_centerVertical="true"
-            android:layout_marginStart="@dimen/_20sdp"
-            android:src="@drawable/ic_round_arrow_back" />
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="56dp">
 
-        <TextView
-            android:id="@+id/txtSave"
-            android:layout_width="70dp"
-            android:layout_height="45dp"
-            android:layout_alignParentRight="true"
-            android:layout_centerVertical="true"
-            android:fontFamily="@font/font"
-            android:gravity="center"
-            android:text="Save"
-            android:textColor="@color/mainColor"
-            android:textSize="17sp"
-            android:textStyle="bold" />
+            <ImageView
+                android:id="@+id/iv_createphoto_back"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_centerVertical="true"
+                android:layout_marginStart="10dp"
+                android:padding="8dp"
+                android:src="@drawable/ic_round_arrow_back"
+                app:tint="@color/white" />
 
-    </RelativeLayout>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:fontFamily="@font/font"
+                android:includeFontPadding="false"
+                android:text="Edit Frame"
+                android:textColor="@color/white"
+                android:textSize="18sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/txtSave"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_centerVertical="true"
+                android:layout_marginEnd="10dp"
+                android:fontFamily="@font/font"
+                android:gravity="center"
+                android:paddingHorizontal="10dp"
+                android:text="Save"
+                android:textColor="@color/mainColor"
+                android:textSize="17sp"
+                android:textStyle="bold" />
+
+        </RelativeLayout>
+
+    </LinearLayout>
 
 
     <RelativeLayout
@@ -161,6 +181,7 @@
 
 
     <LinearLayout
+        android:id="@+id/ll_bottom_tools"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/BackgroundColor"

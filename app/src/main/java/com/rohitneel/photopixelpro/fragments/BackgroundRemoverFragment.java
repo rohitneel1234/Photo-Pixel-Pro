@@ -158,25 +158,47 @@ public class BackgroundRemoverFragment extends Fragment {
             // Let's read picked image data - its URI
             Uri pickedImage = data.getData();
 
-            //CropImage(pickedImage);
-            // Let's read picked image path using content resolver
-            String[] filePath = {MediaStore.Images.Media.DATA};
-            Cursor cursor = getContext().getContentResolver().query(pickedImage, filePath, null, null, null);
-            cursor.moveToFirst();
-            String imagePath = cursor.getString(cursor.getColumnIndex(filePath[0]));
-            Intent intent = new Intent(getContext(), EraserActivity.class);
-            intent.putExtra("imagePath",imagePath);
-            startActivity(intent);
+            if (pickedImage != null) {
+                // Let's read picked image path using content resolver
+                String[] filePath = {MediaStore.Images.Media.DATA};
+                Cursor cursor = getContext().getContentResolver().query(pickedImage, filePath, null, null, null);
+                if (cursor != null) {
+                    cursor.moveToFirst();
+                    int columnIndex = cursor.getColumnIndex(filePath[0]);
+                    if (columnIndex != -1) {
+                        String imagePath = cursor.getString(columnIndex);
+                        cursor.close();
+                        Intent intent = new Intent(getContext(), EraserActivity.class);
+                        intent.putExtra("imagePath", imagePath);
+                        intent.setData(pickedImage);
+                        intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+                        startActivity(intent);
+                    } else {
+                        cursor.close();
+                        Toast.makeText(getContext(), "Failed to get image path", Toast.LENGTH_SHORT).show();
+                    }
+                } else {
+                    Toast.makeText(getContext(), "Failed to load image", Toast.LENGTH_SHORT).show();
+                }
+            }
         }
 
         else if (requestCode == LOAD_CAMERA && resultCode == RESULT_OK && data != null) {
             // Let's read picked image data - its URI
             Bundle extras = data.getExtras();
-            Bitmap imageBitmap = (Bitmap) extras.get("data");
-            Uri capturedImage = getImageUri(getContext(), imageBitmap);
-            Intent intent = new Intent(getContext(), EraserActivity.class);
-            intent.putExtra("imagePath",getRealPathFromURI(capturedImage));
-            startActivity(intent);
+            if (extras != null) {
+                Bitmap imageBitmap = (Bitmap) extras.get("data");
+                if (imageBitmap != null) {
+                    Uri capturedImage = getImageUri(getContext(), imageBitmap);
+                    if (capturedImage != null) {
+                        Intent intent = new Intent(getContext(), EraserActivity.class);
+                        intent.putExtra("imagePath", getRealPathFromURI(capturedImage));
+                        intent.setData(capturedImage);
+                        intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+                        startActivity(intent);
+                    }
+                }
+            }
         }
     }
 
@@ -184,14 +206,25 @@ public class BackgroundRemoverFragment extends Fragment {
         ByteArrayOutputStream bytes = new ByteArrayOutputStream();
         inImage.compress(Bitmap.CompressFormat.JPEG, 100, bytes);
         String path = MediaStore.Images.Media.insertImage(inContext.getContentResolver(), inImage, "Title", null);
-        return Uri.parse(path);
+        if (path != null) {
+            return Uri.parse(path);
+        }
+        return null;
     }
 
     public String getRealPathFromURI(Uri uri) {
         Cursor cursor = getContext().getContentResolver().query(uri, null, null, null, null);
-        cursor.moveToFirst();
-        int idx = cursor.getColumnIndex(MediaStore.Images.ImageColumns.DATA);
-        return cursor.getString(idx);
+        if (cursor != null) {
+            cursor.moveToFirst();
+            int idx = cursor.getColumnIndex(MediaStore.Images.ImageColumns.DATA);
+            if (idx != -1) {
+                String path = cursor.getString(idx);
+                cursor.close();
+                return path;
+            }
+            cursor.close();
+        }
+        return null;
     }
 
 

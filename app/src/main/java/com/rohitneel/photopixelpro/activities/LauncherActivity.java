@@ -29,8 +29,8 @@ public class LauncherActivity extends AppCompatActivity {
     @SuppressLint("SetTextI18n")
     @Override
     public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
         SplashScreen.installSplashScreen(this);
+        super.onCreate(savedInstanceState);
         if (getSupportActionBar() != null) {
             getSupportActionBar().hide();
         }

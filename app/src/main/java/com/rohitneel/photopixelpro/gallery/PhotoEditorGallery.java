@@ -21,10 +21,15 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.activity.EdgeToEdge;
+import androidx.activity.SystemBarStyle;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
+import androidx.core.graphics.Insets;
+import androidx.core.view.ViewCompat;
+import androidx.core.view.WindowInsetsCompat;
 import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.GridLayoutManager;
@@ -36,6 +41,7 @@ import com.rohitneel.photopixelpro.adapters.ImageListAdapter;
 import com.rohitneel.photopixelpro.helper.SessionManager;
 import com.rohitneel.photopixelpro.photocollage.utils.FilePathUtil;
 import com.rohitneel.photopixelpro.util.Utils;
+import android.graphics.Color;
 import java.io.File;
 import java.net.URISyntaxException;
 import java.util.ArrayList;
@@ -56,18 +62,17 @@ public class PhotoEditorGallery extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        EdgeToEdge.enable(this);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_download_media);
+        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main_layout), (v, insets) -> {
+            Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
+            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
+            return insets;
+        });
         list = new ArrayList<>();
         fileList = new ArrayList<>();
         mSession = new SessionManager(getApplicationContext());
-        if (mSession.loadFullScreenState()) {
-            getWindow().clearFlags(WindowManager.LayoutParams.FLAG_FORCE_NOT_FULLSCREEN);
-            getWindow().addFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);
-        } else {
-            getWindow().addFlags(WindowManager.LayoutParams.FLAG_FORCE_NOT_FULLSCREEN);
-            getWindow().clearFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);
-        }
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
             boolean isWritable = Utils.isExternalStorageWritable();
@@ -111,13 +116,6 @@ public class PhotoEditorGallery extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        if (mSession.loadFullScreenState()) {
-            getWindow().clearFlags(WindowManager.LayoutParams.FLAG_FORCE_NOT_FULLSCREEN);
-            getWindow().addFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);
-        } else {
-            getWindow().addFlags(WindowManager.LayoutParams.FLAG_FORCE_NOT_FULLSCREEN);
-            getWindow().clearFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);
-        }
     }
 
     /**

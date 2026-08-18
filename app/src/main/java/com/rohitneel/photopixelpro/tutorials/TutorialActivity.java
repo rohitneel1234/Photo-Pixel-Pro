@@ -5,14 +5,17 @@ import android.os.Bundle;
 import android.text.Html;
 import android.util.Log;
 import android.view.View;
-import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.graphics.Insets;
+import androidx.core.view.ViewCompat;
+import androidx.core.view.WindowInsetsCompat;
 import androidx.viewpager.widget.ViewPager;
 
 import com.rohitneel.photopixelpro.R;
@@ -37,24 +40,26 @@ public class TutorialActivity extends AppCompatActivity {
     private TextView[] dots;
     private ImageView mTutorialBack;
     private List<ScreenItem> mList;
-    private String home, settings;
+    private String settings;
     private String homeValues = "home", activities = "settings";
-    private SessionManager mSession;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        EdgeToEdge.enable(this);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_tutorial);
+
+        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
+            Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
+            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
+            return insets;
+        });
+
         ActionBar actionBar = this.getSupportActionBar();
-        mSession = new SessionManager(getApplicationContext());
-        CharSequence actionbarTitle = null;
         if (actionBar != null) {
-            actionbarTitle = actionBar.getTitle();
-            Log.d("Title", "Toolbar: " + actionbarTitle);
+            actionBar.setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
+            actionBar.setCustomView(R.layout.tutorial_toolbar_title);
         }
-        assert actionBar != null;
-        actionBar.setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
-        actionBar.setCustomView(R.layout.tutorial_toolbar_title);
 
         Intent intent = getIntent();
         activities = intent.getStringExtra(mHomeKey);
@@ -62,9 +67,8 @@ public class TutorialActivity extends AppCompatActivity {
 
         // init view
         btnNext = findViewById(R.id.btn_next);
-        dotsLayout = (LinearLayout) findViewById(R.id.layoutDots);
-        btnSkip = (Button) findViewById(R.id.btn_skip);
-        btnNext = (Button) findViewById(R.id.btn_next);
+        dotsLayout = findViewById(R.id.layoutDots);
+        btnSkip = findViewById(R.id.btn_skip);
         mTutorialBack = findViewById(R.id.tutorial_back_button);
 
         // fill list screen
@@ -90,16 +94,18 @@ public class TutorialActivity extends AppCompatActivity {
 
         addBottomDots(0);
 
-        mTutorialBack.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (homeValues.equals(activities)) {
-                    startActivity(new Intent(getApplicationContext(), MainActivity.class));
-                } else {
-                    startActivity(new Intent(getApplicationContext(), SettingsActivity.class));
+        if (mTutorialBack != null) {
+            mTutorialBack.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (homeValues.equals(activities)) {
+                        startActivity(new Intent(getApplicationContext(), MainActivity.class));
+                    } else {
+                        startActivity(new Intent(getApplicationContext(), SettingsActivity.class));
+                    }
                 }
-            }
-        });
+            });
+        }
 
         btnSkip.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -127,13 +133,6 @@ public class TutorialActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        if (mSession.loadFullScreenState()) {
-            getWindow().clearFlags(WindowManager.LayoutParams.FLAG_FORCE_NOT_FULLSCREEN);
-            getWindow().addFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);
-        } else {
-            getWindow().addFlags(WindowManager.LayoutParams.FLAG_FORCE_NOT_FULLSCREEN);
-            getWindow().clearFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);
-        }
     }
 
 

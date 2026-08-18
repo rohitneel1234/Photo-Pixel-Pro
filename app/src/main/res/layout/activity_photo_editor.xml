@@ -2,7 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
-    android:id="@+id/linearLayoutEditorContent"
+    android:id="@+id/main"
     android:background="@color/BackgroundCardColor"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
@@ -10,7 +10,8 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/constraintLayoutSave"
         android:layout_width="match_parent"
-        android:layout_height="45dp"
+        android:layout_height="wrap_content"
+        android:minHeight="45dp"
         android:background="@color/BackgroundCardColor"
         app:layout_constraintTop_toTopOf="parent">
 
@@ -88,7 +89,8 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/constraint_layout_confirm_save_overlay"
         android:layout_width="match_parent"
-        android:layout_height="45dp"
+        android:layout_height="wrap_content"
+        android:minHeight="45dp"
         android:background="@color/BackgroundCardColor"
         android:visibility="gone"
         app:layout_constraintTop_toTopOf="parent">
@@ -120,7 +122,8 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/constraint_layout_confirm_save_text"
         android:layout_width="match_parent"
-        android:layout_height="45dp"
+        android:layout_height="wrap_content"
+        android:minHeight="45dp"
         android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="parent">
 
@@ -152,7 +155,8 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/constraint_layout_confirm_save_sticker"
         android:layout_width="match_parent"
-        android:layout_height="45dp"
+        android:layout_height="wrap_content"
+        android:minHeight="45dp"
         android:visibility="gone"
         android:background="@color/BackgroundColor"
         app:layout_constraintBottom_toBottomOf="parent">
@@ -185,7 +189,8 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/constraint_layout_root_view"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="0dp"
+        android:layout_weight="1">
 
         <RelativeLayout
             android:id="@+id/relative_layout_loading"
@@ -300,7 +305,8 @@
             android:id="@+id/recyclerViewTools"
             android:layout_width="match_parent"
             android:background="@color/BackgroundColor"
-            android:layout_height="70dp"
+            android:layout_height="wrap_content"
+            android:minHeight="70dp"
             app:layout_constraintBottom_toBottomOf="parent"/>
 
         <!--Filter-->
