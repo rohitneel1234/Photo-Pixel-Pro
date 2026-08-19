@@ -89,26 +89,40 @@ public class BackgroundRemoverFragment extends Fragment {
      */
     private void RequestMultiplePermission() {
         // Creating String Array with Permissions.
-        if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.R) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            ActivityCompat.requestPermissions(getActivity(), new String[]{
+                    CAMERA,
+                    android.Manifest.permission.READ_MEDIA_IMAGES
+            }, REQUEST_MULTIPLE_PERMISSION_CODE);
+        } else if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.R) {
             ActivityCompat.requestPermissions(getActivity(), new String[]{
                     CAMERA,
                     WRITE_EXTERNAL_STORAGE
             }, REQUEST_MULTIPLE_PERMISSION_CODE);
         } else {
+            // Android 12 (S) and 12L (Sv2) - API 31, 32
             ActivityCompat.requestPermissions(getActivity(), new String[]{
-                    CAMERA
+                    CAMERA,
+                    android.Manifest.permission.READ_EXTERNAL_STORAGE
             }, REQUEST_MULTIPLE_PERMISSION_CODE);
         }
     }
 
 
     /**
-     * Checking Camera and Write External Storage Permission if granted or not.
+     * Checking Camera and Storage Permission if granted or not.
      * @return
      */
     private boolean CheckingPermissionIsEnabledOrNot() {
         int FirstPermissionResult = ContextCompat.checkSelfPermission(getContext(), CAMERA);
-        int SecondPermissionResult = ContextCompat.checkSelfPermission(getContext(), WRITE_EXTERNAL_STORAGE);
+        int SecondPermissionResult;
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            SecondPermissionResult = ContextCompat.checkSelfPermission(getContext(), android.Manifest.permission.READ_MEDIA_IMAGES);
+        } else if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.R) {
+            SecondPermissionResult = ContextCompat.checkSelfPermission(getContext(), WRITE_EXTERNAL_STORAGE);
+        } else {
+            SecondPermissionResult = ContextCompat.checkSelfPermission(getContext(), android.Manifest.permission.READ_EXTERNAL_STORAGE);
+        }
 
         return FirstPermissionResult == PackageManager.PERMISSION_GRANTED &&
                 SecondPermissionResult == PackageManager.PERMISSION_GRANTED;

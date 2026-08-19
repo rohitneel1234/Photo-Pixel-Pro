@@ -161,6 +161,18 @@ public class SessionManager {
         return sharedPreferences.getBoolean("Permission", false);
     }
 
+    public void saveSavePath(String path) {
+        SharedPreferences sharedPreferences = _context.getSharedPreferences("SavePath", Context.MODE_PRIVATE);
+        editor = sharedPreferences.edit();
+        editor.putString("FolderName", path);
+        editor.apply();
+    }
+
+    public String loadSavePath() {
+        SharedPreferences sharedPreferences = _context.getSharedPreferences("SavePath", Context.MODE_PRIVATE);
+        return sharedPreferences.getString("FolderName", "Photo Pixel Pro");
+    }
+
 
     // Check for login
     public boolean isUserLoggedIn(){

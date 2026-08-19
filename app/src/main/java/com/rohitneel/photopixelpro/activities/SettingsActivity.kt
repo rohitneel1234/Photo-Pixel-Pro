@@ -5,6 +5,7 @@ import android.content.ActivityNotFoundException
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.net.Uri
+import android.os.Build
 import android.os.Bundle
 import android.view.View
 import android.view.WindowManager
@@ -62,6 +63,7 @@ class SettingsActivity : AppCompatActivity() {
     private var mTxtAppHelpTitle: TextView? = null
     private var txtAppVersion: TextView? = null
     private var mTxtAboutTitle: TextView? = null
+    private var mTxtPath: TextView? = null
     private var versionName: String? = null
     private var imgDarkMode: ImageView? = null
 
@@ -99,6 +101,7 @@ class SettingsActivity : AppCompatActivity() {
         mTxtAppHelpTitle = findViewById(R.id.txtHelpTitle)
         mTxtAboutTitle = findViewById(R.id.txtAboutTitle)
         txtAppVersion = findViewById(R.id.txtVersionName)
+        mTxtPath = findViewById(R.id.txtPath)
         imgDarkMode = findViewById(R.id.imgTheme)
 
         constraintLayout?.setOnClickListener(View.OnClickListener {
@@ -183,6 +186,7 @@ class SettingsActivity : AppCompatActivity() {
             mTxtSaveTitle?.setTextColor(ContextCompat.getColor(applicationContext, R.color.white))
             mTxtAppHelpTitle?.setTextColor(ContextCompat.getColor(applicationContext, R.color.white))
             mTxtAboutTitle?.setTextColor(ContextCompat.getColor(applicationContext, R.color.white))
+            mTxtPath?.setTextColor(ContextCompat.getColor(applicationContext, R.color.white))
             imgDarkMode?.setColorFilter(ContextCompat.getColor(this, R.color.white))
         } else {
             AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
@@ -198,12 +202,24 @@ class SettingsActivity : AppCompatActivity() {
             mTxtDeveloper?.setTextColor(ContextCompat.getColor(applicationContext, R.color.settingsTextColor))
             mTxtVersion?.setTextColor(ContextCompat.getColor(applicationContext, R.color.settingsTextColor))
             txtAppVersion?.setTextColor(ContextCompat.getColor(applicationContext, R.color.settingsTextColor))
+            mTxtPath?.setTextColor(ContextCompat.getColor(applicationContext, R.color.settingsTextColor))
         }
 
         //calling dark theme state to load and save
         loadDarkThemeState()
 
         loadAppPermission()
+    }
+
+    override fun onResume() {
+        super.onResume()
+        updateSavePathText()
+    }
+
+    private fun updateSavePathText() {
+        val rootPath = android.os.Environment.getExternalStoragePublicDirectory(android.os.Environment.DIRECTORY_PICTURES).absolutePath
+        val savedFolder = mSession?.loadSavePath() ?: getString(R.string.app_name)
+        mTxtPath?.text = String.format("%s/%s/", rootPath, savedFolder)
     }
 
     private suspend fun sampleOne(): Int {
@@ -235,15 +251,27 @@ class SettingsActivity : AppCompatActivity() {
 
     private fun requestMultiplePermission() {
         // Creating String Array with Permissions.
-        ActivityCompat.requestPermissions(this, arrayOf(
+        val permissions = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            arrayOf(
+                Manifest.permission.CAMERA,
+                Manifest.permission.READ_MEDIA_IMAGES
+            )
+        } else {
+            arrayOf(
                 Manifest.permission.CAMERA,
                 Manifest.permission.WRITE_EXTERNAL_STORAGE
-        ), REQUEST_PERMISSION_CODE)
+            )
+        }
+        ActivityCompat.requestPermissions(this, permissions, REQUEST_PERMISSION_CODE)
     }
 
     private fun checkingPermissionIsEnabledOrNot(): Boolean {
         val firstPermissionResult = ContextCompat.checkSelfPermission(applicationContext, Manifest.permission.CAMERA)
-        val secondPermissionResult = ContextCompat.checkSelfPermission(applicationContext, Manifest.permission.WRITE_EXTERNAL_STORAGE)
+        val secondPermissionResult = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            ContextCompat.checkSelfPermission(applicationContext, Manifest.permission.READ_MEDIA_IMAGES)
+        } else {
+            ContextCompat.checkSelfPermission(applicationContext, Manifest.permission.WRITE_EXTERNAL_STORAGE)
+        }
         return firstPermissionResult == PackageManager.PERMISSION_GRANTED &&
                 secondPermissionResult == PackageManager.PERMISSION_GRANTED
     }

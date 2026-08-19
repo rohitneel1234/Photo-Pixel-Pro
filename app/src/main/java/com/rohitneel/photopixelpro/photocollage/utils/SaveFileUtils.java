@@ -11,6 +11,7 @@ import android.os.Build;
 import android.os.Environment;
 import android.provider.MediaStore;
 
+import com.rohitneel.photopixelpro.helper.SessionManager;
 import com.rohitneel.photopixelpro.photocollage.photo.PhotoGridView;
 
 import java.io.File;
@@ -27,6 +28,10 @@ public class SaveFileUtils {
     public static Uri saveBitmapFile(Context context, Bitmap bitmap, String name, String dir) throws IOException {
         OutputStream fos = null;
         Uri imageUri = null;
+        SessionManager sessionManager = new SessionManager(context);
+        String savedDir = sessionManager.loadSavePath();
+        String finalDir = (savedDir != null && !savedDir.isEmpty()) ? savedDir : dir;
+        
         try {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
                 // Scoped Storage logic for Android 10 and above
@@ -35,7 +40,7 @@ public class SaveFileUtils {
 
                 contentValues.put(MediaStore.MediaColumns.DISPLAY_NAME, name);
                 contentValues.put(MediaStore.MediaColumns.MIME_TYPE, "image/jpeg");
-                contentValues.put(MediaStore.MediaColumns.RELATIVE_PATH, Environment.DIRECTORY_PICTURES + File.separator + dir);
+                contentValues.put(MediaStore.MediaColumns.RELATIVE_PATH, Environment.DIRECTORY_PICTURES + File.separator + finalDir);
 
                 // Insert into MediaStore and get the Uri
                 imageUri = resolver.insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, contentValues);
@@ -45,7 +50,7 @@ public class SaveFileUtils {
             } else {
                 // Legacy storage logic for Android 9 and below
                 File imagesDir = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES).toString()
-                        + File.separator + dir);
+                        + File.separator + finalDir);
 
                 if (!imagesDir.exists()) imagesDir.mkdirs();
 

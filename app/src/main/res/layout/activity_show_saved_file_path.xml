@@ -25,6 +25,18 @@
     <ListView
         android:id="@+id/list"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="0dp"
+        android:layout_weight="1"
         />
+
+    <Button
+        android:id="@+id/btnCreateFolder"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/signin_filled_button"
+        android:text="Create New Folder"
+        android:fontFamily="@font/font"
+        android:textAllCaps="false"
+        android:textColor="@color/white"
+        android:layout_margin="24dp" />
 </LinearLayout>
