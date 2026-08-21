@@ -16,6 +16,9 @@ import android.widget.SeekBar;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.view.ViewCompat;
+import androidx.core.view.WindowInsetsCompat;
+import androidx.core.graphics.Insets;
 import androidx.fragment.app.DialogFragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -77,6 +80,19 @@ public class ColoredFragment extends DialogFragment implements ColoredAdapter.Co
         getDialog().getWindow().requestFeature(1);
         getDialog().getWindow().setFlags(1024, 1024);
         View inflate = layoutInflater.inflate(R.layout.fragment_colored, viewGroup, false);
+
+        ViewCompat.setOnApplyWindowInsetsListener(inflate.findViewById(R.id.coloredView), (v, insets) -> {
+            Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
+            v.setPadding(0, systemBars.top, 0, 0);
+            return insets;
+        });
+
+        ViewCompat.setOnApplyWindowInsetsListener(inflate.findViewById(R.id.constraint_layout_colored), (v, insets) -> {
+            Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
+            v.setPadding(0, 0, 0, systemBars.bottom);
+            return insets;
+        });
+
         this.quShotColoredView = inflate.findViewById(R.id.coloredView);
         this.quShotColoredView.setImageBitmap(this.bitmap);
         this.quShotColoredView.setColoredItems(new ColoredAdapter.ColoredItems(R.drawable.colored_1, 0, ColoredAdapter.COLORED.COLOR_1));

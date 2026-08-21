@@ -331,9 +331,9 @@ public class PhotoEditorActivity extends PhotoBaseActivity implements OnPhotoEdi
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
             findViewById(R.id.constraintLayoutSave).setPadding(0, systemBars.top, 0, 0);
             findViewById(R.id.constraint_layout_confirm_save_overlay).setPadding(0, systemBars.top, 0, 0);
+            findViewById(R.id.constraint_layout_confirm_save_text).setPadding(0, systemBars.top, 0, 0);
+            findViewById(R.id.constraint_layout_confirm_save_sticker).setPadding(0, systemBars.top, 0, 0);
 
-            findViewById(R.id.constraint_layout_confirm_save_text).setPadding(0, 0, 0, systemBars.bottom);
-            findViewById(R.id.constraint_layout_confirm_save_sticker).setPadding(0, 0, 0, systemBars.bottom);
             findViewById(R.id.recyclerViewTools).setPadding(0, 0, 0, systemBars.bottom);
             findViewById(R.id.constraint_layout_effects).setPadding(0, 0, 0, systemBars.bottom);
             findViewById(R.id.constraint_layout_blur_sqaure).setPadding(0, 0, 0, systemBars.bottom);
@@ -1429,7 +1429,7 @@ public class PhotoEditorActivity extends PhotoBaseActivity implements OnPhotoEdi
                 this.moduleToolsId = Module.NONE;
                 return;
             case R.id.imageViewSaveFilter:
-                //new SaveFilter().execute();
+                new SaveFilter().execute();
                 this.imageViewCompareFilter.setVisibility(View.GONE);
                 viewSlideUp(recyclerViewTools);
                 viewSlideDown(constraintLayoutFilter);

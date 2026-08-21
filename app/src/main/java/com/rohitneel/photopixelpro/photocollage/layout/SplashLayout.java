@@ -38,6 +38,12 @@ import com.rohitneel.photopixelpro.photocollage.support.MyExceptionHandlerPix;
 import com.rohitneel.photopixelpro.photocollage.support.SupportedClass;
 import com.rohitneel.photopixelpro.photocollage.utils.BitmapTransfer;
 
+import androidx.activity.EdgeToEdge;
+import androidx.activity.SystemBarStyle;
+import android.graphics.Color;
+import androidx.core.view.ViewCompat;
+import androidx.core.view.WindowInsetsCompat;
+import androidx.core.graphics.Insets;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
@@ -75,10 +81,29 @@ public class SplashLayout extends PhotoBaseActivity implements OnSeekBarChangeLi
 
 
     public void onCreate(Bundle bundle) {
+        EdgeToEdge.enable(this, SystemBarStyle.dark(Color.TRANSPARENT));
         super.onCreate(bundle);
-        requestWindowFeature(1);
-        getWindow().setFlags(1024, 1024);
         setContentView(R.layout.layout_splash);
+
+        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main_layout), (v, insets) -> {
+            Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
+            v.setPadding(systemBars.left, 0, systemBars.right, 0);
+
+            View statusBarSpacer = findViewById(R.id.statusBarSpacer);
+            if (statusBarSpacer != null) {
+                statusBarSpacer.getLayoutParams().height = systemBars.top;
+                statusBarSpacer.requestLayout();
+            }
+
+            View navigationBarSpacer = findViewById(R.id.navigationBarSpacer);
+            if (navigationBarSpacer != null) {
+                navigationBarSpacer.getLayoutParams().height = systemBars.bottom;
+                navigationBarSpacer.requestLayout();
+            }
+
+            return insets;
+        });
+
         Thread.setDefaultUncaughtExceptionHandler(new MyExceptionHandlerPix(SplashLayout.this));
         relativeLayoutContainer = findViewById(R.id.relativeLayoutContainer);
         brushView = findViewById(R.id.brushView);

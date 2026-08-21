@@ -696,9 +696,14 @@ public class ActivityCreatePhoto extends AppCompatActivity implements FilterFram
 
             Uri uri = Uri.parse(getIntent().getStringExtra("images"));
             try {
-                galleryImage = BitmapFactory.decodeStream(getContentResolver().openInputStream(uri), null, null);
-                Log.e("hepi", "" + galleryImage.getHeight() + galleryImage.getWidth());
-
+                if (uri.getScheme() != null && uri.getScheme().equals("file")) {
+                    galleryImage = BitmapFactory.decodeFile(uri.getPath());
+                } else {
+                    galleryImage = BitmapFactory.decodeStream(getContentResolver().openInputStream(uri), null, null);
+                }
+                if (galleryImage != null) {
+                    Log.e("hepi", "" + galleryImage.getHeight() + galleryImage.getWidth());
+                }
             } catch (FileNotFoundException e) {
                 e.printStackTrace();
             }

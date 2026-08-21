@@ -17,6 +17,9 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.DialogFragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.core.view.ViewCompat;
+import androidx.core.view.WindowInsetsCompat;
+import androidx.core.graphics.Insets;
 import com.isseiaoki.simplecropview.CropImageView;
 import com.rohitneel.photopixelpro.R;
 import com.rohitneel.photopixelpro.photocollage.adapters.AspectAdapter;
@@ -74,6 +77,13 @@ public class CropFragment extends DialogFragment implements AspectAdapter.OnNewS
         getDialog().getWindow().requestFeature(1);
         getDialog().getWindow().setFlags(1024, 1024);
         View inflate = layoutInflater.inflate(R.layout.fragment_crop, viewGroup, false);
+
+        ViewCompat.setOnApplyWindowInsetsListener(inflate.findViewById(R.id.crop_image_view), (v, insets) -> {
+            Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
+            v.setPadding(0, systemBars.top, 0, 0);
+            return insets;
+        });
+
         AspectAdapter aspectRatioPreviewAdapter = new AspectAdapter();
         aspectRatioPreviewAdapter.setListener(this);
         RecyclerView recycler_view_ratio = inflate.findViewById(R.id.recycler_view_ratio);

@@ -13,6 +13,8 @@ import com.rohitneel.photopixelpro.R;
 import com.rohitneel.photopixelpro.photoframe.model.Model_images;
 
 
+import android.net.Uri;
+import java.io.File;
 import java.util.ArrayList;
 
 
@@ -75,7 +77,7 @@ public class AdapterGalleryFileList extends ArrayAdapter<Model_images> {
 
         viewHolder.tv_foldern.setText(al_menu.get(position).getStr_folder());
 
-        Glide.with(context).load("file://" + al_menu.get(position).getAl_imagepath().get(0)).into(viewHolder.iv_image);
+        Glide.with(context).load(Uri.fromFile(new File(al_menu.get(position).getAl_imagepath().get(0)))).into(viewHolder.iv_image);
 
         return convertView;
     }

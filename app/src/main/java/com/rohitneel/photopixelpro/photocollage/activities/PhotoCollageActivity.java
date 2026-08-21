@@ -210,8 +210,8 @@ public class PhotoCollageActivity extends PhotoBaseActivity implements GridTools
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
             findViewById(R.id.constraint_save_control).setPadding(0, systemBars.top, 0, 0);
-            findViewById(R.id.constraint_layout_confirm_save_text).setPadding(0, 0, 0, systemBars.bottom);
-            findViewById(R.id.constraint_layout_confirm_save_sticker).setPadding(0, 0, 0, systemBars.bottom);
+            findViewById(R.id.constraint_layout_confirm_save_text).setPadding(0, systemBars.top, 0, 0);
+            findViewById(R.id.constraint_layout_confirm_save_sticker).setPadding(0, systemBars.top, 0, 0);
             findViewById(R.id.recycler_view_tools).setPadding(0, 0, 0, systemBars.bottom);
             findViewById(R.id.recycler_view_tools_collage).setPadding(0, 0, 0, systemBars.bottom);
             findViewById(R.id.constrant_layout_change_Layout).setPadding(0, 0, 0, systemBars.bottom);

@@ -15,6 +15,9 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.view.ViewCompat;
+import androidx.core.view.WindowInsetsCompat;
+import androidx.core.graphics.Insets;
 import androidx.fragment.app.DialogFragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -81,6 +84,19 @@ public class BlurSquareBgFragment extends DialogFragment implements SplashSquare
         getDialog().getWindow().requestFeature(1);
         getDialog().getWindow().setFlags(1024, 1024);
         View inflate = layoutInflater.inflate(R.layout.fragment_square, viewGroup2, false);
+
+        ViewCompat.setOnApplyWindowInsetsListener(inflate.findViewById(R.id.frame_layout), (v, insets) -> {
+            Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
+            v.setPadding(systemBars.left, systemBars.top, systemBars.right, 0);
+            return insets;
+        });
+
+        ViewCompat.setOnApplyWindowInsetsListener(inflate.findViewById(R.id.relativeLayoutSplashSquare), (v, insets) -> {
+            Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
+            v.setPadding(systemBars.left, 0, systemBars.right, systemBars.bottom);
+            return insets;
+        });
+
         this.viewGroup = viewGroup2;
         this.imageViewBackground = inflate.findViewById(R.id.imageViewBackground);
         this.photoSplashView = inflate.findViewById(R.id.splashView);

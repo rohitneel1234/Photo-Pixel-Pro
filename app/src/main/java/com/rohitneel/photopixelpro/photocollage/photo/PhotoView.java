@@ -18,6 +18,7 @@ import com.rohitneel.photopixelpro.R;
 import com.rohitneel.photopixelpro.photocollage.draw.BrushDrawingView;
 import com.rohitneel.photopixelpro.photocollage.draw.FilterImageView;
 import com.rohitneel.photopixelpro.photocollage.draw.OnSaveBitmap;
+import com.rohitneel.photopixelpro.photocollage.utils.FilterUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -58,6 +59,8 @@ public class PhotoView extends PhotoStickerView implements ScaleGestureDetector.
     private BrushDrawingView brushDrawingView;
     private FilterImageView filterImageView;
     private int index=-1;
+    private String currentFilterCode = "";
+    private float currentFilterIntensity = 1.0f;
 
     public PhotoView(Context context) {
         super(context);
@@ -244,13 +247,28 @@ public class PhotoView extends PhotoStickerView implements ScaleGestureDetector.
 
 
     public void saveGLSurfaceViewAsBitmap(@NonNull final OnSaveBitmap onSaveBitmap) {
-
+        if (currentBitmap != null) {
+            Bitmap filtered = FilterUtils.getBitmapWithFilter(getContext(), currentBitmap, currentFilterCode, currentFilterIntensity);
+            onSaveBitmap.onBitmapReady(filtered);
+        } else {
+            onSaveBitmap.onBitmapReady(null);
+        }
     }
 
     public void setFilterEffect(String str) {
+        this.currentFilterCode = str;
+        applyFilter();
     }
 
     public void setFilterIntensity(float f) {
+        this.currentFilterIntensity = f;
+        applyFilter();
+    }
 
+    private void applyFilter() {
+        if (currentBitmap != null) {
+            Bitmap filtered = FilterUtils.getBitmapWithFilter(getContext(), currentBitmap, currentFilterCode, currentFilterIntensity);
+            this.filterImageView.setImageBitmap(filtered);
+        }
     }
 }

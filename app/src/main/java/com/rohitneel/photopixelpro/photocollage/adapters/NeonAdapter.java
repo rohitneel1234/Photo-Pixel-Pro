@@ -41,7 +41,12 @@ public class NeonAdapter extends Adapter<NeonAdapter.ViewHolder> {
     public void onBindViewHolder(ViewHolder holder, int position) {
         holder.mSelectedBorder.setVisibility(position == selectedItem ? View.VISIBLE : View.GONE);
 
-        String file_1 = "file:///android_asset/neon/icon/" + neonIcons.get(position) + ".webp";
+        String file_1;
+        if (neonIcons.get(position).equals("none")) {
+            file_1 = "file:///android_asset/neon/none.webp";
+        } else {
+            file_1 = "file:///android_asset/neon/icon/" + neonIcons.get(position) + ".webp";
+        }
         Glide.with(context)
                 .load(file_1)
                 .fitCenter()

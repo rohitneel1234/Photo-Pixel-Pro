@@ -15,6 +15,9 @@ import android.widget.RelativeLayout;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.view.ViewCompat;
+import androidx.core.view.WindowInsetsCompat;
+import androidx.core.graphics.Insets;
 import androidx.fragment.app.DialogFragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -78,6 +81,19 @@ public class MosaicFragment extends DialogFragment implements MosaicAdapter.Mosa
         getDialog().getWindow().requestFeature(1);
         getDialog().getWindow().setFlags(1024, 1024);
         View inflate = layoutInflater.inflate(R.layout.fragment_mosaic, viewGroup, false);
+
+        ViewCompat.setOnApplyWindowInsetsListener(inflate.findViewById(R.id.mosaic_view), (v, insets) -> {
+            Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
+            v.setPadding(0, systemBars.top, 0, 0);
+            return insets;
+        });
+
+        ViewCompat.setOnApplyWindowInsetsListener(inflate.findViewById(R.id.constraint_layout_mosaic), (v, insets) -> {
+            Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
+            v.setPadding(0, 0, 0, systemBars.bottom);
+            return insets;
+        });
+
         this.queShotMosaicView = inflate.findViewById(R.id.mosaic_view);
         this.queShotMosaicView.setImageBitmap(this.bitmap);
         this.queShotMosaicView.setMosaicItem(new MosaicAdapter.MosaicItem(R.drawable.background_blur, 0, MosaicAdapter.BLUR.BLUR));

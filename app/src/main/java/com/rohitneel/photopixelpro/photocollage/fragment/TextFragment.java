@@ -36,6 +36,7 @@ import androidx.core.content.ContextCompat;
 import androidx.core.view.OnApplyWindowInsetsListener;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
+import androidx.core.graphics.Insets;
 import androidx.fragment.app.DialogFragment;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -166,7 +167,15 @@ public class TextFragment extends DialogFragment implements View.OnClickListener
     public View onCreateView(@NonNull LayoutInflater layoutInflater, @Nullable ViewGroup viewGroup, @Nullable Bundle bundle) {
         getDialog().getWindow().requestFeature(1);
         getDialog().getWindow().setFlags(1024, 1024);
-        return layoutInflater.inflate(R.layout.fragment_add_text, viewGroup, false);
+        View inflate = layoutInflater.inflate(R.layout.fragment_add_text, viewGroup, false);
+
+        ViewCompat.setOnApplyWindowInsetsListener(inflate.findViewById(R.id.linear_layout_preview), (v, insets) -> {
+            Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
+            v.setPadding(0, systemBars.top, 0, 0);
+            return insets;
+        });
+
+        return inflate;
     }
 
     public void dismissAndShowSticker() {

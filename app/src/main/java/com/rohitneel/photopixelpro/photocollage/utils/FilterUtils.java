@@ -8,12 +8,24 @@ import com.rohitneel.photopixelpro.photocollage.crop.BitmapUtils;
 public class FilterUtils {
 
     public static Bitmap getBitmapWithFilter(Context context, Bitmap sourceBitmap, String filterCode) {
+        return getBitmapWithFilter(context, sourceBitmap, filterCode, 1.0f);
+    }
+
+    public static Bitmap getBitmapWithFilter(Context context, Bitmap sourceBitmap, String filterCode, float intensity) {
         if (sourceBitmap == null || filterCode == null || filterCode.isEmpty()) {
             return sourceBitmap;
         }
         try {
             if (filterCode.startsWith("@adjust lut filter/")) {
-                return applyLUTFilter(context, sourceBitmap, filterCode);
+                String assetPath = "filter/" + filterCode.replace("@adjust lut filter/", "");
+                Bitmap lut = BitmapUtils.loadBitmapFromAssets(context, assetPath);
+                if (lut != null) {
+                    return applyLUT(sourceBitmap, lut, intensity);
+                }
+            } else if (filterCode.contains("@adjust") || filterCode.contains("@vignette")) {
+                return applyAdjustments(sourceBitmap, filterCode);
+            } else if (filterCode.startsWith("#unpack @krblend")) {
+                return applyKrBlend(context, sourceBitmap, filterCode);
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -21,24 +33,220 @@ public class FilterUtils {
         return sourceBitmap;
     }
 
-    // 🔹 2. LUT Filter (approximation)
-    private static Bitmap applyLUTFilter(Context context, Bitmap src, String filterCode) {
+    private static Bitmap applyAdjustments(Bitmap src, String filterCode) {
+        ColorMatrix matrix = new ColorMatrix();
+
+        // Brightness
+        float brightness = parseAdjust(filterCode, "brightness", 0.0f);
+        if (brightness != 0.0f) {
+            ColorMatrix bMatrix = new ColorMatrix();
+            float b = brightness * 255;
+            bMatrix.set(new float[]{
+                    1, 0, 0, 0, b,
+                    0, 1, 0, 0, b,
+                    0, 0, 1, 0, b,
+                    0, 0, 0, 1, 0
+            });
+            matrix.postConcat(bMatrix);
+        }
+
+        // Contrast
+        float contrast = parseAdjust(filterCode, "contrast", 1.0f);
+        if (contrast != 1.0f) {
+            float t = (1.0f - contrast) / 2.0f * 255.0f;
+            ColorMatrix cMatrix = new ColorMatrix();
+            cMatrix.set(new float[]{
+                    contrast, 0, 0, 0, t,
+                    0, contrast, 0, 0, t,
+                    0, 0, contrast, 0, t,
+                    0, 0, 0, 1, 0
+            });
+            matrix.postConcat(cMatrix);
+        }
+
+        // Saturation
+        float saturation = parseAdjust(filterCode, "saturation", 1.0f);
+        if (saturation != 1.0f) {
+            ColorMatrix sMatrix = new ColorMatrix();
+            sMatrix.setSaturation(saturation);
+            matrix.postConcat(sMatrix);
+        }
+
+        // Exposure (approximation using brightness)
+        float exposure = parseAdjust(filterCode, "exposure", 0.0f);
+        if (exposure != 0.0f) {
+            float e = exposure * 128;
+            ColorMatrix eMatrix = new ColorMatrix();
+            eMatrix.set(new float[]{
+                    1, 0, 0, 0, e,
+                    0, 1, 0, 0, e,
+                    0, 0, 1, 0, e,
+                    0, 0, 0, 1, 0
+            });
+            matrix.postConcat(eMatrix);
+        }
+
+        Bitmap result = applyColorMatrix(src, matrix);
+
+        // Vignette
+        if (filterCode.contains("@vignette")) {
+            float vignetteValue = parseAdjust(filterCode, "vignette", 0.0f);
+            if (vignetteValue > 0) {
+                result = applyVignette(result, vignetteValue);
+            }
+        }
+
+        return result;
+    }
+
+    private static float parseAdjust(String filterCode, String name, float defaultValue) {
         try {
-            String assetPath = filterCode.replace("@adjust lut filter/", "");
-            Bitmap lut = BitmapUtils.loadBitmapFromAssets(context, assetPath);
+            String pattern = "@adjust " + name + " ";
+            if (!filterCode.contains(pattern)) {
+                if (name.equals("vignette") && filterCode.contains("@vignette ")) {
+                    pattern = "@vignette ";
+                } else {
+                    return defaultValue;
+                }
+            }
+            int start = filterCode.indexOf(pattern) + pattern.length();
+            int end = filterCode.indexOf(" ", start);
+            if (end == -1) end = filterCode.length();
+            return Float.parseFloat(filterCode.substring(start, end));
+        } catch (Exception e) {
+            return defaultValue;
+        }
+    }
 
-            if (lut == null) return src;
+    private static Bitmap applyKrBlend(Context context, Bitmap src, String filterCode) {
+        try {
+            String[] parts = filterCode.split(" ");
+            if (parts.length < 5) return src;
+            
+            String blendMode = parts[2];
+            String assetPath = parts[3];
+            int intensity = Integer.parseInt(parts[4]);
 
-            // Approximate LUT using saturation boost
-            ColorMatrix matrix = new ColorMatrix();
-            matrix.setSaturation(1.2f);
+            Bitmap overlay = BitmapUtils.loadBitmapFromAssets(context, assetPath);
+            if (overlay == null) return src;
 
-            return applyColorMatrix(src, matrix);
-
+            Bitmap resizedOverlay = Bitmap.createScaledBitmap(overlay, src.getWidth(), src.getHeight(), true);
+            Bitmap result = src.copy(src.getConfig(), true);
+            Canvas canvas = new Canvas(result);
+            
+            Paint paint = new Paint();
+            paint.setAlpha((int) (intensity * 2.55f));
+            
+            if (blendMode.equals("sr")) {
+                paint.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.SCREEN));
+            } else if (blendMode.equals("cl")) {
+                paint.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.MULTIPLY));
+            } else {
+                paint.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.OVERLAY));
+            }
+            
+            canvas.drawBitmap(resizedOverlay, 0, 0, paint);
+            return result;
         } catch (Exception e) {
             e.printStackTrace();
         }
         return src;
+    }
+
+    private static Bitmap applyVignette(Bitmap bitmap, float value) {
+        Bitmap output = Bitmap.createBitmap(bitmap.getWidth(), bitmap.getHeight(), Bitmap.Config.ARGB_8888);
+        Canvas canvas = new Canvas(output);
+        canvas.drawBitmap(bitmap, 0, 0, null);
+
+        Paint paint = new Paint();
+        float radius = Math.max(bitmap.getWidth(), bitmap.getHeight()) * (1.2f - value);
+        RadialGradient gradient = new RadialGradient(
+                bitmap.getWidth() / 2f,
+                bitmap.getHeight() / 2f,
+                radius,
+                new int[]{0x00000000, 0xAA000000},
+                new float[]{0.6f, 1.0f},
+                Shader.TileMode.CLAMP
+        );
+
+        paint.setShader(gradient);
+        canvas.drawRect(0, 0, bitmap.getWidth(), bitmap.getHeight(), paint);
+        return output;
+    }
+
+    public static Bitmap applyLUT(Bitmap source, Bitmap lut, float intensity) {
+        if (source == null || lut == null) return source;
+        int width = source.getWidth();
+        int height = source.getHeight();
+
+        Bitmap result = Bitmap.createBitmap(width, height, source.getConfig() != null ? source.getConfig() : Bitmap.Config.ARGB_8888);
+
+        int[] pixels = new int[width * height];
+        source.getPixels(pixels, 0, width, 0, 0, width, height);
+
+        int lutWidth = lut.getWidth();
+        int lutHeight = lut.getHeight();
+
+        int[] lutPixels = new int[lutWidth * lutHeight];
+        lut.getPixels(lutPixels, 0, lutWidth, 0, 0, lutWidth, lutHeight);
+
+        // Determine size of the LUT cube side (e.g. 16, 32, 64)
+        int size = 0;
+        if (lutWidth == 512 && lutHeight == 512) size = 64;
+        else if (lutWidth == 64 && lutHeight == 64) size = 16;
+        else if (lutWidth == 4096 && lutHeight == 64) size = 64;
+        else if (lutWidth == 256 && lutHeight == 16) size = 16;
+        else if (lutWidth == 1024 && lutHeight == 32) size = 32;
+        else {
+            if (lutWidth == lutHeight) {
+                size = (int) Math.pow(lutWidth * lutHeight, 1.0/3.0);
+                if (size * size * size != lutWidth * lutHeight) {
+                    size = lutWidth / 8;
+                }
+            } else {
+                size = lutHeight;
+            }
+        }
+        
+        if (size <= 0) size = 64; 
+
+        int columnCount = lutWidth / size;
+
+        for (int i = 0; i < pixels.length; i++) {
+            int color = pixels[i];
+
+            int r = (color >> 16) & 0xFF;
+            int g = (color >> 8) & 0xFF;
+            int b = color & 0xFF;
+
+            int rIndex = r * (size - 1) / 255;
+            int gIndex = g * (size - 1) / 255;
+            int bIndex = b * (size - 1) / 255;
+
+            int lutX = (bIndex % columnCount) * size + rIndex;
+            int lutY = (bIndex / columnCount) * size + gIndex;
+
+            lutX = Math.min(lutX, lutWidth - 1);
+            lutY = Math.min(lutY, lutHeight - 1);
+
+            int lutColor = lutPixels[lutY * lutWidth + lutX];
+
+            if (intensity >= 1.0f) {
+                pixels[i] = (color & 0xFF000000) | (lutColor & 0x00FFFFFF);
+            } else {
+                int lr = (lutColor >> 16) & 0xFF;
+                int lg = (lutColor >> 8) & 0xFF;
+                int lb = lutColor & 0xFF;
+
+                int finalR = (int) (r * (1.0f - intensity) + lr * intensity);
+                int finalG = (int) (g * (1.0f - intensity) + lg * intensity);
+                int finalB = (int) (b * (1.0f - intensity) + lb * intensity);
+
+                pixels[i] = (color & 0xFF000000) | (finalR << 16) | (finalG << 8) | finalB;
+            }
+        }
+        result.setPixels(pixels, 0, width, 0, 0, width, height);
+        return result;
     }
 
     // 🔹 3. Blur (Stack Blur – fast, no native)

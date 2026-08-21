@@ -21,6 +21,9 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.constraintlayout.widget.ConstraintSet;
+import androidx.core.view.ViewCompat;
+import androidx.core.view.WindowInsetsCompat;
+import androidx.core.graphics.Insets;
 import androidx.fragment.app.DialogFragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -82,6 +85,19 @@ public class RatioFragment extends DialogFragment implements AspectAdapter.OnNew
         getDialog().getWindow().requestFeature(1);
         getDialog().getWindow().setFlags(1024, 1024);
         View inflate = layoutInflater.inflate(R.layout.fragment_ratio, viewGroup, false);
+
+        ViewCompat.setOnApplyWindowInsetsListener(inflate.findViewById(R.id.constraintLayoutRatio), (v, insets) -> {
+            Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
+            v.setPadding(0, systemBars.top, 0, 0);
+            return insets;
+        });
+
+        ViewCompat.setOnApplyWindowInsetsListener(inflate.findViewById(R.id.constraintLayoutRatioCont), (v, insets) -> {
+            Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
+            v.setPadding(0, 0, 0, systemBars.bottom);
+            return insets;
+        });
+
         AspectAdapter aspectRatioPreviewAdapter = new AspectAdapter(true);
         aspectRatioPreviewAdapter.setListener(this);
         this.relative_layout_loading = inflate.findViewById(R.id.relative_layout_loading);

@@ -22,6 +22,6 @@ public class SelectorSettings {
     }
 
     public static Uri getUriByResId(int resId) {
-        return new Uri.Builder().path(String.valueOf(resId)).build();
+        return Uri.parse("android.resource://com.rohitneel.photopixelpro/" + resId);
     }
 }

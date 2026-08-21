@@ -23,6 +23,9 @@ import com.rohitneel.photopixelpro.photoframe.model.Model_images;
 import java.util.ArrayList;
 
 
+import java.io.File;
+import android.net.Uri;
+
 public class AdapterGalleryImagesList extends ArrayAdapter<Model_images> {
 
     Context context;
@@ -87,7 +90,7 @@ public class AdapterGalleryImagesList extends ArrayAdapter<Model_images> {
         viewHolder.tv_foldersize.setVisibility(View.GONE);
 
 
-        Glide.with(context).load("file://" + al_menu.get(int_position).getAl_imagepath().get(position)).into(viewHolder.iv_image);
+        Glide.with(context).load(Uri.fromFile(new File(al_menu.get(int_position).getAl_imagepath().get(position)))).into(viewHolder.iv_image);
 
 
         viewHolder.iv_image.setOnClickListener(new View.OnClickListener() {
@@ -99,7 +102,7 @@ public class AdapterGalleryImagesList extends ArrayAdapter<Model_images> {
                 i.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 i.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
                 //finishAffinity();
-                i.putExtra("images", "file://" + al_menu.get(int_position).getAl_imagepath().get(position));
+                i.putExtra("images", Uri.fromFile(new File(al_menu.get(int_position).getAl_imagepath().get(position))).toString());
                 context.startActivity(i);
             }
         });

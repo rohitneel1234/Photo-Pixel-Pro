@@ -21,6 +21,9 @@ import com.rohitneel.photopixelpro.constant.CommonKeys;
 
 import java.util.ArrayList;
 
+import java.io.File;
+import android.net.Uri;
+
 public class AdapterMyCreations extends RecyclerView.Adapter<AdapterMyCreations.ViewHolder> {
 
 
@@ -57,7 +60,7 @@ public class AdapterMyCreations extends RecyclerView.Adapter<AdapterMyCreations.
             CommonKeys.modelclassDownloadedImages = modelclassDownloadedImages;
 
             //holder.images.setImageBitmap(modelclassDownloadedImages.get(position).getThumbimage());
-            Glide.with(context).load(modelclassDownloadedImages.get(position).getImagepath()).apply(new RequestOptions().placeholder(R.drawable.imageholder).override(200, 200)).into(holder.images);
+            Glide.with(context).load(Uri.fromFile(new File(modelclassDownloadedImages.get(position).getImagepath()))).apply(new RequestOptions().placeholder(R.drawable.imageholder).override(200, 200)).into(holder.images);
             holder.cardView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {

@@ -13,6 +13,12 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.RadioGroup;
 
+import androidx.activity.EdgeToEdge;
+import androidx.activity.SystemBarStyle;
+import android.graphics.Color;
+import androidx.core.view.ViewCompat;
+import androidx.core.view.WindowInsetsCompat;
+import androidx.core.graphics.Insets;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
@@ -71,6 +77,19 @@ public class HSlFragment extends DialogFragment {
         getDialog().getWindow().requestFeature(1);
         getDialog().getWindow().setFlags(1024, 1024);
         View inflate = layoutInflater.inflate(R.layout.fragment_hsl, viewGroup, false);
+
+        ViewCompat.setOnApplyWindowInsetsListener(inflate.findViewById(R.id.constraintLayoutRatio), (v, insets) -> {
+            Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
+            v.setPadding(0, systemBars.top, 0, 0);
+            return insets;
+        });
+
+        ViewCompat.setOnApplyWindowInsetsListener(inflate.findViewById(R.id.constraintLayoutRatioCont), (v, insets) -> {
+            Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
+            v.setPadding(0, 0, 0, systemBars.bottom);
+            return insets;
+        });
+
         this.seekbarIntensityHue =inflate. findViewById(R.id.hue);
         this.seekbarIntensitySaturation =inflate. findViewById(R.id.sat);
         this.seekbarIntensityLightness =inflate. findViewById(R.id.light);

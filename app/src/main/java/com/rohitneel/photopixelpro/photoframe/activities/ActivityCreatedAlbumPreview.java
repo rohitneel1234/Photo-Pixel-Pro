@@ -35,6 +35,8 @@ import com.rohitneel.photopixelpro.activities.MainActivity;
 import com.rohitneel.photopixelpro.constant.CommonKeys;
 
 import java.io.File;
+import android.net.Uri;
+import java.io.File;
 import java.io.InputStream;
 import java.net.URL;
 
@@ -85,7 +87,7 @@ public class ActivityCreatedAlbumPreview extends AppCompatActivity {
         imageUrl = i.getIntExtra("imageUrl", 0);
         position = i.getIntExtra("position", 0);
 
-        Glide.with(context).load(CommonKeys.modelclassDownloadedImages.get(position).getImagepath()).into(ivPreview);
+        Glide.with(context).load(Uri.fromFile(new File(CommonKeys.modelclassDownloadedImages.get(position).getImagepath()))).into(ivPreview);
 
         ivcancel.setOnClickListener(new View.OnClickListener() {
             @Override

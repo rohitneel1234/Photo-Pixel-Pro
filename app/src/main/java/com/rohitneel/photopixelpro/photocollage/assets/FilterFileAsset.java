@@ -4,6 +4,7 @@ import static com.rohitneel.photopixelpro.photocollage.crop.BitmapUtils.loadBitm
 import android.content.Context;
 import android.content.res.AssetManager;
 import android.graphics.Bitmap;
+import com.rohitneel.photopixelpro.photocollage.utils.FilterUtils;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
@@ -113,48 +114,6 @@ public class FilterFileAsset {
     }
 
     private static Bitmap applyLUT(Bitmap source, Bitmap lut) {
-        int width = source.getWidth();
-        int height = source.getHeight();
-
-        Bitmap result = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);
-
-        int[] pixels = new int[width * height];
-        source.getPixels(pixels, 0, width, 0, 0, width, height);
-
-        int lutWidth = lut.getWidth();
-        int lutHeight = lut.getHeight();
-
-        int[] lutPixels = new int[lutWidth * lutHeight];
-        lut.getPixels(lutPixels, 0, lutWidth, 0, 0, lutWidth, lutHeight);
-
-        // 🔥 Typical LUT strip: height = size, width = size * size
-        int size = lutHeight; // e.g. 16 or 32
-
-        for (int i = 0; i < pixels.length; i++) {
-            int color = pixels[i];
-
-            int r = (color >> 16) & 0xFF;
-            int g = (color >> 8) & 0xFF;
-            int b = color & 0xFF;
-
-            // Normalize to LUT grid
-            int rIndex = r * (size - 1) / 255;
-            int gIndex = g * (size - 1) / 255;
-            int bIndex = b * (size - 1) / 255;
-
-            // Convert 3D → 2D LUT coordinates
-            int x = rIndex + (bIndex * size);
-            int y = gIndex;
-
-            // Safety clamp
-            x = Math.min(x, lutWidth - 1);
-            y = Math.min(y, lutHeight - 1);
-
-            int lutColor = lutPixels[y * lutWidth + x];
-
-            pixels[i] = (color & 0xFF000000) | (lutColor & 0x00FFFFFF);
-        }
-        result.setPixels(pixels, 0, width, 0, 0, width, height);
-        return result;
+        return FilterUtils.applyLUT(source, lut, 1.0f);
     }
 }
