@@ -241,25 +241,14 @@ public class DripLayout extends PhotoBaseActivity implements LayoutItemListener,
 
         new MLCropAsyncTask(new MLOnCropTaskCompleted() {
             public void onTaskCompleted(Bitmap bitmap, Bitmap bitmap2, int left, int top) {
-                int[] iArr = {0, 0, selectedBitmap.getWidth(), selectedBitmap.getHeight()};
-                int width = selectedBitmap.getWidth();
-                int height = selectedBitmap.getHeight();
-                int i = width * height;
-                selectedBitmap.getPixels(new int[i], 0, width, 0, 0, width, height);
-                int[] iArr2 = new int[i];
-                Bitmap createBitmap = Bitmap.createBitmap(width, height, Config.ARGB_8888);
-                createBitmap.setPixels(iArr2, 0, width, 0, 0, width, height);
-                cutBitmap = ImageUtils.getMask(DripLayout.this, selectedBitmap, createBitmap, width, height);
-                Bitmap resizedBitmap = Bitmap.createScaledBitmap(
-                        bitmap, cutBitmap.getWidth(), cutBitmap.getHeight(), false);
-                cutBitmap = resizedBitmap;
+                if (bitmap != null) {
+                    cutBitmap = bitmap;
+                } else {
+                    cutBitmap = selectedBitmap;
+                }
 
                 runOnUiThread(new Runnable() {
                     public void run() {
-                        Palette p = Palette.from(cutBitmap).generate();
-                        if (p.getDominantSwatch() == null) {
-                            Toast.makeText(DripLayout.this, getString(R.string.txt_not_detect_human), Toast.LENGTH_SHORT).show();
-                        }
                         dripViewImage.setImageBitmap(cutBitmap);
                         isReady = true;
                         Bitmap bitmapFromAsset = DripUtils.getBitmapFromAsset(DripLayout.this, "drip/style/" + dripItemAdapter.getItemList().get(0) + ".webp");

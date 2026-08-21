@@ -33,9 +33,9 @@
         android:layout_height="wrap_content"
         android:paddingStart="5dp"
         android:paddingEnd="5dp"
-        android:layout_marginBottom="10dp"
+        android:layout_marginBottom="50dp"
         android:layout_centerHorizontal="true"
-        android:layout_alignParentBottom="true"
+        android:layout_above="@id/bottom_nav_spacer"
         android:orientation="horizontal">
 
         <com.rohitneel.photopixelpro.photocollage.widget.SquareLayout
@@ -167,5 +167,10 @@
 
     </LinearLayout>
 
+    <View
+        android:id="@+id/bottom_nav_spacer"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/cbn_layout_height"
+        android:layout_alignParentBottom="true" />
 
 </RelativeLayout>

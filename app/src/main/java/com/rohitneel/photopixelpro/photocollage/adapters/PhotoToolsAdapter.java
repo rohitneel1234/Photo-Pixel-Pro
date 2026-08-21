@@ -36,7 +36,6 @@ public class PhotoToolsAdapter extends RecyclerView.Adapter<PhotoToolsAdapter.Vi
         this.toolModelArrayList.add(new ModuleModel("Text", R.drawable.ic_text, Module.TEXT));
         this.toolModelArrayList.add(new ModuleModel("Sticker", R.drawable.ic_sticker, Module.STICKER));
         this.toolModelArrayList.add(new ModuleModel("Blur", R.drawable.ic_blur, Module.BLURE));
-        this.toolModelArrayList.add(new ModuleModel("Draw", R.drawable.ic_paint, Module.DRAW));
         this.toolModelArrayList.add(new ModuleModel("Mirror", R.drawable.ic_mirror, Module.MIRROR));
         this.toolModelArrayList.add(new ModuleModel("Frame", R.drawable.ic_frame, Module.BACKGROUND));
         this.toolModelArrayList.add(new ModuleModel("SQ/BG", R.drawable.ic_splash_square, Module.SQ_BG));

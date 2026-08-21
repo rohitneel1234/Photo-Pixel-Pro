@@ -17,6 +17,7 @@ import android.view.View;
 import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
 import androidx.activity.SystemBarStyle;
@@ -44,12 +45,7 @@ public class ActivityCreatedAlbumPreview extends AppCompatActivity {
     ImageView ivcancel, ivPreview;
     LinearLayout ivHome, ivShare, ivDelete;
     Context context;
-    String[] permissionsRequired = {Manifest.permission.WRITE_EXTERNAL_STORAGE,
-            Manifest.permission.READ_EXTERNAL_STORAGE};
-    private static final int PERMISSION_CALLBACK_CONSTANT = 200;
-    ProgressDialog dialog;
-    public Bitmap bitmapsave, bitmap, bitmapImage;
-    public boolean isForShareGlobal;
+    public Bitmap bitmap, bitmapImage;
     int imageUrl, position;
 
     @Override
@@ -109,12 +105,7 @@ public class ActivityCreatedAlbumPreview extends AppCompatActivity {
         ivShare.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
-                if (ActivityCompat.checkSelfPermission(context, Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
-                    SaveCustomView(ivPreview, true);
-                } else {
-                    checkPermission();
-                }
+                ShareImage();
             }
         });
         ivDelete.setOnClickListener(new View.OnClickListener() {
@@ -130,73 +121,6 @@ public class ActivityCreatedAlbumPreview extends AppCompatActivity {
     public void onBackPressed() {
         super.onBackPressed();
         finish();
-    }
-
-    private Bitmap downloadImageBitmap(String sUrl) {
-        String url = sUrl;
-        bitmap = null;
-        try {
-            BitmapFactory.Options options = new BitmapFactory.Options();
-            for (options.inSampleSize = 1; options.inSampleSize <= 32; options.inSampleSize++) {
-                InputStream inputStream = new URL(sUrl).openStream();
-                try {
-                    bitmap = BitmapFactory.decodeStream(inputStream, null, options);
-                    inputStream.close();
-                    break;
-                } catch (OutOfMemoryError outOfMemoryError) {
-                }
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
-        return bitmap;
-    }
-
-    public void checkPermission() {
-        if (ActivityCompat.checkSelfPermission(context, permissionsRequired[0]) != PackageManager.PERMISSION_GRANTED
-                || ActivityCompat.checkSelfPermission(context, permissionsRequired[1]) != PackageManager.PERMISSION_GRANTED) {
-            if (ActivityCompat.shouldShowRequestPermissionRationale((Activity) context, permissionsRequired[0])
-                    || ActivityCompat.shouldShowRequestPermissionRationale((Activity) context, permissionsRequired[1])) {
-                //Show Information about why you need the permission
-                AlertDialog.Builder builder = new AlertDialog.Builder(context);
-                builder.setTitle("Need Multiple Permissions");
-                builder.setMessage("This app needs permissions.");
-                builder.setPositiveButton("Grant", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        dialog.cancel();
-                        ActivityCompat.requestPermissions((Activity) context, permissionsRequired, PERMISSION_CALLBACK_CONSTANT);
-                    }
-                });
-                builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        dialog.cancel();
-                        onBackPressed();
-                    }
-                });
-                builder.show();
-            } else {
-                //just request the permission
-                ActivityCompat.requestPermissions((Activity) context, permissionsRequired, PERMISSION_CALLBACK_CONSTANT);
-            }
-        }
-    }
-
-    public void SaveCustomView(View view, boolean isForShare) {
-        dialog = new ProgressDialog(context, R.style.MyAlertDialogStyle);
-        dialog.setMessage("Please Wait... Image is saving...");
-
-        dialog.setCancelable(false);
-        dialog.show();
-        bitmapsave = viewToBitmap(view);
-        isForShareGlobal = isForShare;
-
-        if (isForShareGlobal) {
-            ShareImage();
-            dialog.dismiss();
-        }
     }
 
     private AlertDialog AskOption() {
@@ -239,20 +163,20 @@ public class ActivityCreatedAlbumPreview extends AppCompatActivity {
     }
 
 
-    public Bitmap viewToBitmap(View view) {
-        Bitmap bitmap = Bitmap.createBitmap(view.getWidth(), view.getHeight(), Bitmap.Config.ARGB_8888);
-        Canvas canvas = new Canvas(bitmap);
-        view.draw(canvas);
-        return bitmap;
-    }
+
 
     public void ShareImage() {
+        File file = new File(CommonKeys.modelclassDownloadedImages.get(position).getImagepath());
+        if (!file.exists()) {
+            Toast.makeText(context, "Image file not found", Toast.LENGTH_SHORT).show();
+            return;
+        }
+        Uri uri = FileProvider.getUriForFile(context, getString(R.string.file_provider), file);
         Intent share = new Intent(Intent.ACTION_SEND);
-        Uri uri = FileProvider.getUriForFile(context, getString(R.string.file_provider), new File(CommonKeys.modelclassDownloadedImages.get(position).getImagepath()));
         share.setType("image/*");
         share.putExtra(Intent.EXTRA_STREAM, uri);
+        share.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
         startActivity(Intent.createChooser(share, "Share via"));
     }
-
 
 }

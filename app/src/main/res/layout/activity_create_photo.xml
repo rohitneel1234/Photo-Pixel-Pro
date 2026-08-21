@@ -120,10 +120,10 @@
 
                 <ImageView
                     android:id="@+id/iv_image"
-                    android:layout_width="@dimen/_200sdp"
-                    android:layout_height="@dimen/_200sdp"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
                     android:layout_centerInParent="true"
-                    android:padding="@dimen/_20sdp"
+                    android:scaleType="fitCenter"
                     android:src="@drawable/imageholder" />
             </RelativeLayout>
 

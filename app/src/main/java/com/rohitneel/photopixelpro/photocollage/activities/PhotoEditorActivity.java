@@ -31,6 +31,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
+import androidx.activity.OnBackPressedCallback;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.constraintlayout.widget.ConstraintLayout;
@@ -39,6 +40,7 @@ import androidx.constraintlayout.widget.Guideline;
 import androidx.core.content.ContextCompat;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
+import androidx.core.view.WindowCompat;
 import androidx.core.view.WindowInsetsCompat;
 import androidx.core.internal.view.SupportMenu;
 import androidx.exifinterface.media.ExifInterface;
@@ -362,6 +364,13 @@ public class PhotoEditorActivity extends PhotoBaseActivity implements OnPhotoEdi
         onClickListener();
         setView();
         setBottomToolbar(false);
+
+        getOnBackPressedDispatcher().addCallback(this, new OnBackPressedCallback(true) {
+            @Override
+            public void handleOnBackPressed() {
+                PhotoEditorActivity.this.onBackPressed();
+            }
+        });
     }
 
 
@@ -520,6 +529,20 @@ public class PhotoEditorActivity extends PhotoBaseActivity implements OnPhotoEdi
         final Dialog dialogOnBackPressed = new Dialog(PhotoEditorActivity.this, R.style.UploadDialog);
         dialogOnBackPressed.requestWindowFeature(Window.FEATURE_NO_TITLE);
         dialogOnBackPressed.setContentView(R.layout.dialog_exit);
+
+        if (dialogOnBackPressed.getWindow() != null) {
+            WindowCompat.setDecorFitsSystemWindows(dialogOnBackPressed.getWindow(), false);
+        }
+
+        View dialogView = dialogOnBackPressed.findViewById(R.id.layout_close_dialog);
+        LinearLayout linearLayoutExit = dialogOnBackPressed.findViewById(R.id.linearLayoutExit);
+
+        ViewCompat.setOnApplyWindowInsetsListener(dialogView, (v, insets) -> {
+            Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
+            linearLayoutExit.setPadding(0, 0, 0, systemBars.bottom);
+            return insets;
+        });
+
         dialogOnBackPressed.setCancelable(true);
         dialogOnBackPressed.show();
         this.textViewCancel = dialogOnBackPressed.findViewById(R.id.textViewCancel);
@@ -1829,6 +1852,10 @@ public class PhotoEditorActivity extends PhotoBaseActivity implements OnPhotoEdi
     }
 
     public void onBackPressed() {
+        handleBackPress();
+    }
+
+    private void handleBackPress() {
         if (this.moduleToolsId != null) {
             try {
                 switch (this.moduleToolsId) {
@@ -1982,11 +2009,13 @@ public class PhotoEditorActivity extends PhotoBaseActivity implements OnPhotoEdi
                         setOnBackPressDialog();
                         return;
                     default:
-                        super.onBackPressed();
+                        finish();
                 }
             } catch (Exception e) {
                 e.printStackTrace();
             }
+        } else {
+            finish();
         }
     }
 

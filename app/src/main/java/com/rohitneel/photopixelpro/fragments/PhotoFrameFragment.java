@@ -1,6 +1,7 @@
 package com.rohitneel.photopixelpro.fragments;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,6 +13,9 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.cardview.widget.CardView;
 import androidx.core.content.ContextCompat;
+import androidx.core.graphics.Insets;
+import androidx.core.view.ViewCompat;
+import androidx.core.view.WindowInsetsCompat;
 import androidx.fragment.app.Fragment;
 
 import com.rohitneel.photopixelpro.R;
@@ -54,7 +58,27 @@ public class PhotoFrameFragment extends Fragment {
             txtLoveFrame.setTextColor(ContextCompat.getColor(requireContext(),R.color.white));
             txtWallFrame.setTextColor(ContextCompat.getColor(requireContext(),R.color.white));
             linearFrameLayout.setBackgroundResource(R.color.background_color);
+            view.setBackgroundResource(R.color.background_color);
+            cardBirthdayFrame.setCardBackgroundColor(ContextCompat.getColor(requireContext(), R.color.BackgroundColor));
+            cardFlowerFrame.setCardBackgroundColor(ContextCompat.getColor(requireContext(), R.color.BackgroundColor));
+            cardLoveAnniversaryFrame.setCardBackgroundColor(ContextCompat.getColor(requireContext(), R.color.BackgroundColor));
+            cardWallFrame.setCardBackgroundColor(ContextCompat.getColor(requireContext(), R.color.BackgroundColor));
+        } else {
+            view.setBackgroundColor(Color.parseColor("#F7F7F7"));
+            linearFrameLayout.setBackgroundColor(Color.parseColor("#F7F7F7"));
+            cardBirthdayFrame.setCardBackgroundColor(ContextCompat.getColor(requireContext(), R.color.cardColor));
+            cardFlowerFrame.setCardBackgroundColor(ContextCompat.getColor(requireContext(), R.color.cardColor));
+            cardLoveAnniversaryFrame.setCardBackgroundColor(ContextCompat.getColor(requireContext(), R.color.cardColor));
+            cardWallFrame.setCardBackgroundColor(ContextCompat.getColor(requireContext(), R.color.cardColor));
         }
+
+        ViewCompat.setOnApplyWindowInsetsListener(view, (v, insets) -> {
+            Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
+            int bottomNavHeight = getResources().getDimensionPixelSize(R.dimen.cbn_layout_height);
+            v.setPadding(v.getPaddingLeft(), v.getPaddingTop(), v.getPaddingRight(), systemBars.bottom + bottomNavHeight);
+            return insets;
+        });
+
         addListeners();
     }
 

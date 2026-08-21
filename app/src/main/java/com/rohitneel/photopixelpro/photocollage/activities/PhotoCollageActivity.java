@@ -37,6 +37,7 @@ import android.widget.SeekBar;
 import android.widget.TextView;
 
 import androidx.activity.EdgeToEdge;
+import androidx.activity.OnBackPressedCallback;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.constraintlayout.widget.ConstraintLayout;
@@ -45,6 +46,7 @@ import androidx.constraintlayout.widget.Guideline;
 import androidx.core.content.ContextCompat;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
+import androidx.core.view.WindowCompat;
 import androidx.core.view.WindowInsetsCompat;
 import androidx.exifinterface.media.ExifInterface;
 import androidx.recyclerview.widget.GridLayoutManager;
@@ -502,6 +504,13 @@ public class PhotoCollageActivity extends PhotoBaseActivity implements GridTools
             recyclerViewToolsCollage.setAlpha(1.0f);
         }, 1000);
 
+        getOnBackPressedDispatcher().addCallback(this, new OnBackPressedCallback(true) {
+            @Override
+            public void handleOnBackPressed() {
+                PhotoCollageActivity.this.onBackPressed();
+            }
+        });
+
     }
 
    /* ActivityResultLauncher<Intent> paymentResultLauncher = registerForActivityResult(
@@ -611,6 +620,7 @@ public class PhotoCollageActivity extends PhotoBaseActivity implements GridTools
                 this.constraint_layout_filter_layout.setVisibility(View.GONE);
                 this.recyclerViewToolsCollage.setVisibility(View.VISIBLE);
                 PhotoCollageActivity.this.moduleToolsId = Module.NONE;
+                this.drawableList.clear();
                 setVisibleSave();
                 return;
             case R.id.imageViewSaveText:
@@ -1058,6 +1068,18 @@ public class PhotoCollageActivity extends PhotoBaseActivity implements GridTools
         final Dialog dialogOnBackPressed = new Dialog(PhotoCollageActivity.this, R.style.UploadDialog);
         dialogOnBackPressed.requestWindowFeature(Window.FEATURE_NO_TITLE);
         dialogOnBackPressed.setContentView(R.layout.dialog_exit);
+        if (dialogOnBackPressed.getWindow() != null) {
+            WindowCompat.setDecorFitsSystemWindows(dialogOnBackPressed.getWindow(), false);
+        }
+
+        View dialogView = dialogOnBackPressed.findViewById(R.id.layout_close_dialog);
+        LinearLayout linearLayoutExit = dialogOnBackPressed.findViewById(R.id.linearLayoutExit);
+
+        ViewCompat.setOnApplyWindowInsetsListener(dialogView, (v, insets) -> {
+            Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
+            linearLayoutExit.setPadding(0, 0, 0, systemBars.bottom);
+            return insets;
+        });
         dialogOnBackPressed.setCancelable(true);
         dialogOnBackPressed.show();
         this.textViewCancel = dialogOnBackPressed.findViewById(R.id.textViewCancel);
@@ -1102,6 +1124,10 @@ public class PhotoCollageActivity extends PhotoBaseActivity implements GridTools
     }
 
     public void onBackPressed() {
+        handleBackPress();
+    }
+
+    private void handleBackPress() {
         if (this.moduleToolsId == null) {
             super.onBackPressed();
             return;
@@ -1152,6 +1178,7 @@ public class PhotoCollageActivity extends PhotoBaseActivity implements GridTools
                     for (int i = 0; i < this.drawableList.size(); i++) {
                         this.queShotGridView.getQueShotGrids().get(i).setDrawable(this.drawableList.get(i));
                     }
+                    this.drawableList.clear();
                     this.queShotGridView.invalidate();
                     setVisibleSave();
                     this.moduleToolsId = Module.NONE;
@@ -1316,7 +1343,42 @@ public class PhotoCollageActivity extends PhotoBaseActivity implements GridTools
     }
 
     public void onFilterSelected(int item, String str) {
+        new ApplyFilterToAllPieces().execute(str);
+    }
 
+    class ApplyFilterToAllPieces extends AsyncTask<String, Void, List<Bitmap>> {
+        @Override
+        protected void onPreExecute() {
+            PhotoCollageActivity.this.setLoading(true);
+        }
+
+        @Override
+        protected List<Bitmap> doInBackground(String... params) {
+            String filterCode = params[0];
+            List<Bitmap> filteredBitmaps = new ArrayList<>();
+            for (Drawable drawable : PhotoCollageActivity.this.drawableList) {
+                if (drawable instanceof BitmapDrawable) {
+                    Bitmap original = ((BitmapDrawable) drawable).getBitmap();
+                    Bitmap filtered = FilterUtils.getBitmapWithFilter(getApplicationContext(), original, filterCode);
+                    filteredBitmaps.add(filtered);
+                }
+            }
+            return filteredBitmaps;
+        }
+
+        @Override
+        protected void onPostExecute(List<Bitmap> filteredBitmaps) {
+            for (int i = 0; i < filteredBitmaps.size(); i++) {
+                if (i < PhotoCollageActivity.this.queShotGridView.getQueShotGrids().size()) {
+                    BitmapDrawable bitmapDrawable = new BitmapDrawable(getResources(), filteredBitmaps.get(i));
+                    bitmapDrawable.setAntiAlias(true);
+                    bitmapDrawable.setFilterBitmap(true);
+                    PhotoCollageActivity.this.queShotGridView.getQueShotGrids().get(i).setDrawable(bitmapDrawable);
+                }
+            }
+            PhotoCollageActivity.this.queShotGridView.invalidate();
+            PhotoCollageActivity.this.setLoading(false);
+        }
     }
 
     public void finishCrop(Bitmap bitmap) {

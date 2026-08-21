@@ -13,6 +13,9 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.cardview.widget.CardView;
+import androidx.core.graphics.Insets;
+import androidx.core.view.ViewCompat;
+import androidx.core.view.WindowInsetsCompat;
 import androidx.fragment.app.Fragment;
 
 import com.karumi.dexter.Dexter;
@@ -68,6 +71,14 @@ public class HomeFragment extends Fragment {
         else {
             relativeLayout.setBackgroundResource(R.drawable.background_image);
         }
+
+        ViewCompat.setOnApplyWindowInsetsListener(view, (v, insets) -> {
+            Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
+            int bottomNavHeight = getResources().getDimensionPixelSize(R.dimen.cbn_layout_height);
+            v.setPadding(0, 0, 0, systemBars.bottom + bottomNavHeight);
+            return insets;
+        });
+
         addListeners();
     }
 

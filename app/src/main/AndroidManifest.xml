@@ -36,6 +36,7 @@
     <application
         android:name=".app.ProjectApplication"
         android:allowBackup="true"
+        android:extractNativeLibs="true"
         android:enableOnBackInvokedCallback="true"
         android:appComponentFactory="androidx.core.app.CoreComponentFactory"
         android:hardwareAccelerated="true"

@@ -18,6 +18,7 @@ import android.graphics.PointF;
 import android.graphics.Typeface;
 import android.graphics.drawable.ColorDrawable;
 import android.media.MediaScannerConnection;
+import androidx.exifinterface.media.ExifInterface;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -84,6 +85,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.URISyntaxException;
 import java.text.SimpleDateFormat;
@@ -701,47 +703,46 @@ public class ActivityCreatePhoto extends AppCompatActivity implements FilterFram
                 } else {
                     galleryImage = BitmapFactory.decodeStream(getContentResolver().openInputStream(uri), null, null);
                 }
-                if (galleryImage != null) {
-                    Log.e("hepi", "" + galleryImage.getHeight() + galleryImage.getWidth());
+
+                // Handle EXIF rotation for the decoded bitmap
+                try (InputStream inputStream = getContentResolver().openInputStream(uri)) {
+                    if (inputStream != null) {
+                        ExifInterface exifInterface = new ExifInterface(inputStream);
+                        int orientation = exifInterface.getAttributeInt(ExifInterface.TAG_ORIENTATION, ExifInterface.ORIENTATION_UNDEFINED);
+                        android.graphics.Matrix matrix = new android.graphics.Matrix();
+                        switch (orientation) {
+                            case ExifInterface.ORIENTATION_ROTATE_90:
+                                matrix.postRotate(90);
+                                break;
+                            case ExifInterface.ORIENTATION_ROTATE_180:
+                                matrix.postRotate(180);
+                                break;
+                            case ExifInterface.ORIENTATION_ROTATE_270:
+                                matrix.postRotate(270);
+                                break;
+                            default:
+                                break;
+                        }
+                        if (galleryImage != null) {
+                            galleryImage = Bitmap.createBitmap(galleryImage, 0, 0, galleryImage.getWidth(), galleryImage.getHeight(), matrix, true);
+                        }
+                    }
                 }
-            } catch (FileNotFoundException e) {
+            } catch (IOException e) {
                 e.printStackTrace();
             }
 
-
-            int imageHeight = galleryImage.getHeight();
-            int imageWidth = galleryImage.getWidth();
-            if (imageHeight > 1000 && imageWidth > 1000 && imageHeight < 2000 && imageWidth < 2000) {
-                imageHeight /= 2;
-                imageWidth /= 2;
-            } else if (imageHeight > 2000 || imageWidth > 2000) {
-                if (imageHeight < 3000 || imageWidth < 3000) {
-                    imageHeight /= 3;
-                    imageWidth /= 3;
-                } else if (imageHeight > 3000 || imageWidth > 3000) {
-                    if (imageHeight < 4000 || imageWidth < 4000) {
-                        imageHeight /= 4;
-                        imageWidth /= 4;
-                    } else if (imageHeight > 4000 || imageWidth > 4000) {
-                        imageHeight /= 5;
-                        imageWidth /= 5;
-                    }
-                }
-            } else if (imageHeight > 1000 || imageWidth > 1000) {
-                imageHeight = (int) (((double) imageHeight) / 1.6d);
-                imageWidth = (int) (((double) imageWidth) / 1.6d);
-            }
-
-            // Log.e("hepi",""+  imageHeight+imageWidth);
-
-            LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(imageWidth, imageHeight);
+            // Set parameters to match parent to ensure the image fits the frame area automatically
+            LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
             layoutParams.gravity = Gravity.CENTER;
             gpuImageView.setLayoutParams(layoutParams);
 
             setImageUri(uri);
 
-            RelativeLayout.LayoutParams layoutParams1 = new RelativeLayout.LayoutParams(imageWidth, imageHeight);
+            RelativeLayout.LayoutParams layoutParams1 = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
+            layoutParams1.addRule(RelativeLayout.CENTER_IN_PARENT);
             ivImage.setLayoutParams(layoutParams1);
+            ivImage.setScaleType(ImageView.ScaleType.FIT_CENTER);
             Glide.with(context).load("" + getIntent().getStringExtra("images")).into(ivImage);
             Glide.with(context).load(CommonKeys.frameLists.get(CommonKeys.FrameId1).getFrame()).into(ivframe);
 
@@ -1551,8 +1552,13 @@ public class ActivityCreatePhoto extends AppCompatActivity implements FilterFram
 
     @Override
     public void FilterMethod(int i) {
-        Bitmap originalBitmap = BitmapFactory.decodeResource(getResources(), R.drawable.home);
-        Bitmap filteredBitmap = DataBinder.applyFilter(i, this, originalBitmap);
-        gpuImageView.setImageBitmap(filteredBitmap);
+        if (galleryImage != null) {
+            Bitmap filteredBitmap = DataBinder.applyFilter(i, this, galleryImage);
+            ivImage.setImageBitmap(filteredBitmap);
+        } else {
+            Bitmap originalBitmap = BitmapFactory.decodeResource(getResources(), R.drawable.home);
+            Bitmap filteredBitmap = DataBinder.applyFilter(i, this, originalBitmap);
+            ivImage.setImageBitmap(filteredBitmap);
+        }
     }
 }
