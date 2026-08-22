@@ -29,8 +29,13 @@
 
     <queries>
         <intent>
-            <action android:name="android.media.action.IMAGE_CAPTURE" />
+            <action android:name="android.intent.action.IMAGE_CAPTURE" />
         </intent>
+        <package android:name="com.facebook.katana" />
+        <package android:name="com.instagram.android" />
+        <package android:name="com.twitter.android" />
+        <package android:name="com.whatsapp" />
+        <package android:name="com.facebook.orca" />
     </queries>
 
     <application
@@ -57,7 +62,7 @@
             android:screenOrientation="portrait" />
         <activity android:name=".backgroundremover.BackgroundEraserTutorial"
             android:exported="true"
-            android:theme="@style/AppTheme"
+            android:theme="@style/AppTheme.NoActionBar"
             android:screenOrientation="portrait" />
         <activity
             android:name=".gallery.FrameGallery"
@@ -115,7 +120,7 @@
             android:name=".gallery.BackgroundEraserGallery"
             android:label="Background Remover Gallery"
             android:exported="true"
-            android:theme="@style/AppTheme"
+            android:theme="@style/AppTheme.NoActionBar"
             android:screenOrientation="portrait" />
         <activity
             android:name=".photoeditor.ShowSavedFilePath"
@@ -136,7 +141,7 @@
             android:label="Eraser"
             android:screenOrientation="portrait"
             android:exported="true"
-            android:theme="@style/Theme.AppCompat.DayNight.DarkActionBar" />
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".activities.LauncherActivity"
             android:windowSoftInputMode="adjustResize"

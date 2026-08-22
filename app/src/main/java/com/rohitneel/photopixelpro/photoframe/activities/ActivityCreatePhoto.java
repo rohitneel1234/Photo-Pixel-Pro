@@ -18,6 +18,9 @@ import android.graphics.PointF;
 import android.graphics.Typeface;
 import android.graphics.drawable.ColorDrawable;
 import android.media.MediaScannerConnection;
+
+import androidx.activity.OnBackPressedCallback;
+import androidx.core.view.WindowCompat;
 import androidx.exifinterface.media.ExifInterface;
 import android.net.Uri;
 import android.os.Build;
@@ -562,6 +565,13 @@ public class ActivityCreatePhoto extends AppCompatActivity implements FilterFram
             }
         });
 
+        getOnBackPressedDispatcher().addCallback(this, new OnBackPressedCallback(true) {
+            @Override
+            public void handleOnBackPressed() {
+                ActivityCreatePhoto.this.onBackPressed();
+            }
+        });
+
     }
 
     public void setImageUri(Uri uri) {
@@ -996,6 +1006,16 @@ public class ActivityCreatePhoto extends AppCompatActivity implements FilterFram
         final Dialog dialogOnBackPressed = new Dialog(ActivityCreatePhoto.this, R.style.UploadDialog);
         dialogOnBackPressed.requestWindowFeature(Window.FEATURE_NO_TITLE);
         dialogOnBackPressed.setContentView(R.layout.dialog_exit);
+        if (dialogOnBackPressed.getWindow() != null) {
+            WindowCompat.setDecorFitsSystemWindows(dialogOnBackPressed.getWindow(), false);
+        }
+        View dialogView = dialogOnBackPressed.findViewById(R.id.layout_close_dialog);
+        LinearLayout linearLayoutExit = dialogOnBackPressed.findViewById(R.id.linearLayoutExit);
+        ViewCompat.setOnApplyWindowInsetsListener(dialogView, (v, insets) -> {
+            Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
+            linearLayoutExit.setPadding(0, 0, 0, systemBars.bottom);
+            return insets;
+        });
         dialogOnBackPressed.setCancelable(true);
         dialogOnBackPressed.show();
         this.textViewCancel = dialogOnBackPressed.findViewById(R.id.textViewCancel);

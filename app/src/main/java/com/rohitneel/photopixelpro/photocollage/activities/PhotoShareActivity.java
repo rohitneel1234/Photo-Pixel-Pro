@@ -89,11 +89,11 @@ public class PhotoShareActivity extends PhotoBaseActivity implements View.OnClic
 
 
     @SuppressLint("WrongConstant")
-    public void startAcitivity(PhotoShareActivity saveAndShareActivity, View view) {
-        Intent intent = new Intent("android.intent.action.SEND");
+    public void shareGeneral(PhotoShareActivity saveAndShareActivity, View view) {
+        Intent intent = new Intent(Intent.ACTION_SEND);
         intent.setType("image/*");
-        intent.putExtra("android.intent.extra.STREAM", FileProvider.getUriForFile(saveAndShareActivity.getApplicationContext(), getResources().getString(R.string.file_provider), saveAndShareActivity.file));
-        intent.addFlags(3);
+        intent.putExtra(Intent.EXTRA_STREAM, FileProvider.getUriForFile(saveAndShareActivity.getApplicationContext(), getResources().getString(R.string.file_provider), saveAndShareActivity.file));
+        intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
         saveAndShareActivity.startActivity(Intent.createChooser(intent, "Share"));
     }
 
@@ -105,40 +105,38 @@ public class PhotoShareActivity extends PhotoBaseActivity implements View.OnClic
     public void onClick(View view) {
         if (view != null) {
             int id = view.getId();
+            Uri contentUri = FileProvider.getUriForFile(getApplicationContext(), getResources().getString(R.string.file_provider), this.file);
             if (id != R.id.image_view_preview) {
                 switch (id) {
                     case R.id.linearLayoutShareOne:
-                        startAcitivity(PhotoShareActivity.this, view);
+                        shareGeneral(PhotoShareActivity.this, view);
                         return;
                     case R.id.linear_layout_facebook:
-                        shareToFacebook(Uri.parse(file.getPath()));
+                        shareToFacebook(contentUri);
                         return;
                     case R.id.linear_layout_instagram:
-                        shareToInstagram(Uri.parse(file.getPath()));
+                        shareToInstagram(contentUri);
                         return;
                     case R.id.linear_layout_messenger:
-                        shareToMessenger(Uri.parse(file.getPath()));
+                        shareToMessenger(contentUri);
                         return;
                     case R.id.linear_layout_share_more:
-                        shareImage(Uri.parse(file.getPath()));
+                        shareImage(FileProvider.getUriForFile(getApplicationContext(), getResources().getString(R.string.file_provider), CommonKeys.filePath));
+                        return;
+                    case R.id.linear_layout_twitter:
+                        shareToTwitter(contentUri);
+                        return;
+                    case R.id.linear_layout_whatsapp:
+                        shareToWhatsapp(contentUri);
                         return;
                     default:
-                        switch (id) {
-                            case R.id.linear_layout_twitter:
-                                shareToTwitter(Uri.parse(file.getPath()));
-                                return;
-                            case R.id.linear_layout_whatsapp:
-                                shareToWhatsapp(Uri.parse(file.getPath()));
-                                return;
-                            default:
-                                return;
-                        }
+                        return;
                 }
             } else {
                 Intent intent4 = new Intent();
-                intent4.setAction("android.intent.action.VIEW");
-                intent4.setDataAndType(FileProvider.getUriForFile(getApplicationContext(), getResources().getString(R.string.file_provider), this.file), "image/*");
-                intent4.addFlags(3);
+                intent4.setAction(Intent.ACTION_VIEW);
+                intent4.setDataAndType(contentUri, "image/*");
+                intent4.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
                 startActivity(intent4);
             }
         }
@@ -148,14 +146,14 @@ public class PhotoShareActivity extends PhotoBaseActivity implements View.OnClic
     private void shareToFacebook(Uri uri) {
         String str1 = Constants.FACEBOOK;
         try {
-            Intent intent = new Intent("android.intent.action.SEND");
-            intent.putExtra("android.intent.extra.STREAM", uri);
+            Intent intent = new Intent(Intent.ACTION_SEND);
+            intent.putExtra(Intent.EXTRA_STREAM, uri);
             intent.setType("image/*");
             intent.setPackage(str1);
-            intent.addFlags(1);
-            startActivity(Intent.createChooser(intent, "Share Photo"));
+            intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+            startActivity(intent);
         } catch (Exception e){
-            e.printStackTrace();
+            Toast.makeText(this, "Facebook app not installed", Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -163,14 +161,14 @@ public class PhotoShareActivity extends PhotoBaseActivity implements View.OnClic
     private void shareToInstagram(Uri uri) {
         String str1 = Constants.INSTAGRAM;
         try {
-            Intent intent = new Intent("android.intent.action.SEND");
-            intent.putExtra("android.intent.extra.STREAM", uri);
+            Intent intent = new Intent(Intent.ACTION_SEND);
+            intent.putExtra(Intent.EXTRA_STREAM, uri);
             intent.setType("image/*");
             intent.setPackage(str1);
-            intent.addFlags(1);
+            intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
             startActivity(intent);
         } catch (Exception e){
-            e.printStackTrace();
+            Toast.makeText(this, "Instagram app not installed", Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -178,29 +176,29 @@ public class PhotoShareActivity extends PhotoBaseActivity implements View.OnClic
     private void shareToWhatsapp(Uri uri) {
         String str1 = Constants.WHATSAPP;
         try {
-            Intent intent = new Intent("android.intent.action.SEND");
-            intent.putExtra("android.intent.extra.STREAM", uri);
+            Intent intent = new Intent(Intent.ACTION_SEND);
+            intent.putExtra(Intent.EXTRA_STREAM, uri);
             intent.setType("image/*");
             intent.setPackage(str1);
             intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
             startActivity(intent);
         } catch (Exception e){
-            e.printStackTrace();
+            Toast.makeText(this, "Whatsapp app not installed", Toast.LENGTH_SHORT).show();
         }
     }
 
     @SuppressLint("WrongConstant")
     private void shareToMessenger(Uri uri) {
-        String str1 = Constants.MESSEGER;
+        String str1 = Constants.MESSENGER;
         try {
-            Intent intent = new Intent("android.intent.action.SEND");
-            intent.putExtra("android.intent.extra.STREAM", uri);
+            Intent intent = new Intent(Intent.ACTION_SEND);
+            intent.putExtra(Intent.EXTRA_STREAM, uri);
             intent.setType("image/*");
             intent.setPackage(str1);
-            intent.addFlags(1);
-            startActivity(Intent.createChooser(intent, "Share Photo"));
-        } catch (ActivityNotFoundException e){
-            Toast.makeText(getApplicationContext(), getString(R.string.app_not_installed), Toast.LENGTH_SHORT);
+            intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+            startActivity(intent);
+        } catch (Exception e){
+            Toast.makeText(getApplicationContext(), getString(R.string.app_not_installed), Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -208,29 +206,29 @@ public class PhotoShareActivity extends PhotoBaseActivity implements View.OnClic
     private void shareToTwitter(Uri uri) {
         String str1 = Constants.TWITTER;
         try {
-            Intent intent = new Intent("android.intent.action.SEND");
-            intent.putExtra("android.intent.extra.STREAM", uri);
+            Intent intent = new Intent(Intent.ACTION_SEND);
+            intent.putExtra(Intent.EXTRA_STREAM, uri);
             intent.setType("image/*");
             intent.setPackage(str1);
-            intent.addFlags(1);
+            intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
             startActivity(intent);
         } catch (Exception e){
-            e.printStackTrace();
+            Toast.makeText(this, "Twitter app not installed", Toast.LENGTH_SHORT).show();
         }
     }
 
     @SuppressLint("WrongConstant")
     public void shareImage(Uri uri){
         try {
-            Intent intent = new Intent("android.intent.action.SEND");
-            intent.addFlags(1);
+            Intent intent = new Intent(Intent.ACTION_SEND);
+            intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
             intent.setType("image/*");
             StringBuilder sb1 =  new StringBuilder();
             sb1.append(getString(R.string.message));
             sb1.append("\nhttps://play.google.com/store/apps/details?id=");
             sb1.append(getPackageName());
-            intent.putExtra("android.intent.extra.TEXT", sb1.toString());
-            intent.putExtra("android.intent.extra.STREAM", uri);
+            intent.putExtra(Intent.EXTRA_TEXT, sb1.toString());
+            intent.putExtra(Intent.EXTRA_STREAM, uri);
             startActivity(Intent.createChooser(intent, "Share via"));
         } catch (Exception e){
             StringBuilder sb2 = new StringBuilder();
