@@ -16,6 +16,7 @@ import android.view.WindowManager
 import android.widget.Button
 import android.widget.TextView
 import android.widget.Toast
+import androidx.activity.OnBackPressedCallback
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AppCompatActivity
@@ -44,6 +45,7 @@ import com.rohitneel.photopixelpro.curvedbottomnavigation.CurvedBottomNavigation
 import com.rohitneel.photopixelpro.gallery.PhotoEditorGallery
 import com.rohitneel.photopixelpro.helper.SessionManager
 import com.rohitneel.photopixelpro.photocollage.dialog.RateDialog
+import androidx.core.graphics.drawable.toDrawable
 
 class MainActivity : AppCompatActivity() {
     private var mAppBarConfiguration: AppBarConfiguration? = null
@@ -195,6 +197,12 @@ class MainActivity : AppCompatActivity() {
             drawer.closeDrawer(GravityCompat.START)
             true
         }
+
+        onBackPressedDispatcher.addCallback(this, object : OnBackPressedCallback(true) {
+            override fun handleOnBackPressed() {
+                this@MainActivity.onBackPressed()
+            }
+        })
     }
 
     private val installStateUpdatedListener =
@@ -239,31 +247,37 @@ class MainActivity : AppCompatActivity() {
     }
 
     override fun onBackPressed() {
-        val builder = AlertDialog.Builder(this)
-        builder.setTitle(Html.fromHtml("<font color='#ffffff'>Confirm</font>"))
-        builder.setMessage(Html.fromHtml("<font color='#ffffff'>Are you sure you want to exit from"+"<br/>"+
-                "Photo Pixel Pro?</font>"))
-                .setCancelable(false)
-                .setIcon(R.drawable.ic_baseline_exit_to_app_24)
-                .setPositiveButton("Yes") {
-                    dialog, which ->
-                    super@MainActivity.onBackPressed()
-                    moveTaskToBack(true)
-                    finish()
-                    val i = Intent(Intent.ACTION_MAIN)
-                    i.addCategory(Intent.CATEGORY_HOME)
-                    i.flags = Intent.FLAG_ACTIVITY_NEW_TASK
-                    startActivity(i)
-                }
-                .setNegativeButton("No") { dialog, which -> dialog.cancel() }
-        val alertDialog = builder.create()
-        alertDialog.window!!.setWindowAnimations(R.style.AnimationsForDialog)
-        alertDialog.show()
-        val nbutton: Button = alertDialog.getButton(DialogInterface.BUTTON_NEGATIVE)
-        nbutton.setTextColor(Color.WHITE)
-        val pbutton: Button = alertDialog.getButton(DialogInterface.BUTTON_POSITIVE)
-        pbutton.setTextColor(Color.WHITE)
-        alertDialog.window!!.setBackgroundDrawable(ContextCompat.getDrawable(applicationContext,R.drawable.builder_dialog_background))
+        val dialogView = layoutInflater.inflate(
+            R.layout.dialog_exit_confirmation,
+            null
+        )
+        val dialog = AlertDialog.Builder(this)
+            .setView(dialogView)
+            .setCancelable(false)
+            .create()
+        dialog.window?.setWindowAnimations(R.style.AnimationsForDialog)
+        dialog.setOnShowListener {
+            dialog.window?.setBackgroundDrawable(Color.TRANSPARENT.toDrawable())
+            dialog.window?.setLayout(
+                (resources.displayMetrics.widthPixels * 0.92).toInt(),
+                WindowManager.LayoutParams.WRAP_CONTENT
+            )
+        }
+        val btnNo = dialogView.findViewById<TextView>(R.id.btnNo)
+        val btnYes = dialogView.findViewById<TextView>(R.id.btnYes)
+        btnNo.setOnClickListener {
+            dialog.dismiss()
+        }
+        btnYes.setOnClickListener {
+            dialog.dismiss()
+            finishAffinity()
+        }
+        dialog.show()
+        dialog.window?.setBackgroundDrawable(Color.TRANSPARENT.toDrawable())
+        dialog.window?.setLayout(
+            (resources.displayMetrics.widthPixels * 0.92).toInt(),
+            WindowManager.LayoutParams.WRAP_CONTENT
+        )
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
