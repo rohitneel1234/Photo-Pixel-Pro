@@ -13,8 +13,8 @@ android {
         applicationId "com.rohitneel.photopixelpro"
         minSdkVersion 24
         targetSdkVersion 36
-        versionCode 54
-        versionName "2.1.1-internal"
+        versionCode 57
+        versionName "2.2.0"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables.useSupportLibrary = true
         multiDexEnabled true
